@@ -140,7 +140,7 @@ new DubAPI({
 
 
     function connect() {
-        bot.connect('nightblue3');
+        bot.connect(process.env.DT_ROOM);
     }
 
     bot.on('connected', function(name) {
