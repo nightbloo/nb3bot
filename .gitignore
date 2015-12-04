@@ -1,0 +1,15 @@
+###################
+# Files #
+###################
+*.env
+*.log
+*.txt
+###############
+# Directories #
+###############
+quotes/
+scores/
+secrets/
+users/
+node_modules/
+history/
