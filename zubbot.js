@@ -280,7 +280,7 @@ new DubAPI({
 
         if(userCooldown.contains(thisUser)){
             return 1;
-        } else if(data.user.role == null) {
+        } else if(data.user.role == null && data.message.indexOf('!') != -1) {
             userCooldown.push(thisUser);
             setTimeout(function(){userCooldown.remove(thisUser);}, cooldown * 1000);
         }
