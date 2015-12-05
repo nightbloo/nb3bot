@@ -80,6 +80,18 @@
 
 
 */
+Array.prototype.contains = function(element){
+    return (this.indexOf(element) > -1);
+};
+Array.prototype.remove = function(element){
+    if(this.contains(element)){
+        this.splice(this.indexOf(element), 1);
+        return true;
+    }
+    else{
+        return false;
+    }
+}
 require('dotenv').load();
 var DubAPI = require('dubapi');
 var jsonfile = require('jsonfile')
@@ -120,6 +132,8 @@ new DubAPI({
     var botWars = "";
     var botWarsEnabled = true;
     var neonCat = true;
+    var userCooldown = new Array();
+    var cooldown = 60; // Cooldown in seconds
 
     if (err) return console.error(err);
     console.log("-----------------------------------------------------------------------------------");
@@ -263,6 +277,13 @@ new DubAPI({
                 console.log('Some other error: ', err.code);
             }
         });
+
+        if(userCooldown.contains(thisUser)){
+            return 1;
+        } else if(!bot.isStaff(thisUser)) {
+            userCooldown.push(thisUser);
+            setTimeout(function(){userCooldown.remove(thisUser);}, cooldown * 1000);
+        }
         // Non Commands -- Bot Responses to tagging him.
         if (data.message.indexOf("nb3bot") != -1) {
 
