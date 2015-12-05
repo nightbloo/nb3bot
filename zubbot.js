@@ -133,7 +133,7 @@ new DubAPI({
     var botWarsEnabled = true;
     var neonCat = true;
     var userCooldown = new Array();
-    var cooldown = 60; // Cooldown in seconds
+    var cooldown = 30; // Cooldown in seconds
 
     if (err) return console.error(err);
     console.log("-----------------------------------------------------------------------------------");
@@ -280,7 +280,7 @@ new DubAPI({
 
         if(userCooldown.contains(thisUser)){
             return 1;
-        } else if(!bot.isStaff(thisUser)) {
+        } else if(data.user.role == null) {
             userCooldown.push(thisUser);
             setTimeout(function(){userCooldown.remove(thisUser);}, cooldown * 1000);
         }
