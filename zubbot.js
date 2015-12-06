@@ -803,22 +803,20 @@ new DubAPI({
         else if (data.message.split(" ")[0] == "!english") {
             var target = data.message.split(" ")[1];
             var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@'+target));
-            //var username = thisUser;
-            //if(data.message.split(" ").length > 1) username = data.message.split(" ")[1].replace("@", "");
             bot.sendChat(targetName + ' Please stick to English in this room, doing otherwise will result in a mute.');
         } else if (data.message.split(" ")[0] == "!sush") {
             var target = data.message.split(" ")[1];
             var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@'+target));
-            //var username = thisUser;
-            //if(data.message.split(" ").length > 1) username = data.message.split(" ")[1].replace("@", "");
             bot.sendChat(targetName + ' (click for better quality) http://i.imgur.com/uFE8PfA.png');
             bot.sendChat('(snippet from Community Rules, http://git.io/vWJnY#miscellaneous)');
         } else if (/!(gema|fuckgema|gemasucks|gemaisshit)/i.test(data.message.split(" ")[0])) {
             var target = data.message.split(" ")[1];
             var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@'+target));
-            //var username = thisUser;
-            //if(data.message.split(" ").length > 1) username = data.message.split(" ")[1].replace("@", "");
             bot.sendChat(targetName + ' to bypass GEMA blocked videos you can use this extension http://www.unblocker.yt/en/');
+        } else if (data.message.split(" ")[0] === 'videocheck') {
+            var target = data.message.split(" ")[1];
+            var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@'+target));
+            bot.sendChat(targetName + ' check if current video is available on any country at https://nb3x.nl/videocheck.php');
         } else if (data.message.split(" ")[0] == "!request") {
             if (data.message.split(" ").length > 1) {
                 var request = data.message.replace("!request ", "");
@@ -909,13 +907,6 @@ new DubAPI({
                 if(data.message.split(' ').length > 2) username2 === data.message.split(' ')[2].replace('@', '');
                 bot.sendChat('@' + thisUser + ' there is ' + (Math.floor(Math.random() * 100)) + '% of :nb3h: between ' + username2 + ' and ' + username);
             }
-
-
-
-
-            //console.log(userData);
-            //bot.sendChat("@"+username+" "+thisUser+" has sent some love your way! <3 You now have "+userData.love+" love points. http://24.media.tumblr.com/tumblr_lyfkhjbHRL1r8la7go1_500.gif");
-
         }
 
         if (data.user.username == "netuxbot") {
