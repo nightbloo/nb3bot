@@ -134,6 +134,7 @@ new DubAPI({
     var neonCat = true;
     var userCooldown = new Array();
     var cooldown = 30; // Cooldown in seconds
+    var lastMediaFKID = "";
 
     if (err) return console.error(err);
     console.log("-----------------------------------------------------------------------------------");
@@ -151,7 +152,13 @@ new DubAPI({
     console.log("------------------------ CREATED BY ZUBOHM ----------------------------------------");
     console.log("--------------------------Version 0.15----------------------------------------------");
 
-
+    console.log('Checking if all directories exists...');
+    var dataDirectories = ['history', 'quotes', 'scores', 'users'];
+    dataDirectories.forEach(function(dirStr) {
+        if(fs.existsSync(dirStr)) return;
+        console.log('Directory ' + dirStr + ' doesn\'t exists, creating it...');
+        fs.mkdir(dirStr);
+    });
 
     function connect() {
         bot.connect(process.env.DT_ROOM);
@@ -176,6 +183,7 @@ new DubAPI({
         //console.log(data);
         if (typeof data !== undefined) {
             // currentVideoThumb = data.media.images.thumbnail;
+            lastMediaFKID = currentID;
             currentName = data.media.name;
             currentID = data.media.fkid;
             currentType = data.media.type;
@@ -185,45 +193,46 @@ new DubAPI({
                 currentStream = data.media.streamURL;
             }
             bot.updub();
-            var historyFile = "history/" + currentID + ".txt";
+            var historyFile = "history/" + lastMediaFKID + ".txt";
             // Check for history file
-            fs.stat(historyFile, function(err, stat) {
+            if(lastMediaFKID.length > 0) {
+                fs.stat(historyFile, function(err, stat) {
 
-                var historyFile = "history/" + currentID + ".txt";
-                var unix = Math.round(+new Date() / 1000);
+                    var unix = Math.round(+new Date() / 1000);
 
-                if (err == null) {
+                    if (err == null) {
 
-                    // it exists. read it and print the new timestamp if its older than 5 hours.
-                    fs.readFile(historyFile, function(err, data) {
-                        if (err) throw err;
-                        var unix = Math.round(+new Date() / 1000);
-                        var oldUnix = data.toString();
-                        if (unix - oldUnix > 18000) {
-                            fs.writeFile(historyFile, unix, function(err) {
-                                if (err != null) {
-                                    console.log(err);
-                                }
-                            });
-                        }
-                    });
-                    fs.writeFile(historyFile, unix, function(err) {
-                        if (err != null) {
-                            console.log(err);
-                        }
-                    });
+                        // it exists. read it and print the new timestamp if its older than 5 hours.
+                        fs.readFile(historyFile, function(err, data) {
+                            if (err) throw err;
+                            var unix = Math.round(+new Date() / 1000);
+                            var oldUnix = data.toString();
+                            if (unix - oldUnix > 18000) {
+                                fs.writeFile(historyFile, unix, function(err) {
+                                    if (err != null) {
+                                        console.log(err);
+                                    }
+                                });
+                            }
+                        });
+                        fs.writeFile(historyFile, unix, function(err) {
+                            if (err != null) {
+                                console.log(err);
+                            }
+                        });
 
-                } else if (err.code == 'ENOENT') {
-                    // Doesn't exist, place a new unix timestamp in the file.
-                    fs.writeFile(historyFile, unix, function(err) {
-                        if (err != null) {
-                            console.log(err);
-                        }
-                    });
-                } else {
-                    console.log('Some other error: ', err.code);
-                }
-            });
+                    } else if (err.code == 'ENOENT') {
+                        // Doesn't exist, place a new unix timestamp in the file.
+                        fs.writeFile(historyFile, unix, function(err) {
+                            if (err != null) {
+                                console.log(err);
+                            }
+                        });
+                    } else {
+                        console.log('Some other error: ', err.code);
+                    }
+                });
+            }
         }
     });
     bot.on(bot.events.chatMessage, function(data) {
@@ -300,7 +309,7 @@ new DubAPI({
             } else if (data.message.indexOf("are you real") != -1) {
                 bot.sendChat("@" + thisUser + " yes I am real.");
             } else if (data.message.indexOf("are you human") != -1) {
-                bot.sendChat("@" + thisUser + " no, I'm a robot with AI functionailty.");
+                bot.sendChat("@" + thisUser + " no, I'm a robot with AI functionality.");
             } else if (data.message.indexOf("what can you do") != -1) {
                 bot.sendChat("@" + thisUser + " Lots of things, including your mom :kappa:");
             } else if (data.message.indexOf("are you a fan of nightblue3") != -1) {
@@ -323,6 +332,8 @@ new DubAPI({
                 var d = new Date();
                 var formatted_time = time_format(d);
                 bot.sendChat("At this moment it is: " + formatted_time);
+            } else if (data.message.indexOf("answer me") != -1) {
+                bot.sendChat('@' + thisUser + ' I am.');
             }
 
         }
