@@ -183,6 +183,10 @@ new DubAPI({
         //console.log(data);
         if (typeof data !== undefined) {
             // currentVideoThumb = data.media.images.thumbnail;
+            if(data.media == undefined){
+                console.log("DubTrack died, fuck you too DubTrack");
+                return 1;
+            }
             lastMediaFKID = currentID;
             currentName = data.media.name;
             currentID = data.media.fkid;
