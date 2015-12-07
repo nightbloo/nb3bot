@@ -103,7 +103,6 @@ var os = require("os");
 var TwitchClient = require("node-twitchtv");
 var urban = require('urban');
 var giphy = require('giphy-api')();
-var predict = require('eightball');
 // { client_id: "generatedClientId", scope: "user_read, channel_read_"}
 var captainApi = require('node-memecaptain-api');
 var account = fs.readFileSync("secrets/user.json");
@@ -362,8 +361,6 @@ new DubAPI({
 
             });
 
-        } else if (data.message.split(" ")[0] == "!8ball") {
-            bot.sendChat("@" + thisUser + " " + predict());
         } else if (data.message.split(" ")[0] == "!del") {
             var del = data.message.split(" ")[1];
             bot.sendChat("@" + thisUser + " " + del + " has been deleted. *Beep Boop*");
