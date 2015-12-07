@@ -133,7 +133,7 @@ new DubAPI({
     var botWarsEnabled = true;
     var neonCat = true;
     var userCooldown = new Array();
-    var cooldown = 30; // Cooldown in seconds
+    var cooldown = (process.env.COOLDOWN == undefined ? 30 : process.env.COOLDOWN); // Cooldown in seconds
     var lastMediaFKID = "";
 
     if (err) return console.error(err);
