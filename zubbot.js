@@ -793,6 +793,8 @@ new DubAPI({
 
         } else if (data.message.split(" ")[0] == "!plops") {
             bot.sendChat("@" + thisUser + " :poop:");
+        } else if(data.message.split(' ')[0] === '!burps') {
+            bot.sendChat('@' + thisUser + ' http://i.imgur.com/HL2yM7f.png');
         } else if (data.message.split(" ")[0] == "!ping") {
             bot.sendChat("@" + thisUser + " pong!");
         } else if (data.message.split(" ")[0] == "!pong") {
@@ -815,7 +817,7 @@ new DubAPI({
             bot.sendChat(targetName + ' to bypass GEMA blocked videos you can use this extension http://www.unblocker.yt/en/');
         } else if (data.message.split(" ")[0] === 'videocheck') {
             var target = data.message.split(" ")[1];
-            var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@'+target));
+            var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
             bot.sendChat(targetName + ' check if current video is available on any country at https://nb3x.nl/videocheck.php');
         } else if (data.message.split(" ")[0] == "!request") {
             if (data.message.split(" ").length > 1) {
