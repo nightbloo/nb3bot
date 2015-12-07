@@ -1,6 +1,6 @@
 {
   "name": "nb3bot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Bot made for NB3's dubtrack room",
   "main": "zubbot.js",
   "dependencies": {
@@ -18,7 +18,8 @@
     "path": "0.12.x",
     "redwrap": "0.0.x",
     "urban": "0.3.x",
-    "util": "0.10.x"
+    "util": "0.10.x",
+    "mathjs": "2.5.x"
   },
   "devDependencies": {},
   "scripts": {

@@ -411,7 +411,14 @@ new DubAPI({
 
 
 
-        } else if (data.message.split(" ")[0] == "!quote") {
+        }
+        else if(data.message.split(" ")[0] == "!math")
+        {
+        	var answer = math.eval(data.message.replace("!math "));
+        	bot.sendChat("@"+thisUser+" the answer is " + answer);
+
+        }
+         else if (data.message.split(" ")[0] == "!quote") {
             var username = data.message.split(" ")[1];
             var userFile;
             userFile = "quotes/" + username + ".txt";
