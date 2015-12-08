@@ -361,6 +361,16 @@ new DubAPI({
 
             });
 
+        } else if(data.message.split(" ")[0] == "!setcd"){
+            if(data.user.hasPermission('ban')){
+                if(data.message.split(" ")[1] == undefined) return 1;
+                var input = data.message.split(" ")[1].isNaN();
+                if (typeof input == "number") 
+                {
+                    cooldown = input;
+                    bot.sendChat("@" + thisUser + "set cooldown to " + input);
+                }
+            }
         } else if (data.message.split(" ")[0] == "!del") {
             var del = data.message.split(" ")[1];
             bot.sendChat("@" + thisUser + " " + del + " has been deleted. *Beep Boop*");
