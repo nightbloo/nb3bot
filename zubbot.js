@@ -365,10 +365,10 @@ new DubAPI({
             if(data.user.hasPermission('ban')){
                 if(data.message.split(" ")[1] == undefined) return 1;
                 var input = isNaN(data.message.split(" ")[1]);
-                if (typeof input == "number") 
+                if (!input) 
                 {
-                    cooldown = input;
-                    bot.sendChat("@" + thisUser + "set cooldown to " + input);
+                    cooldown = data.message.split(" ")[1];
+                    bot.sendChat("@" + thisUser + " set cooldown to " + data.message.split(" ")[1] + " seconds.");
                 }
             }
         } else if (data.message.split(" ")[0] == "!del") {
