@@ -364,7 +364,7 @@ new DubAPI({
         } else if(data.message.split(" ")[0] == "!setcd"){
             if(data.user.hasPermission('ban')){
                 if(data.message.split(" ")[1] == undefined) return 1;
-                var input = data.message.split(" ")[1].isNaN();
+                var input = isNaN(data.message.split(" ")[1]);
                 if (typeof input == "number") 
                 {
                     cooldown = input;
