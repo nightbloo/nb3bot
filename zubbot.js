@@ -817,6 +817,8 @@ new DubAPI({
             bot.sendChat("@" + thisUser + " pong!");
         } else if (data.message.split(" ")[0] == "!pong") {
             bot.sendChat("@" + thisUser + " ping!");
+        } else if (data.message.split(" ")[0] == "!girlalert") {
+            bot.sendChat("GIRL ALERT http://i.imgur.com/5hlNg9X.gif GIRL ALERT");
         } else if(data.message.split(" ")[0] == "!selfpromotion"){
             bot.sendChat('Please refrain from any self promotion in this room. As told in the rules: http://i.imgur.com/2zE0SPf.png');
         }
