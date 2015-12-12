@@ -10,6 +10,7 @@ Once you've made the file fill it with the login info/connection info of your bo
 DT_LOGIN=foo # The emailadress used to login to the bot's account (if you don't have one, then make one)
 DT_PASS=bar # The password used to login to the bot's account
 DT_ROOM=roomid # The room which you want to connect to it's name/id (e.g. www.dubtrack.fm/join/{everything here})
+COOLDOWN=number # [OPTIONAL] Number for per user cooldown (in seconds).
 ```
 
 After doing all this you can just run ```node zubbot.js``` in your friendly neighborhood node terminal and all should be fine and dandy.
