@@ -238,7 +238,6 @@ new DubAPI({
         }
     });
     bot.on(bot.events.chatMessage, function(data) {
-
         // Make sure the damn bot doesn't damn crash damnit.
         if (typeof data === "undefined" || typeof data.user === "undefined") {
             console.log("Data is undefined");
@@ -247,6 +246,7 @@ new DubAPI({
             return 1;
         }
 
+        try {
         if (/\@nb3bot (rock|paper|scissors)/gi.test(data.message)) {
             var rps = ['rock', 'paper', 'scissors'],
                 pick = Math.floor(Math.random() * rps.length);
@@ -964,7 +964,12 @@ new DubAPI({
                 }
             }
         }
-
+        } catch(x) {
+            bot.sendChat('uh oh, something went wrong :S');
+            console.log('uh oh, something went wrong | timestamp: ' + new Date().toDateString());
+            console.error(x);
+            console.log('---------------------------')
+        }
     });
 
     connect();
