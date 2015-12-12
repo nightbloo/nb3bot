@@ -59,7 +59,6 @@
                         ~ !mykappas - let's the user view their kappas (?
                         !rules - OBEY OR BE DESTROYED
                         !kappa [user] - sends a kappa to somebody
-                        !botwars - Game of rock paper scissors between bots.
                         !hate [user] - Breaks someone's heart </3
                         !plops - Echoe's a poop.
                         ![user] - says the user is an awesome person.
@@ -412,12 +411,12 @@ new DubAPI({
 
 
         }
-        else if(data.message.split(" ")[0] == "!math")
+        /*else if(data.message.split(" ")[0] == "!math")
         {
         	var answer = math.eval(data.message.replace("!math "));
         	bot.sendChat("@"+thisUser+" the answer is " + answer);
 
-        }
+        }*/
          else if (data.message.split(" ")[0] == "!quote") {
             var username = data.message.split(" ")[1];
             var userFile;
