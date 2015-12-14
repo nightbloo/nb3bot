@@ -132,6 +132,7 @@ new DubAPI({
     var neonCat = true;
     var userCooldown = new Array();
     var cooldown = (process.env.COOLDOWN == undefined ? 30 : process.env.COOLDOWN); // Cooldown in seconds
+    var imgTime = (process.env.IMGTIME == undefined ? 15 : process.env.IMGTIME); // Cooldown in seconds
     var lastMediaFKID = "";
 
     if (err) return console.error(err);
@@ -266,6 +267,12 @@ new DubAPI({
 
             }
         }
+        var re = new RegExp(/\.(jpg|png|gif)/g);
+        if (re.test(data.message.toLowerCase())) 
+        {
+            setTimeout(function(){bot.moderateDeleteChat(data.id);}, imgTime * 1000);
+        }
+
         var thisUser = data.user.username;
 
         var userFile;
@@ -368,6 +375,16 @@ new DubAPI({
                 {
                     cooldown = data.message.split(" ")[1];
                     bot.sendChat("@" + thisUser + " set cooldown to " + data.message.split(" ")[1] + " seconds.");
+                }
+            }
+        } else if(data.message.split(" ")[0] == "!setimgtime"){
+            if(data.user.hasPermission('ban')){
+                if(data.message.split(" ")[1] == undefined) return 1;
+                var input = isNaN(data.message.split(" ")[1]);
+                if (!input) 
+                {
+                    imgTime = data.message.split(" ")[1];
+                    bot.sendChat("@" + thisUser + " set image removal time to " + data.message.split(" ")[1] + " seconds.");
                 }
             }
         } else if (data.message.split(" ")[0] == "!del") {
