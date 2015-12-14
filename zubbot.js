@@ -726,14 +726,18 @@ new DubAPI({
                 }
             });
         } else if (data.message == "!rules") {
-            bot.sendChat("@" + data.user.username + " Rules: http://git.io/vWJnY");
+            var target = data.message.split(" ")[1];
+            var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@'+target));
+            bot.sendChat(targetName + " Rules: http://git.io/vWJnY");
         } else if (data.message.split(" ")[0] == "!kappa") {
-            var username = data.message.split(" ")[1];
-            bot.sendChat("@" + username + " " + thisUser + " has sent a Kappa your way! :kappa:");
+            var target = data.message.split(" ")[1];
+            var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@'+target));
+            bot.sendChat(targetName + " " + thisUser + " has sent a Kappa your way! :kappa:");
 
         } else if (data.message.split(" ")[0] == "!dubx") {
-            var username = data.message.split(" ")[1];
-            bot.sendChat("@" + username + " you can download DubX at http://www.dubx.net");
+            var target = data.message.split(" ")[1];
+            var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@'+target));
+            bot.sendChat(targetName + " you can download DubX at http://www.dubx.net");
         }
         /*
         else if(data.message == "!botwars")
