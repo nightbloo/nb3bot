@@ -115,7 +115,6 @@ var runTime = 0;
 setInterval(function() {
     runTime += 1;
 }, 1000);
-var Scraper = require('google-images-scraper');
 new DubAPI({
     username: process.env.DT_LOGIN,
     password: process.env.DT_PASS
@@ -133,6 +132,8 @@ new DubAPI({
     var userCooldown = new Array();
     var cooldown = (process.env.COOLDOWN == undefined ? 30 : process.env.COOLDOWN); // Cooldown in seconds
     var imgTime = (process.env.IMGTIME == undefined ? 15 : process.env.IMGTIME); // Cooldown in seconds
+    var imgRemovalDubs_Amount = (process.env.IMAGEREMOVALDUBS_AMOUNT == undefined ? 10 : process.env.IMAGEREMOVALDUBS_AMOUNT),
+        imgRemovalDubs_Time = (process.env.IMAGEREMOVALDUBS_TIME == undefined ? 5 : process.env.IMAGEREMOVALDUBS_TIME);
     var lastMediaFKID = "";
 
     if (err) return console.error(err);
@@ -254,23 +255,26 @@ new DubAPI({
             bot.sendChat('@' + data.user.username + ' ' + ['rock', 'paper', 'scissors'][pick]);
         }
 
-        // @netux: use regexp instead? /(http|https)(\:\/\/www\.dubtrack\.fm\/join\/)([^ ]+)/gi, then check if third match equals nightblue3
-        if (data.message.indexOf("https://www.dubtrack.fm/join/") > -1 || data.message.indexOf("dubtrack.fm/join/") > -1) {
-            if (data.message.indexOf("nightblue3") > -1) {
-
-            } else {
-
+        var advertiseMatch = data.message.match(/dubtrack.fm\/join\/(.[^ ]+)/i);
+        if (advertiseMatch) {
+            if (advertiseMatch[1] !== 'nightblue3') {
                 bot.moderateDeleteChat(data.id);
                 bot.moderateBanUser(data.user.id);
-                bot.sendChat("User banned. Reason: Advertising Other DubTrack Rooms.")
+                bot.sendChat("User banned. Reason: Advertising Other DubTrack Rooms.");
                 return 1;
 
             }
         }
         var re = new RegExp(/\.(jpg|png|gif)/g);
-        if (re.test(data.message.toLowerCase())) 
+            re = /http(|s):\/\/.+\.(gif|png|jpg|jpeg)/; // better, matches only websites
+        if (re.test(data.message.toLowerCase()) && data.user.id !== bot.getSelf().id)
         {
-            setTimeout(function(){bot.moderateDeleteChat(data.id);}, imgTime * 1000);
+            if(imgRemovalDubs_Amount >= 0 || !data.user.dubs || data.user.dubs < imgRemovalDubs_Amount) {
+                bot.moderateDeleteChat(data.id);
+                bot.moderateMuteUser(data.user.id);
+                bot.sendChat('User muted for ' + imgRemovalDubs_Time + ' minutes. Reason: Sending Images having less than ' + imgRemovalDubs_Amount + ' dubs.');
+                setTimeout(function() { bot.moderateUnmuteUser(data.user.id); }, imgRemovalDubs_Time * 60000);
+            } else setTimeout(function(){bot.moderateDeleteChat(data.id);}, imgTime * 1000);
         }
 
         var thisUser = data.user.username;
