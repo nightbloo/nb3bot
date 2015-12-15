@@ -266,7 +266,7 @@ new DubAPI({
             }
         }
         var re = new RegExp(/\.(jpg|png|gif)/g);
-            re = /http(|s):\/\/.+\.(gif|png|jpg|jpeg)/gi; // better, matches only websites
+            re = /http(|s):\/\/.+\.(gif|png|jpg|jpeg)/i; // better, matches only websites
         if (re.test(data.message.toLowerCase()) && data.user.id !== bot.getSelf().id)
         {
             if(imgRemovalDubs_Amount >= 0 || data.user.dubs < imgRemovalDubs_Amount) {
