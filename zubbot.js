@@ -269,7 +269,7 @@ new DubAPI({
             re = /http(|s):\/\/.+\.(gif|png|jpg|jpeg)/i; // better, matches only websites
         if (re.test(data.message.toLowerCase()) && data.user.id !== bot.getSelf().id)
         {
-            if(imgRemovalDubs_Amount >= 0 || data.user.dubs < imgRemovalDubs_Amount) {
+            if(imgRemovalDubs_Amount >= 0 && data.user.dubs < imgRemovalDubs_Amount) {
                 bot.moderateDeleteChat(data.id);
                 bot.moderateMuteUser(data.user.id);
                 bot.sendChat('User muted for ' + imgRemovalDubs_Time + ' minutes. Reason: Sending Images having less than ' + imgRemovalDubs_Amount + ' dubs.');
