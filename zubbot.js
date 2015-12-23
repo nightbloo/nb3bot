@@ -633,7 +633,10 @@ new DubAPI({
                 }
             });
         } else if (data.message == "!props") {
-
+            if(thisUser === currentDJName) {
+                bot.sendChat('@' + thisUser + ' we know you love your song, but let others also prop you!');
+                return;
+            }
             var userFile;
             userFile = "users/" + currentDJName + ".json";
             // console.log(userFile);
