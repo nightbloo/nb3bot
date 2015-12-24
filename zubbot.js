@@ -262,9 +262,25 @@ new DubAPI({
                 bot.moderateBanUser(data.user.id);
                 bot.sendChat("User banned. Reason: Advertising Other DubTrack Rooms.");
                 return 1;
-
             }
         }
+        var phishingMatch = data.message.match(/mysterysnowdown.com\/(.[^ ]+)/i);
+        if (phishingMatch){
+            bot.moderateDeleteChat(data.id);
+            bot.moderateBanUser(data.user.id);
+            bot.sendChat("User banned. Reason: Go phish at another pool.");
+            return 1;
+        }
+        var screamerMatch = data.message.match(/strawpoii.me(.[^ ]+)/i);
+        if (screamerMatch){
+            bot.moderateDeleteChat(data.id);
+            bot.moderateBanUser(data.user.id);
+            bot.sendChat("User banned. Reason: Posting screamers");
+            return 1;
+        }
+
+
+
         var re = new RegExp(/\.(jpg|png|gif)/g);
             re = /http(|s):\/\/.+\.(gif|png|jpg|jpeg)/i; // better, matches only websites
         if (re.test(data.message.toLowerCase()) && data.user.id !== bot.getSelf().id)
