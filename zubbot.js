@@ -267,18 +267,20 @@ new DubAPI({
         var banData = "banphrases.json"; 
         fs.stat(banData, function(err, stat) {
             var banJSON = jsonfile.readFileSync(banData);
-            var phrases = banData.banPhrases
+            var phrases = banJSON.banPhrases;
             for (var key in phrases) {
-                if (data.message.toLowerCase().indexOf(phrases[key].phrase.toLowerCase()) != -1) {
-                    bot.moderateDeleteChat(data.id);
-                    if (phrases[key].banTime.toLowerCase() == "p") {
-                        bot.moderateBanUser(data.user.id);
-                    } 
-                    else{
-                        bot.moderateBanUser(data.user.id, phrases[key].banTime);
+                if(typeof phrases[key] != 'function'){
+                    if (data.message.toLowerCase().indexOf(phrases[key].phrase.toLowerCase()) != -1) {
+                        bot.moderateDeleteChat(data.id);
+                        if (phrases[key].banTime == "p" || phrases[key].banTime == "P") {
+                            bot.moderateBanUser(data.user.id);
+                        } 
+                        else{
+                            bot.moderateBanUser(data.user.id, phrases[key].banTime);
+                        }
+                        bot.sendChat("User banned. Reason: "+phrases[key].reason);
+                        return 1;
                     }
-                    bot.sendChat("User banned. Reason: "+phrases[key].reason+" @banphrases.json#"+key);
-                    return 1;
                 }
             };
         });

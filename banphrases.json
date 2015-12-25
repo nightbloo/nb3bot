@@ -13,12 +13,12 @@
     {
       "phrase": "rose",
       "reason": "Saying a banned word.",
-      "banTime": "60"
+      "banTime": 60
     },
     {
       "phrase": "rossie",
       "reason": "Saying a banned word.",
-      "banTime": "60"
+      "banTime": 60
     }
   ]
 }
