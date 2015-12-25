@@ -264,21 +264,24 @@ new DubAPI({
                 return 1;
             }
         }
-        var phishingMatch = data.message.match(/mysterysnowdown.com\/(.[^ ]+)/i);
-        if (phishingMatch){
-            bot.moderateDeleteChat(data.id);
-            bot.moderateBanUser(data.user.id);
-            bot.sendChat("User banned. Reason: Go phish at another pool.");
-            return 1;
-        }
-        var screamerMatch = data.message.match(/strawpoii.me(.[^ ]+)/i);
-        if (screamerMatch){
-            bot.moderateDeleteChat(data.id);
-            bot.moderateBanUser(data.user.id);
-            bot.sendChat("User banned. Reason: Posting screamers");
-            return 1;
-        }
-
+        var banData = "banphrases.json"; 
+        fs.stat(banData, function(err, stat) {
+            var banJSON = jsonfile.readFileSync(banData);
+            var phrases = banData.banPhrases
+            for (var key in phrases) {
+                if (data.message.toLowerCase().indexOf(phrases[key].phrase.toLowerCase()) != -1) {
+                    bot.moderateDeleteChat(data.id);
+                    if (phrases[key].banTime.toLowerCase() == "p") {
+                        bot.moderateBanUser(data.user.id);
+                    } 
+                    else{
+                        bot.moderateBanUser(data.user.id, phrases[key].banTime);
+                    }
+                    bot.sendChat("User banned. Reason: "+phrases[key].reason+" @banphrases.json#"+key);
+                    return 1;
+                }
+            };
+        });
 
 
         var re = new RegExp(/\.(jpg|png|gif)/g);
