@@ -269,7 +269,7 @@ new DubAPI({
             var banJSON = jsonfile.readFileSync(banData);
             var phrases = banJSON.banPhrases;
             for (var key in phrases) {
-                if(typeof phrases[key] != 'function'){
+                if(typeof phrases[key] != 'function' && data.user.role == null ){
                     if (data.message.toLowerCase().indexOf(phrases[key].phrase.toLowerCase()) != -1) {
                         bot.moderateDeleteChat(data.id);
                         if (phrases[key].banTime == "p" || phrases[key].banTime == "P") {
