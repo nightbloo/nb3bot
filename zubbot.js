@@ -667,9 +667,20 @@ new DubAPI({
                     var username = data.message.split(" ")[1];
                     var userData = {};
 
-
                     if (err == null) {
-                        var userData = jsonfile.readFileSync(userFile);
+                        try {
+                            userData = jsonfile.readFileSync(userFile);
+                        } catch (err) {
+                            userData = {
+                                love: 0,
+                                props: 0
+                            };
+                            jsonfile.writeFile(userFile, userData, function(err) {
+                                if (err != null) {
+                                    console.log(err);
+                                }
+                            });
+                        }
                         userData.props += 1;
                         userData.love = 0;
                         jsonfile.writeFile(userFile, userData, function(err) {
