@@ -871,7 +871,9 @@ new DubAPI({
             } else if (data.message.split(" ")[0] == "!plops") {
                 bot.sendChat("@" + thisUser + " :poop:");
             } else if (data.message.split(' ')[0] === '!burps') {
-                bot.sendChat('@' + thisUser + ' http://i.imgur.com/HL2yM7f.png');
+                bot.sendChat('@' + thisUser + ' https://i.imgur.com/HL2yM7f.png');
+            } else if (data.message.split(' ')[0].toLowerCase() === '!eargasm') {
+                bot.sendChat('@' + thisUser + ' https://i.imgur.com/I5XSCtl.png');
             } else if (data.message.split(" ")[0] == "!ping") {
                 bot.sendChat("@" + thisUser + " pong!");
             } else if (data.message.split(" ")[0] == "!pong") {
