@@ -67,6 +67,7 @@
                         !ping - pong!
                         !english - show community language rules
                         !sush - show community skip rules
+						!css - shows imgur css album
                         
                         
                         Keys
@@ -789,6 +790,12 @@ new DubAPI({
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
                 bot.sendChat(targetName + " you can download DubX at http://www.dubx.net");
+				
+			} else if (data.message.split(" ")[0] == "!css") {
+                var target = data.message.split(" ")[1];
+                var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
+                bot.sendChat(targetName + " Fancy css files: http://imgur.com/a/WeXhS");
+				bot.sendChat( "Custom css chooser: https://goo.gl/Gs6gih");	
             }
             /*
             else if(data.message == "!botwars")
