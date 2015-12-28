@@ -794,7 +794,7 @@ new DubAPI({
 			} else if (data.message.split(" ")[0] == "!css") {
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
-                bot.sendChat(targetName + " css files: http://imgur.com/a/WeXhS , Matt's custom css chooser: https://goo.gl/Gs6gih");	
+                bot.sendChat(targetName + "Fancy css files: http://imgur.com/a/WeXhS" + "<br />Matt's custom css chooser: https://goo.gl/Gs6gih");	
             }
             /*
             else if(data.message == "!botwars")
