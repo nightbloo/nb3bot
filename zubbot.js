@@ -70,7 +70,7 @@
                         !sush - show community skip rules
 						!css - shows imgur css album
 						!bg - shows bg albums
-						!queue - says how to queue a song
+						!queue - says how to queue a song  
                         
                         
                         Keys
