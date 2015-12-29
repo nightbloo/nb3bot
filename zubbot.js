@@ -33,6 +33,7 @@
                                                     @ZubOhm
                                                     @Netux
                                                     @Matt
+													@DemoZ
                             
                         **************************************************************************
 
@@ -68,6 +69,8 @@
                         !english - show community language rules
                         !sush - show community skip rules
 						!css - shows imgur css album
+						!bg - shows bg albums
+						!queue - says how to queue a song
                         
                         
                         Keys
@@ -781,6 +784,7 @@ new DubAPI({
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
                 bot.sendChat(targetName + " Rules: http://git.io/vWJnY");
+				
             } else if (data.message.split(" ")[0] == "!kappa") {
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
@@ -796,6 +800,19 @@ new DubAPI({
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
                 bot.sendChat(targetName + " Fancy css files: http://imgur.com/a/WeXhS");
 				bot.sendChat( "Custom css chooser: https://goo.gl/Gs6gih");	
+				
+			} else if (data.message.split(" ")[0] == "!bg") {
+                var target = data.message.split(" ")[1];
+                var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
+                bot.sendChat(targetName + " Snaky's BGs: http://imgur.com/a/ZO2Nz");
+				bot.sendChat(" Maskinen's BGs: http://imgur.com/a/Up7b2");
+				
+			} else if (data.message.split(" ")[0] == "!queue") {
+                var target = data.message.split(" ")[1];
+                var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
+                bot.sendChat(targetName + " 1. Click Queue a song (under the video)");	
+				bot.sendChat( " 2. Search the song you would like to play in the search bar at the top.")
+				bot.sendChat( " 3. Press the pay button next to the song of your choice. Your song will have been queued")
             }
             /*
             else if(data.message == "!botwars")
