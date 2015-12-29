@@ -4,6 +4,8 @@
 *.env
 *.log
 *.txt
+run.bat
+imagelogs.json
 ###############
 # Directories #
 ###############
@@ -13,4 +15,3 @@ secrets/
 users/
 node_modules/
 history/
-run.bat

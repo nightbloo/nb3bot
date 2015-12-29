@@ -288,9 +288,15 @@ new DubAPI({
             });
 
 
-            var re = new RegExp(/\.(jpg|png|gif)/g);
-            re = /http(|s):\/\/.+\.(gif|png|jpg|jpeg)/i; // better, matches only websites
+            var re = /http(|s):\/\/.+\.(gif|png|jpg|jpeg)/i;
             if (re.test(data.message.toLowerCase()) && data.user.id !== bot.getSelf().id) {
+                var toSave = {
+                    timestamp: [ Date.now(), new Date().toString() ],
+                    user: [ data.user.username, data.user.id ],
+                    message: data.message,
+                    punishType: undefined
+                };
+
                 if (imgRemovalDubs_Amount >= 0 && data.user.dubs < imgRemovalDubs_Amount) {
                     bot.moderateDeleteChat(data.id);
                     bot.moderateMuteUser(data.user.id);
@@ -298,9 +304,25 @@ new DubAPI({
                     setTimeout(function() {
                         bot.moderateUnmuteUser(data.user.id);
                     }, imgRemovalDubs_Time * 60000);
-                } else setTimeout(function() {
-                    bot.moderateDeleteChat(data.id);
-                }, imgTime * 1000);
+                    toSave.punishType = 'mute';
+                } else {
+                    setTimeout(function() {
+                        bot.moderateDeleteChat(data.id);
+                    }, imgTime * 1000);
+                    toSave.punishType = 'removal';
+                }
+
+                fs.exists('imagelogs.json', function(itDoes) {
+                    var lastLogs = itDoes ? JSON.parse(fs.readFileSync('imagelogs.json', 'utf8')) : {
+                        info: 'File containing user chat logs where the link of an image was found. Useful to detect what type of image an user has posted.',
+                        logs: [ ]
+                    };
+                    lastLogs.logs.unshift(toSave);
+                    console.log(lastLogs);
+                    fs.writeFile('imagelogs.json', JSON.stringify(lastLogs, null, 4), 'utf8', function(error) {
+                        if(error) console.log('Error updating imagelogs.json →', error);
+                    });
+                });
             }
 
             var thisUser = data.user.username;
@@ -888,7 +910,9 @@ new DubAPI({
             } else if (data.message.split(" ")[0] == "!plops") {
                 bot.sendChat("@" + thisUser + " :poop:");
             } else if (data.message.split(' ')[0] === '!burps') {
-                bot.sendChat('@' + thisUser + ' http://i.imgur.com/HL2yM7f.png');
+                bot.sendChat('@' + thisUser + ' https://i.imgur.com/HL2yM7f.png');
+            } else if (data.message.split(' ')[0].toLowerCase() === '!eargasm') {
+                bot.sendChat('@' + thisUser + ' https://i.imgur.com/I5XSCtl.png');
             } else if (data.message.split(" ")[0] == "!ping") {
                 bot.sendChat("@" + thisUser + " pong!");
             } else if (data.message.split(" ")[0] == "!pong") {
