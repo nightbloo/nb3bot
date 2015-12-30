@@ -113,9 +113,11 @@ var urban = require('urban');
 var giphy = require('giphy-api')();
 // { client_id: "generatedClientId", scope: "user_read, channel_read_"}
 var captainApi = require('node-memecaptain-api');
-var account = fs.readFileSync("secrets/user.json");
 
+var account = fs.readFileSync("secrets/user.json"),
+    accountObj = JSON.parse(account);
 var client = new TwitchClient(account);
+var httpReq = require('http').request;
 
 var reddit = require('redwrap');
 var AgarioClient = require('agario-client');
@@ -143,7 +145,7 @@ new DubAPI({
     var imgTime = (process.env.IMGTIME == undefined ? 15 : process.env.IMGTIME); // Cooldown in seconds
     var imgRemovalDubs_Amount = (process.env.IMAGEREMOVALDUBS_AMOUNT == undefined ? 10 : process.env.IMAGEREMOVALDUBS_AMOUNT),
         imgRemovalDubs_Time = (process.env.IMAGEREMOVALDUBS_TIME == undefined ? 5 : process.env.IMAGEREMOVALDUBS_TIME);
-    var lastMediaFKID = "";
+    var lastMediaFKID = "", currentMediaPermaLink = undefined;
 
     if (err) return console.error(err);
     console.log("-----------------------------------------------------------------------------------");
@@ -204,7 +206,21 @@ new DubAPI({
             currentDJName = (data.user == undefined ? "404usernamenotfound" : (data.user.username == undefined ? "404usernamenotfound" : data.user.username));
             if (currentType == "soundcloud") {
                 currentStream = data.media.streamURL;
-            }
+                currentMediaPermaLink = "not found (?!) or something went wrong";
+                if(accountObj.sc_client_id) {
+                    httpReq({
+                        hostname: 'api.soundcloud.com',
+                        path: '/tracks/' + currentID + '?client_id=' + accountObj.sc_client_id,
+                        method: 'GET'
+                    }, function(res) {
+                        var data = '';
+                        res.setEncoding('utf8');
+                        res.on('data', function(chunk) { data += chunk; });
+                        res.on('error', function(x) { console.error(x); });
+                        res.on('end', function() { currentMediaPermaLink = JSON.parse(data).permalink_url; });
+                    }).end();
+                }
+            } else currentMediaPermaLink = 'https://youtube.com/watch?v=' + currentID;
             bot.updub();
             var historyFile = "history/" + lastMediaFKID + ".txt";
             // Check for history file
@@ -622,13 +638,7 @@ new DubAPI({
 
                 }
             } else if (data.message == "!song") {
-                if (currentType == "youtube") {
-                    bot.sendChat("@" + thisUser + " The current song is " + currentName + ", the link is http://youtube.com/watch?v=" + currentID);
-
-                } else if (currentType == "soundcloud") {
-                    bot.sendChat("@" + thisUser + " The current song is " + currentName + ", the link is " + streamURL);
-                }
-
+                bot.sendChat("@" + thisUser + " The current song is " + currentName + ", the link is " + currentMediaPermaLink);
             } else if (data.message == "!stream") {
                 client.streams({
                     channel: "nightblue3"
