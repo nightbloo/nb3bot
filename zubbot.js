@@ -33,7 +33,7 @@
                                                     @ZubOhm
                                                     @Netux
                                                     @Matt
-					            @DemoZ
+					                                @DemoZ
                             
                         **************************************************************************
 
@@ -41,7 +41,7 @@
                                                      COMMAND LIST
                         **************************************************************************
                         !hello - Bot Responds saying hello back.
-                        !8ball [question] - self explanitory
+                        !request [request] - request a feature to the BOT
                         !ban - fake ban by bot
                         !del [file] - Bot responds saying *file* deleted
                         !gaben - pulls a random gaben picture from /r/gentlemangabers
@@ -54,23 +54,29 @@
                         !lastplayed - Shows when the song was last played
                         !props - gives props to the current DJ
                         !love [user] - gives someone love <3
+                        !lovepercent [user] - calculates love percentage between you and user
                         !eta - Tells user to download dubx
+                        !dubx - Direct link to DubX homepage
                         !myprops - let's the user view their props
                         !mylove - let's the user view their hearts
-                        ~ !mykappas - let's the user view their kappas (?
                         !rules - OBEY OR BE DESTROYED
                         !kappa [user] - sends a kappa to somebody
                         !hate [user] - Breaks someone's heart </3
                         !plops - Echoe's a poop.
+                        !burps - Echoe's Barney burping.
+                        !girlalert - ALERT, GIRL DETECTED.
                         ![user] - says the user is an awesome person.
                         !agar - host an Agar.io party.
                         !pong - ping!
                         !ping - pong!
                         !english - show community language rules
                         !sush - show community skip rules
-			!css - shows imgur css album
-			!bg - shows bg albums
-			!queue - says how to queue a song  
+                        !selfpromotion - show self promotion rules
+                        !videocheck - direct link to video availability
+                        !gema - direct link to Anti-Gema extension
+                        !css - shows imgur css album
+                        !bg - shows bg albums
+                        !queue - says how to queue a song
                         
                         
                         Keys
@@ -480,12 +486,6 @@ new DubAPI({
 
 
             }
-            /*else if(data.message.split(" ")[0] == "!math")
-            {
-                var answer = math.eval(data.message.replace("!math "));
-                bot.sendChat("@"+thisUser+" the answer is " + answer);
-
-            }*/
             else if (data.message.split(" ")[0] == "!quote") {
                 var username = data.message.split(" ")[1];
                 var userFile;
