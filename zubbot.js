@@ -834,7 +834,7 @@ new DubAPI({
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
                 bot.sendChat(targetName + " 1. Click Queue a song (under the video)");	
 				bot.sendChat( " 2. Search the song you would like to play in the search bar at the top.")
-				bot.sendChat( " 3. Press the pay button next to the song of your choice. Your song will have been queued")
+				bot.sendChat( " 3. Press the play button next to the song of your choice. Your song will have been queued")
             }
             /*
             else if(data.message == "!botwars")
