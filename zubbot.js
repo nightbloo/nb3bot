@@ -339,7 +339,7 @@ new DubAPI({
                         info: 'File containing user chat logs where the link of an image was found. Useful to detect what type of image an user has posted.',
                         logs: [ ]
                     };
-                    if(lastLogs.logs.push(toSave) >= 6){
+                    if(lastLogs.logs.push(toSave) >= 11){
                         lastLogs.logs.shift();
                     }
                     fs.writeFile('python/imagelogs.json', JSON.stringify(lastLogs, null, 4), 'utf8', function(error) {
