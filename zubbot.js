@@ -460,7 +460,7 @@ new DubAPI({
                     }
                 }
             } else if (data.message.split(" ")[0] == "!setimgtime") {
-                if (data.user.hasPermission('ban')) {
+                if (bot.roles[data.user.role].rights.contains("ban")) {
                     if (data.message.split(" ")[1] == undefined) return 1;
                     var input = isNaN(data.message.split(" ")[1]);
                     if (!input) {
