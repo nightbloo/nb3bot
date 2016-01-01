@@ -377,6 +377,7 @@ new DubAPI({
                 setTimeout(function() {
                     userCooldown.remove(thisUser);
                 }, cooldown * 1000);
+            } else if (data.user.role == null) {
             } else if (bot.roles[data.user.role].type == "resident-dj" && data.message.indexOf('!') != -1){
                 userCooldown.push(thisUser);
                 setTimeout(function() {
