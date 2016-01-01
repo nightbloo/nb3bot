@@ -334,14 +334,15 @@ new DubAPI({
                     toSave.punishType = 'removal';
                 }
 
-                fs.exists('imagelogs.json', function(itDoes) {
-                    var lastLogs = itDoes ? JSON.parse(fs.readFileSync('imagelogs.json', 'utf8')) : {
+                fs.exists('python/imagelogs.json', function(itDoes) {
+                    var lastLogs = itDoes ? JSON.parse(fs.readFileSync('python/imagelogs.json', 'utf8')) : {
                         info: 'File containing user chat logs where the link of an image was found. Useful to detect what type of image an user has posted.',
                         logs: [ ]
                     };
-                    lastLogs.logs.unshift(toSave);
-                    console.log(lastLogs);
-                    fs.writeFile('imagelogs.json', JSON.stringify(lastLogs, null, 4), 'utf8', function(error) {
+                    if(lastLogs.logs.push(toSave) >= 6){
+                        lastLogs.logs.shift();
+                    }
+                    fs.writeFile('python/imagelogs.json', JSON.stringify(lastLogs, null, 4), 'utf8', function(error) {
                         if(error) console.log('Error updating imagelogs.json →', error);
                     });
                 });
