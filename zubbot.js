@@ -33,6 +33,7 @@
                                                     @ZubOhm
                                                     @Netux
                                                     @Matt
+                                                    @DemoZ
                             
                         **************************************************************************
 
@@ -40,7 +41,7 @@
                                                      COMMAND LIST
                         **************************************************************************
                         !hello - Bot Responds saying hello back.
-                        !8ball [question] - self explanitory
+                        !request [request] - request a feature to the BOT
                         !ban - fake ban by bot
                         !del [file] - Bot responds saying *file* deleted
                         !gaben - pulls a random gaben picture from /r/gentlemangabers
@@ -53,21 +54,29 @@
                         !lastplayed - Shows when the song was last played
                         !props - gives props to the current DJ
                         !love [user] - gives someone love <3
+                        !lovepercent [user] - calculates love percentage between you and user
                         !eta - Tells user to download dubx
+                        !dubx - Direct link to DubX homepage
                         !myprops - let's the user view their props
                         !mylove - let's the user view their hearts
-                        ~ !mykappas - let's the user view their kappas (?
                         !rules - OBEY OR BE DESTROYED
                         !kappa [user] - sends a kappa to somebody
                         !hate [user] - Breaks someone's heart </3
                         !plops - Echoe's a poop.
+                        !burps - Echoe's Barney burping.
+                        !girlalert - ALERT, GIRL DETECTED.
                         ![user] - says the user is an awesome person.
                         !agar - host an Agar.io party.
                         !pong - ping!
                         !ping - pong!
                         !english - show community language rules
                         !sush - show community skip rules
-						!css - shows imgur css album
+                        !selfpromotion - show self promotion rules
+                        !videocheck - direct link to video availability
+                        !gema - direct link to Anti-Gema extension
+                        !css - shows imgur css album
+                        !bg - shows bg albums
+                        !queue - says how to queue a song
                         
                         
                         Keys
@@ -104,9 +113,11 @@ var urban = require('urban');
 var giphy = require('giphy-api')();
 // { client_id: "generatedClientId", scope: "user_read, channel_read_"}
 var captainApi = require('node-memecaptain-api');
-var account = fs.readFileSync("secrets/user.json");
 
+var account = fs.readFileSync("secrets/user.json"),
+    accountObj = JSON.parse(account);
 var client = new TwitchClient(account);
+var httpReq = require('http').request;
 
 var reddit = require('redwrap');
 var AgarioClient = require('agario-client');
@@ -134,7 +145,7 @@ new DubAPI({
     var imgTime = (process.env.IMGTIME == undefined ? 15 : process.env.IMGTIME); // Cooldown in seconds
     var imgRemovalDubs_Amount = (process.env.IMAGEREMOVALDUBS_AMOUNT == undefined ? 10 : process.env.IMAGEREMOVALDUBS_AMOUNT),
         imgRemovalDubs_Time = (process.env.IMAGEREMOVALDUBS_TIME == undefined ? 5 : process.env.IMAGEREMOVALDUBS_TIME);
-    var lastMediaFKID = "";
+    var lastMediaFKID = "", currentMediaPermaLink = undefined;
 
     if (err) return console.error(err);
     console.log("-----------------------------------------------------------------------------------");
@@ -195,7 +206,21 @@ new DubAPI({
             currentDJName = (data.user == undefined ? "404usernamenotfound" : (data.user.username == undefined ? "404usernamenotfound" : data.user.username));
             if (currentType == "soundcloud") {
                 currentStream = data.media.streamURL;
-            }
+                currentMediaPermaLink = "not found (?!) or something went wrong";
+                if(accountObj.sc_client_id) {
+                    httpReq({
+                        hostname: 'api.soundcloud.com',
+                        path: '/tracks/' + currentID + '?client_id=' + accountObj.sc_client_id,
+                        method: 'GET'
+                    }, function(res) {
+                        var data = '';
+                        res.setEncoding('utf8');
+                        res.on('data', function(chunk) { data += chunk; });
+                        res.on('error', function(x) { console.error(x); });
+                        res.on('end', function() { currentMediaPermaLink = JSON.parse(data).permalink_url; });
+                    }).end();
+                }
+            } else currentMediaPermaLink = 'https://youtube.com/watch?v=' + currentID;
             bot.updub();
             var historyFile = "history/" + lastMediaFKID + ".txt";
             // Check for history file
@@ -285,9 +310,15 @@ new DubAPI({
             });
 
 
-            var re = new RegExp(/\.(jpg|png|gif)/g);
-            re = /http(|s):\/\/.+\.(gif|png|jpg|jpeg)/i; // better, matches only websites
+            var re = /http(|s):\/\/.+\.(gif|png|jpg|jpeg)/i;
             if (re.test(data.message.toLowerCase()) && data.user.id !== bot.getSelf().id) {
+                var toSave = {
+                    timestamp: [ Date.now(), new Date().toString() ],
+                    user: [ data.user.username, data.user.id ],
+                    message: data.message,
+                    punishType: undefined
+                };
+
                 if (imgRemovalDubs_Amount >= 0 && data.user.dubs < imgRemovalDubs_Amount) {
                     bot.moderateDeleteChat(data.id);
                     bot.moderateMuteUser(data.user.id);
@@ -295,9 +326,25 @@ new DubAPI({
                     setTimeout(function() {
                         bot.moderateUnmuteUser(data.user.id);
                     }, imgRemovalDubs_Time * 60000);
-                } else setTimeout(function() {
-                    bot.moderateDeleteChat(data.id);
-                }, imgTime * 1000);
+                    toSave.punishType = 'mute';
+                } else {
+                    setTimeout(function() {
+                        bot.moderateDeleteChat(data.id);
+                    }, imgTime * 1000);
+                    toSave.punishType = 'removal';
+                }
+
+                fs.exists('imagelogs.json', function(itDoes) {
+                    var lastLogs = itDoes ? JSON.parse(fs.readFileSync('imagelogs.json', 'utf8')) : {
+                        info: 'File containing user chat logs where the link of an image was found. Useful to detect what type of image an user has posted.',
+                        logs: [ ]
+                    };
+                    lastLogs.logs.unshift(toSave);
+                    console.log(lastLogs);
+                    fs.writeFile('imagelogs.json', JSON.stringify(lastLogs, null, 4), 'utf8', function(error) {
+                        if(error) console.log('Error updating imagelogs.json →', error);
+                    });
+                });
             }
 
             var thisUser = data.user.username;
@@ -330,6 +377,12 @@ new DubAPI({
                 setTimeout(function() {
                     userCooldown.remove(thisUser);
                 }, cooldown * 1000);
+            } else if (data.user.role == null) {
+            } else if (bot.roles[data.user.role].type == "resident-dj" && data.message.indexOf('!') != -1){
+                userCooldown.push(thisUser);
+                setTimeout(function() {
+                    userCooldown.remove(thisUser);
+                }, cooldown * 1000 * 0.5);
             }
             // Non Commands -- Bot Responses to tagging him.
             if (data.message.indexOf("nb3bot") != -1) {
@@ -397,7 +450,7 @@ new DubAPI({
                 });
 
             } else if (data.message.split(" ")[0] == "!setcd") {
-                if (data.user.hasPermission('ban')) {
+                if (bot.roles[data.user.role].rights.contains("ban")) {
                     if (data.message.split(" ")[1] == undefined) return 1;
                     var input = isNaN(data.message.split(" ")[1]);
                     if (!input) {
@@ -428,39 +481,7 @@ new DubAPI({
                         bot.sendChat(children[random].data.url);
                     }
                 });
-            } else if (data.message.split(" ")[0] == "!urban") {
-                var def = urban(data.message.replace("!urban ", ""));
-                def.first(function(json) {
-                    if (typeof(json) === "undefined") {
-
-                        bot.sendChat("@" + thisUser + " there is no definition for " + data.message.replace("!urban ", ""));
-
-                    } else {
-                        var deflong = json.definition;
-                        var permalink = json.permalink;
-                        var example = json.example;
-                        var word = json.word;
-                        if (deflong.length > 100) {
-                            deflong = deflong.substring(0, 100) + "...";
-                            bot.sendChat("@" + thisUser + " the definition of " + word + " is: ");
-                            bot.sendChat(deflong + " " + permalink);
-                        } else {
-                            bot.sendChat("@" + thisUser + " the definition of " + word + " is: ");
-                            bot.sendChat(deflong + "..." + permalink);
-                        }
-                    }
-
-                });
-
-
-
             }
-            /*else if(data.message.split(" ")[0] == "!math")
-            {
-                var answer = math.eval(data.message.replace("!math "));
-                bot.sendChat("@"+thisUser+" the answer is " + answer);
-
-            }*/
             else if (data.message.split(" ")[0] == "!quote") {
                 var username = data.message.split(" ")[1];
                 var userFile;
@@ -597,13 +618,7 @@ new DubAPI({
 
                 }
             } else if (data.message == "!song") {
-                if (currentType == "youtube") {
-                    bot.sendChat("@" + thisUser + " The current song is " + currentName + ", the link is http://youtube.com/watch?v=" + currentID);
-
-                } else if (currentType == "soundcloud") {
-                    bot.sendChat("@" + thisUser + " The current song is " + currentName + ", the link is " + streamURL);
-                }
-
+                bot.sendChat("@" + thisUser + " The current song is " + currentName + ", the link is " + currentMediaPermaLink);
             } else if (data.message == "!stream") {
                 client.streams({
                     channel: "nightblue3"
@@ -781,6 +796,7 @@ new DubAPI({
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
                 bot.sendChat(targetName + " Rules: http://git.io/vWJnY");
+				
             } else if (data.message.split(" ")[0] == "!kappa") {
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
@@ -791,11 +807,24 @@ new DubAPI({
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
                 bot.sendChat(targetName + " you can download DubX at http://www.dubx.net");
 				
-			} else if (data.message.split(" ")[0] == "!css") {
+	    } else if (data.message.split(" ")[0] == "!css") {
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
                 bot.sendChat(targetName + " Fancy css files: http://imgur.com/a/WeXhS");
 				bot.sendChat( "Custom css chooser: https://goo.gl/Gs6gih");	
+				
+	    } else if (data.message.split(" ")[0] == "!bg") {
+                var target = data.message.split(" ")[1];
+                var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
+                bot.sendChat(targetName + " Snaky's BGs: http://imgur.com/a/ZO2Nz");
+				bot.sendChat(" Maskinen's BGs: http://imgur.com/a/Up7b2");
+				
+	    } else if (data.message.split(" ")[0] == "!queue") {
+                var target = data.message.split(" ")[1];
+                var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
+                bot.sendChat(targetName + " 1. Click Queue a song (under the video)");	
+				bot.sendChat( " 2. Search the song you would like to play in the search bar at the top.")
+				bot.sendChat( " 3. Press the play button next to the song of your choice. Your song will have been queued")
             }
             /*
             else if(data.message == "!botwars")
@@ -870,21 +899,17 @@ new DubAPI({
 
             } else if (data.message.split(" ")[0] == "!plops") {
                 bot.sendChat("@" + thisUser + " :poop:");
-            } else if (data.message.split(' ')[0] === '!burps') {
-                bot.sendChat('@' + thisUser + ' http://i.imgur.com/HL2yM7f.png');
             } else if (data.message.split(" ")[0] == "!ping") {
                 bot.sendChat("@" + thisUser + " pong!");
             } else if (data.message.split(" ")[0] == "!pong") {
                 bot.sendChat("@" + thisUser + " ping!");
-            } else if (data.message.split(" ")[0] == "!girlalert") {
-                bot.sendChat("GIRL ALERT http://i.imgur.com/5hlNg9X.gif GIRL ALERT");
             } else if (data.message.split(" ")[0] == "!selfpromotion") {
                 bot.sendChat('Please refrain from any self promotion in this room. As told in the rules: http://i.imgur.com/2zE0SPf.png');
             } else if (data.message.split(" ")[0] == "!english") {
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
                 bot.sendChat(targetName + ' Please stick to English in this room, doing otherwise will result in a mute.');
-            } else if (data.message.split(" ")[0] == "!sush") {
+            } else if (data.message.split(" ")[0] == "!shush") {
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
                 bot.sendChat(targetName + ' (click for better quality) http://i.imgur.com/uFE8PfA.png');
@@ -1034,7 +1059,7 @@ new DubAPI({
                 }
             }
         } catch (x) {
-            bot.sendChat('uh oh, something went wrong :S');
+            //bot.sendChat('uh oh, something went wrong :S');
             console.log('uh oh, something went wrong | timestamp: ' + new Date().toDateString());
             console.error(x);
             console.log('---------------------------')
