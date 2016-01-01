@@ -377,6 +377,11 @@ new DubAPI({
                 setTimeout(function() {
                     userCooldown.remove(thisUser);
                 }, cooldown * 1000);
+            } else if (bot.roles[data.user.role].type == "resident-dj"){
+                userCooldown.push(thisUser);
+                setTimeout(function() {
+                    userCooldown.remove(thisUser);
+                }, cooldown * 1000 * 0.5);
             }
             // Non Commands -- Bot Responses to tagging him.
             if (data.message.indexOf("nb3bot") != -1) {
@@ -444,7 +449,7 @@ new DubAPI({
                 });
 
             } else if (data.message.split(" ")[0] == "!setcd") {
-                if (data.user.hasPermission('ban')) {
+                if (bot.roles[data.user.role].rights.contains("ban")) {
                     if (data.message.split(" ")[1] == undefined) return 1;
                     var input = isNaN(data.message.split(" ")[1]);
                     if (!input) {
@@ -475,32 +480,6 @@ new DubAPI({
                         bot.sendChat(children[random].data.url);
                     }
                 });
-            } else if (data.message.split(" ")[0] == "!urban") {
-                var def = urban(data.message.replace("!urban ", ""));
-                def.first(function(json) {
-                    if (typeof(json) === "undefined") {
-
-                        bot.sendChat("@" + thisUser + " there is no definition for " + data.message.replace("!urban ", ""));
-
-                    } else {
-                        var deflong = json.definition;
-                        var permalink = json.permalink;
-                        var example = json.example;
-                        var word = json.word;
-                        if (deflong.length > 100) {
-                            deflong = deflong.substring(0, 100) + "...";
-                            bot.sendChat("@" + thisUser + " the definition of " + word + " is: ");
-                            bot.sendChat(deflong + " " + permalink);
-                        } else {
-                            bot.sendChat("@" + thisUser + " the definition of " + word + " is: ");
-                            bot.sendChat(deflong + "..." + permalink);
-                        }
-                    }
-
-                });
-
-
-
             }
             else if (data.message.split(" ")[0] == "!quote") {
                 var username = data.message.split(" ")[1];
@@ -919,23 +898,17 @@ new DubAPI({
 
             } else if (data.message.split(" ")[0] == "!plops") {
                 bot.sendChat("@" + thisUser + " :poop:");
-            } else if (data.message.split(' ')[0] === '!burps') {
-                bot.sendChat('@' + thisUser + ' https://i.imgur.com/HL2yM7f.png');
-            } else if (data.message.split(' ')[0].toLowerCase() === '!eargasm') {
-                bot.sendChat('@' + thisUser + ' https://i.imgur.com/I5XSCtl.png');
             } else if (data.message.split(" ")[0] == "!ping") {
                 bot.sendChat("@" + thisUser + " pong!");
             } else if (data.message.split(" ")[0] == "!pong") {
                 bot.sendChat("@" + thisUser + " ping!");
-            } else if (data.message.split(" ")[0] == "!girlalert") {
-                bot.sendChat("GIRL ALERT http://i.imgur.com/5hlNg9X.gif GIRL ALERT");
             } else if (data.message.split(" ")[0] == "!selfpromotion") {
                 bot.sendChat('Please refrain from any self promotion in this room. As told in the rules: http://i.imgur.com/2zE0SPf.png');
             } else if (data.message.split(" ")[0] == "!english") {
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
                 bot.sendChat(targetName + ' Please stick to English in this room, doing otherwise will result in a mute.');
-            } else if (data.message.split(" ")[0] == "!sush") {
+            } else if (data.message.split(" ")[0] == "!shush") {
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
                 bot.sendChat(targetName + ' (click for better quality) http://i.imgur.com/uFE8PfA.png');
