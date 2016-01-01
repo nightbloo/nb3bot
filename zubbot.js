@@ -377,7 +377,7 @@ new DubAPI({
                 setTimeout(function() {
                     userCooldown.remove(thisUser);
                 }, cooldown * 1000);
-            } else if (bot.roles[data.user.role].type == "resident-dj"){
+            } else if (bot.roles[data.user.role].type == "resident-dj" && data.message.indexOf('!') != -1){
                 userCooldown.push(thisUser);
                 setTimeout(function() {
                     userCooldown.remove(thisUser);
@@ -1058,7 +1058,7 @@ new DubAPI({
                 }
             }
         } catch (x) {
-            bot.sendChat('uh oh, something went wrong :S');
+            //bot.sendChat('uh oh, something went wrong :S');
             console.log('uh oh, something went wrong | timestamp: ' + new Date().toDateString());
             console.error(x);
             console.log('---------------------------')
