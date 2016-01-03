@@ -80,7 +80,7 @@
                         
                         
                         Keys
-                        ~ = reccomendation
+                        ~ = recommendation
                         [] = arg
                         **************************************************************************
                         **************************************************************************
@@ -164,7 +164,7 @@ new DubAPI({
     console.log("--------------------------Version 0.15----------------------------------------------");
 
     console.log('Checking if all directories exists...');
-    var dataDirectories = ['history', 'quotes', 'scores', 'users'];
+    var dataDirectories = ['history', 'quotes', 'scores', 'users', 'python'];
     dataDirectories.forEach(function(dirStr) {
         if (fs.existsSync(dirStr)) return;
         console.log('Directory ' + dirStr + ' doesn\'t exists, creating it...');
@@ -437,6 +437,9 @@ new DubAPI({
             } else if (data.message.indexOf("@nb3bot who's your daddy?") != -1) {
                 bot.sendChat("@" + thisUser + " @zubohm is my daddy");
             }
+
+            if(/.*this.*new.*plug.*/i.test(data.message))
+                bot.sendChat('@' + thisUser + ' http://imgur.com/uG1wSj3');
 
 
             if (data.message == "!hello") {
@@ -815,17 +818,39 @@ new DubAPI({
 				bot.sendChat( "Custom css chooser: https://goo.gl/Gs6gih");	
 				
 	    } else if (data.message.split(" ")[0] == "!bg") {
-                var target = data.message.split(" ")[1];
+                var args = data.message.split(' ').slice(1);
+                var target = args[args.length - 1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
-                bot.sendChat(targetName + " Snaky's BGs: http://imgur.com/a/ZO2Nz");
-				bot.sendChat(" Maskinen's BGs: http://imgur.com/a/Up7b2");
-				
+                var bgLinks = {
+                    'Snaky': 'http://imgur.com/a/ZO2Nz',
+                    'Maskinen': 'http://imgur.com/a/Up7b2',
+                    'Netux': 'http://imgur.com/a/j6QbM'
+                };
+                function checkIfSpecify() {
+                    var r = null;
+                    Object.keys(bgLinks).forEach(function(name) {
+                        if(name.toLowerCase() === args[0].toLowerCase())
+                            r = name;
+                    });
+                    return r;
+                }
+                var bgUrl;
+                if(args.length > 0 && (bgUrl = checkIfSpecify()) !== null) {
+                    bot.sendChat(targetName + ' ' + bgUrl + "'s BGs: " + bgLinks[bgUrl]);
+                } else {
+                    Object.keys(bgLinks).forEach(function(name, i) {
+                        bot.sendChat((i === 0 ? targetName : '') + ' ' + name + "'s BGs: " + bgLinks[name]);
+                    });
+                }
 	    } else if (data.message.split(" ")[0] == "!queue") {
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
+                /*
                 bot.sendChat(targetName + " 1. Click Queue a song (under the video)");	
 				bot.sendChat( " 2. Search the song you would like to play in the search bar at the top.")
 				bot.sendChat( " 3. Press the play button next to the song of your choice. Your song will have been queued")
+				*/
+                bot.sendChat(targetName + 'How to Queue a Song: http://imgur.com/a/Q7nNN');
             }
             /*
             else if(data.message == "!botwars")
@@ -910,7 +935,7 @@ new DubAPI({
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
                 bot.sendChat(targetName + ' Please stick to English in this room, doing otherwise will result in a mute.');
-            } else if (data.message.split(" ")[0] == "!shush") {
+            } else if (data.message.split(" ")[0] == /!(shush|sush)/) {
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
                 bot.sendChat(targetName + ' (click for better quality) http://i.imgur.com/uFE8PfA.png');
@@ -1061,7 +1086,7 @@ new DubAPI({
             }
         } catch (x) {
             //bot.sendChat('uh oh, something went wrong :S');
-            console.log('uh oh, something went wrong | timestamp: ' + new Date().toDateString());
+            console.log('uh oh, something went wrong | timestamp: ' + new Date().toString());
             console.error(x);
             console.log('---------------------------')
         }
