@@ -19,6 +19,11 @@
       "phrase": "rossie",
       "reason": "Saying a banned word.",
       "banTime": 60
+    },
+    {
+      "phrase": "joblink.xyz",
+      "reason": "Scam/Virus",
+      "banTime": "p"
     }
   ]
 }
