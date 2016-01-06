@@ -947,6 +947,7 @@ new DubAPI({
                     } else if (username == "everyone"){
                         bot.sendChat("Nice try! :4head:");
                         bot.moderateBanUser(data.user.id, 60);
+                        return 1;
                     }
                     var userFile;
                     userFile = "users/" + username + ".json";
