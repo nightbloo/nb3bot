@@ -916,7 +916,7 @@ new DubAPI({
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
                 bot.sendChat(targetName + ' Please stick to English in this room, doing otherwise will result in a mute.');
-            } else if (data.message.split(" ")[0] == /!(shush|sush)/) {
+            } else if (data.message.split(" ")[0] == "!shush") {
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
                 bot.sendChat(targetName + ' (click for better quality) http://i.imgur.com/uFE8PfA.png');
