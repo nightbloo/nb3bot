@@ -145,6 +145,7 @@ new DubAPI({
     var imgTime = (process.env.IMGTIME == undefined ? 15 : process.env.IMGTIME); // Cooldown in seconds
     var imgRemovalDubs_Amount = (process.env.IMAGEREMOVALDUBS_AMOUNT == undefined ? 10 : process.env.IMAGEREMOVALDUBS_AMOUNT),
         imgRemovalDubs_Time = (process.env.IMAGEREMOVALDUBS_TIME == undefined ? 5 : process.env.IMAGEREMOVALDUBS_TIME);
+    var imageLogMax = (process.env.IMAGELOGMAX == undefined ? 11 : process.env.IMAGELOGMAX);
     var lastMediaFKID = "", currentMediaPermaLink = undefined;
 
     if (err) return console.error(err);
@@ -339,7 +340,7 @@ new DubAPI({
                         info: 'File containing user chat logs where the link of an image was found. Useful to detect what type of image an user has posted.',
                         logs: [ ]
                     };
-                    if(lastLogs.logs.push(toSave) >= 6){
+                    if(lastLogs.logs.push(toSave) >= imageLogMax){
                         lastLogs.logs.shift();
                     }
                     fs.writeFile('python/imagelogs.json', JSON.stringify(lastLogs, null, 4), 'utf8', function(error) {
@@ -852,24 +853,7 @@ new DubAPI({
 				*/
                 bot.sendChat(targetName + 'How to Queue a Song: http://imgur.com/a/Q7nNN');
             }
-            /*
-            else if(data.message == "!botwars")
-            {
-                if(botWarsEnabled == true)
-                {
-                    var actions = ["Rock", "Paper", "Scissors"];
-                    botWars = actions[Math.floor((Math.random() * actions.length - 1) + 1)];
-                    bot.sendChat(botWars);
-                    botWarsEnabled = false;
-                    setTimeout(function() {botWarsEnabled = true;}, 300000);
-                }
-
-            }
-            */
             else if (data.message.split(" ")[0] == "!hate") {
-                //http://26.media.tumblr.com/tumblr_m1dh1b4xmF1qkip5yo2_400.gif
-
-
                 if (data.message.split(" ").length > 1) {
                     var username = data.message.split(" ")[1].replace("@", "");
                     var userFile;
@@ -877,6 +861,9 @@ new DubAPI({
                     if (username == "nb3bot") {
                         bot.sendChat("You can't hate me, you can only love me, @" + thisUser + "!");
 
+                    } else if (username == "everyone"){
+                        bot.sendChat("Nice try! :4head:");
+                        bot.moderateBanUser(data.user.id, 60);
                     } else {
                         fs.stat(userFile, function(err, stat) {
                             var username = data.message.split(" ")[1].replace("@", "");
@@ -917,12 +904,6 @@ new DubAPI({
                     }
                 }
 
-
-
-
-                //console.log(userData);
-                //bot.sendChat("@"+username+" "+thisUser+" has sent some love your way! <3 You now have "+userData.love+" love points. http://24.media.tumblr.com/tumblr_lyfkhjbHRL1r8la7go1_500.gif");
-
             } else if (data.message.split(" ")[0] == "!plops") {
                 bot.sendChat("@" + thisUser + " :poop:");
             } else if (data.message.split(" ")[0] == "!ping") {
@@ -953,18 +934,19 @@ new DubAPI({
                     var request = data.message.replace("!request ", "");
                     fs.appendFileSync("requests.txt", thisUser + " : " + request + os.EOL);
                     bot.sendChat("@" + thisUser + " your request has been acknowledged!");
-                    //console.log("@"+thisUser+" your request has been acknowledged!");
                 }
 
             } else if (data.message == "!" + thisUser) {
                 bot.sendChat("@" + thisUser + " is an awesome dude! <3 :)");
             } else if (data.message.split(" ")[0] == "!love") {
-                //http://26.media.tumblr.com/tumblr_m1dh1b4xmF1qkip5yo2_400.gif
                 if (data.message.split(" ").length > 1) {
                     var username = data.message.split(" ")[1].replace("@", "");
                     if (username == thisUser) {
                         bot.sendChat("@" + thisUser + " just use your hand....");
                         return 1;
+                    } else if (username == "everyone"){
+                        bot.sendChat("Nice try! :4head:");
+                        bot.moderateBanUser(data.user.id, 60);
                     }
                     var userFile;
                     userFile = "users/" + username + ".json";
@@ -1027,13 +1009,6 @@ new DubAPI({
                     }
 
                 }
-
-
-
-
-                //console.log(userData);
-                //bot.sendChat("@"+username+" "+thisUser+" has sent some love your way! <3 You now have "+userData.love+" love points. http://24.media.tumblr.com/tumblr_lyfkhjbHRL1r8la7go1_500.gif");
-
             } else if (/!(love\%|lovepercent|lovepercentage)/.test(data.message.split(" ")[0])) {
                 if (data.message.split(" ").length > 1) {
                     var username = data.message.split(" ")[1].replace("@", "");
