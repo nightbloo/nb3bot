@@ -80,7 +80,7 @@
                         
                         
                         Keys
-                        ~ = reccomendation
+                        ~ = recommendation
                         [] = arg
                         **************************************************************************
                         **************************************************************************
@@ -145,6 +145,7 @@ new DubAPI({
     var imgTime = (process.env.IMGTIME == undefined ? 15 : process.env.IMGTIME); // Cooldown in seconds
     var imgRemovalDubs_Amount = (process.env.IMAGEREMOVALDUBS_AMOUNT == undefined ? 10 : process.env.IMAGEREMOVALDUBS_AMOUNT),
         imgRemovalDubs_Time = (process.env.IMAGEREMOVALDUBS_TIME == undefined ? 5 : process.env.IMAGEREMOVALDUBS_TIME);
+    var imageLogMax = (process.env.IMAGELOGMAX == undefined ? 11 : process.env.IMAGELOGMAX);
     var lastMediaFKID = "", currentMediaPermaLink = undefined;
 
     if (err) return console.error(err);
@@ -164,7 +165,7 @@ new DubAPI({
     console.log("--------------------------Version 0.15----------------------------------------------");
 
     console.log('Checking if all directories exists...');
-    var dataDirectories = ['history', 'quotes', 'scores', 'users'];
+    var dataDirectories = ['history', 'quotes', 'scores', 'users', 'python'];
     dataDirectories.forEach(function(dirStr) {
         if (fs.existsSync(dirStr)) return;
         console.log('Directory ' + dirStr + ' doesn\'t exists, creating it...');
@@ -339,7 +340,11 @@ new DubAPI({
                         info: 'File containing user chat logs where the link of an image was found. Useful to detect what type of image an user has posted.',
                         logs: [ ]
                     };
+<<<<<<< HEAD
                     if(lastLogs.logs.push(toSave) >= 11){
+=======
+                    if(lastLogs.logs.push(toSave) >= imageLogMax){
+>>>>>>> refs/remotes/origin/master
                         lastLogs.logs.shift();
                     }
                     fs.writeFile('python/imagelogs.json', JSON.stringify(lastLogs, null, 4), 'utf8', function(error) {
@@ -438,6 +443,9 @@ new DubAPI({
                 bot.sendChat("@" + thisUser + " @zubohm is my daddy");
             }
 
+            if(/.*this.*new.*plug.*/i.test(data.message))
+                bot.sendChat('@' + thisUser + ' http://imgur.com/uG1wSj3');
+
 
             if (data.message == "!hello") {
                 bot.sendChat("Hi There, @" + data.user.username);
@@ -460,7 +468,7 @@ new DubAPI({
                     }
                 }
             } else if (data.message.split(" ")[0] == "!setimgtime") {
-                if (data.user.hasPermission('ban')) {
+                if (bot.roles[data.user.role].rights.contains("ban")) {
                     if (data.message.split(" ")[1] == undefined) return 1;
                     var input = isNaN(data.message.split(" ")[1]);
                     if (!input) {
@@ -815,36 +823,41 @@ new DubAPI({
 				bot.sendChat( "Custom css chooser: https://goo.gl/Gs6gih");	
 				
 	    } else if (data.message.split(" ")[0] == "!bg") {
-                var target = data.message.split(" ")[1];
+                var args = data.message.split(' ').slice(1);
+                var target = args[args.length - 1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
-                bot.sendChat(targetName + " Snaky's BGs: http://imgur.com/a/ZO2Nz");
-				bot.sendChat(" Maskinen's BGs: http://imgur.com/a/Up7b2");
-				
+                var bgLinks = {
+                    'Snaky': 'http://imgur.com/a/ZO2Nz',
+                    'Maskinen': 'http://imgur.com/a/Up7b2',
+                    'Netux': 'http://imgur.com/a/j6QbM'
+                };
+                function checkIfSpecify() {
+                    var r = null;
+                    Object.keys(bgLinks).forEach(function(name) {
+                        if(name.toLowerCase() === args[0].toLowerCase())
+                            r = name;
+                    });
+                    return r;
+                }
+                var bgUrl;
+                if(args.length > 0 && (bgUrl = checkIfSpecify()) !== null) {
+                    bot.sendChat(targetName + ' ' + bgUrl + "'s BGs: " + bgLinks[bgUrl]);
+                } else {
+                    Object.keys(bgLinks).forEach(function(name, i) {
+                        bot.sendChat((i === 0 ? targetName : '') + ' ' + name + "'s BGs: " + bgLinks[name]);
+                    });
+                }
 	    } else if (data.message.split(" ")[0] == "!queue") {
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
+                /*
                 bot.sendChat(targetName + " 1. Click Queue a song (under the video)");	
 				bot.sendChat( " 2. Search the song you would like to play in the search bar at the top.")
 				bot.sendChat( " 3. Press the play button next to the song of your choice. Your song will have been queued")
+				*/
+                bot.sendChat(targetName + 'How to Queue a Song: http://imgur.com/a/Q7nNN');
             }
-            /*
-            else if(data.message == "!botwars")
-            {
-                if(botWarsEnabled == true)
-                {
-                    var actions = ["Rock", "Paper", "Scissors"];
-                    botWars = actions[Math.floor((Math.random() * actions.length - 1) + 1)];
-                    bot.sendChat(botWars);
-                    botWarsEnabled = false;
-                    setTimeout(function() {botWarsEnabled = true;}, 300000);
-                }
-
-            }
-            */
             else if (data.message.split(" ")[0] == "!hate") {
-                //http://26.media.tumblr.com/tumblr_m1dh1b4xmF1qkip5yo2_400.gif
-
-
                 if (data.message.split(" ").length > 1) {
                     var username = data.message.split(" ")[1].replace("@", "");
                     var userFile;
@@ -852,6 +865,9 @@ new DubAPI({
                     if (username == "nb3bot") {
                         bot.sendChat("You can't hate me, you can only love me, @" + thisUser + "!");
 
+                    } else if (username == "everyone"){
+                        bot.sendChat("Nice try! :4head:");
+                        bot.moderateBanUser(data.user.id, 60);
                     } else {
                         fs.stat(userFile, function(err, stat) {
                             var username = data.message.split(" ")[1].replace("@", "");
@@ -892,12 +908,6 @@ new DubAPI({
                     }
                 }
 
-
-
-
-                //console.log(userData);
-                //bot.sendChat("@"+username+" "+thisUser+" has sent some love your way! <3 You now have "+userData.love+" love points. http://24.media.tumblr.com/tumblr_lyfkhjbHRL1r8la7go1_500.gif");
-
             } else if (data.message.split(" ")[0] == "!plops") {
                 bot.sendChat("@" + thisUser + " :poop:");
             } else if (data.message.split(" ")[0] == "!ping") {
@@ -928,17 +938,19 @@ new DubAPI({
                     var request = data.message.replace("!request ", "");
                     fs.appendFileSync("requests.txt", thisUser + " : " + request + os.EOL);
                     bot.sendChat("@" + thisUser + " your request has been acknowledged!");
-                    //console.log("@"+thisUser+" your request has been acknowledged!");
                 }
 
             } else if (data.message == "!" + thisUser) {
                 bot.sendChat("@" + thisUser + " is an awesome dude! <3 :)");
             } else if (data.message.split(" ")[0] == "!love") {
-                //http://26.media.tumblr.com/tumblr_m1dh1b4xmF1qkip5yo2_400.gif
                 if (data.message.split(" ").length > 1) {
                     var username = data.message.split(" ")[1].replace("@", "");
                     if (username == thisUser) {
                         bot.sendChat("@" + thisUser + " just use your hand....");
+                        return 1;
+                    } else if (username == "everyone"){
+                        bot.sendChat("Nice try! :4head:");
+                        bot.moderateBanUser(data.user.id, 60);
                         return 1;
                     }
                     var userFile;
@@ -1002,13 +1014,6 @@ new DubAPI({
                     }
 
                 }
-
-
-
-
-                //console.log(userData);
-                //bot.sendChat("@"+username+" "+thisUser+" has sent some love your way! <3 You now have "+userData.love+" love points. http://24.media.tumblr.com/tumblr_lyfkhjbHRL1r8la7go1_500.gif");
-
             } else if (/!(love\%|lovepercent|lovepercentage)/.test(data.message.split(" ")[0])) {
                 if (data.message.split(" ").length > 1) {
                     var username = data.message.split(" ")[1].replace("@", "");
@@ -1061,7 +1066,7 @@ new DubAPI({
             }
         } catch (x) {
             //bot.sendChat('uh oh, something went wrong :S');
-            console.log('uh oh, something went wrong | timestamp: ' + new Date().toDateString());
+            console.log('uh oh, something went wrong | timestamp: ' + new Date().toString());
             console.error(x);
             console.log('---------------------------')
         }
