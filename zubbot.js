@@ -140,6 +140,10 @@ new DubAPI({
     var botWars = "";
     var botWarsEnabled = true;
     var neonCat = true;
+    var lastChat = {
+        userID: 0,
+        id: 0
+    };
     var userCooldown = new Array();
     var cooldown = (process.env.COOLDOWN == undefined ? 30 : process.env.COOLDOWN); // Cooldown in seconds
     var imgTime = (process.env.IMGTIME == undefined ? 15 : process.env.IMGTIME); // Cooldown in seconds
@@ -275,6 +279,13 @@ new DubAPI({
         }
 
         try {
+            if(data.user.id == lastChat.userID){
+                data.id = lastChat.id;
+            } else{
+                lastChat.id = data.id;
+                lastChat.userID = data.user.id;
+            }
+
             if (/\@nb3bot (rock|paper|scissors)/gi.test(data.message)) {
                 var rps = ['rock', 'paper', 'scissors'],
                     pick = Math.floor(Math.random() * rps.length);
@@ -310,7 +321,6 @@ new DubAPI({
                 }
             });
 
-
             var re = /http(|s):\/\/.+\.(gif|png|jpg|jpeg)/i;
             if (re.test(data.message.toLowerCase()) && data.user.id !== bot.getSelf().id) {
                 var toSave = {
@@ -340,11 +350,7 @@ new DubAPI({
                         info: 'File containing user chat logs where the link of an image was found. Useful to detect what type of image an user has posted.',
                         logs: [ ]
                     };
-<<<<<<< HEAD
-                    if(lastLogs.logs.push(toSave) >= 11){
-=======
                     if(lastLogs.logs.push(toSave) >= imageLogMax){
->>>>>>> refs/remotes/origin/master
                         lastLogs.logs.shift();
                     }
                     fs.writeFile('python/imagelogs.json', JSON.stringify(lastLogs, null, 4), 'utf8', function(error) {
