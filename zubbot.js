@@ -274,6 +274,7 @@ new DubAPI({
         if (typeof data === "undefined" || typeof data.user === "undefined") {
             console.log("Data is undefined");
             // It won't crash now.
+            bot.reconnect();
             return 1;
         }
 
