@@ -42,16 +42,13 @@
                         **************************************************************************
                         !hello - Bot Responds saying hello back.
                         !request [request] - request a feature to the BOT
-                        !ban - fake ban by bot
                         !del [file] - Bot responds saying *file* deleted
                         !gaben - pulls a random gaben picture from /r/gentlemangabers
-                        !urban [word(s)] - pulls a definition from urban dict.
                         !quote [user] - pulls a quote from the quotes folder for *user*
                         !meme [text] - generates a meme from memecaptain
                         !song - pulls song data from dubtrack
                         !stream - pulls nb3 stream data from twitch
-                        !nyancat - MEOW
-                        !lastplayed - Shows when the song was last played
+                        !lastplayed - Shows when the song was last played -- Slightly bugged atm
                         !props - gives props to the current DJ
                         !love [user] - gives someone love <3
                         !lovepercent [user] - calculates love percentage between you and user
@@ -63,8 +60,6 @@
                         !kappa [user] - sends a kappa to somebody
                         !hate [user] - Breaks someone's heart </3
                         !plops - Echoe's a poop.
-                        !burps - Echoe's Barney burping.
-                        !girlalert - ALERT, GIRL DETECTED.
                         ![user] - says the user is an awesome person.
                         !agar - host an Agar.io party.
                         !pong - ping!
