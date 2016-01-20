@@ -356,7 +356,7 @@ new DubAPI({
 
             var thisUser = data.user.username;
 
-            var userFile;
+            /*var userFile;
             userFile = "quotes/" + thisUser + ".txt";
             fs.stat(userFile, function(err, stat) {
                 var thisUser = data.user.username;
@@ -375,7 +375,7 @@ new DubAPI({
                 } else {
                     console.log('Some other error: ', err.code);
                 }
-            });
+            });*/
 
             if (userCooldown.contains(thisUser)) {
                 return 1;
@@ -492,7 +492,7 @@ new DubAPI({
                     }
                 });
             }
-            else if (data.message.split(" ")[0] == "!quote") {
+            /*else if (data.message.split(" ")[0] == "!quote") {
                 var username = data.message.split(" ")[1];
                 var userFile;
                 userFile = "quotes/" + username + ".txt";
@@ -519,7 +519,7 @@ new DubAPI({
                         console.log('Some other error: ', err.code);
                     }
                 });
-            } else if (data.message.split(" ")[0] == "!meme") {
+            }*/ else if (data.message.split(" ")[0] == "!meme") {
                 var meme = data.message.replace("!meme ", "");
 
                 if (meme.indexOf("why not") != -1) {
