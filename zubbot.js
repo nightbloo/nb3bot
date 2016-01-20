@@ -145,7 +145,8 @@ new DubAPI({
     var imgRemovalDubs_Amount = (process.env.IMAGEREMOVALDUBS_AMOUNT == undefined ? 10 : process.env.IMAGEREMOVALDUBS_AMOUNT),
         imgRemovalDubs_Time = (process.env.IMAGEREMOVALDUBS_TIME == undefined ? 5 : process.env.IMAGEREMOVALDUBS_TIME);
     var imageLogMax = (process.env.IMAGELOGMAX == undefined ? 11 : process.env.IMAGELOGMAX);
-    var lastMediaFKID = "", currentMediaPermaLink = undefined;
+    var lastMediaFKID = "",
+        currentMediaPermaLink = undefined;
 
     if (err) return console.error(err);
     console.log("-----------------------------------------------------------------------------------");
@@ -207,7 +208,7 @@ new DubAPI({
             if (currentType == "soundcloud") {
                 currentStream = data.media.streamURL;
                 currentMediaPermaLink = "not found (?!) or something went wrong";
-                if(accountObj.sc_client_id) {
+                if (accountObj.sc_client_id) {
                     httpReq({
                         hostname: 'api.soundcloud.com',
                         path: '/tracks/' + currentID + '?client_id=' + accountObj.sc_client_id,
@@ -215,14 +216,20 @@ new DubAPI({
                     }, function(res) {
                         var data = '';
                         res.setEncoding('utf8');
-                        res.on('data', function(chunk) { data += chunk; });
-                        res.on('error', function(x) { console.error(x); });
-                        res.on('end', function() { currentMediaPermaLink = JSON.parse(data).permalink_url; });
+                        res.on('data', function(chunk) {
+                            data += chunk;
+                        });
+                        res.on('error', function(x) {
+                            console.error(x);
+                        });
+                        res.on('end', function() {
+                            currentMediaPermaLink = JSON.parse(data).permalink_url;
+                        });
                     }).end();
                 }
             } else currentMediaPermaLink = 'https://youtube.com/watch?v=' + currentID;
             bot.updub();
-            var historyFile = "history/" + lastMediaFKID + ".txt";
+            /*var historyFile = "history/" + lastMediaFKID + ".txt";
             // Check for history file
             if (lastMediaFKID.length > 0) {
                 fs.stat(historyFile, function(err, stat) {
@@ -261,7 +268,7 @@ new DubAPI({
                         console.log('Some other error: ', err.code);
                     }
                 });
-            }
+            }*/
         }
     });
     bot.on(bot.events.chatMessage, function(data) {
@@ -274,9 +281,9 @@ new DubAPI({
         }
 
         try {
-            if(data.user.id == lastChat.userID){
+            if (data.user.id == lastChat.userID) {
                 data.id = lastChat.id;
-            } else{
+            } else {
                 lastChat.id = data.id;
                 lastChat.userID = data.user.id;
             }
@@ -319,8 +326,8 @@ new DubAPI({
             var re = /http(|s):\/\/.+\.(gif|png|jpg|jpeg)/i;
             if (re.test(data.message.toLowerCase()) && data.user.id !== bot.getSelf().id) {
                 var toSave = {
-                    timestamp: [ Date.now(), new Date().toString() ],
-                    user: [ data.user.username, data.user.id ],
+                    timestamp: [Date.now(), new Date().toString()],
+                    user: [data.user.username, data.user.id],
                     message: data.message,
                     punishType: undefined
                 };
@@ -343,13 +350,13 @@ new DubAPI({
                 fs.exists('python/imagelogs.json', function(itDoes) {
                     var lastLogs = itDoes ? JSON.parse(fs.readFileSync('python/imagelogs.json', 'utf8')) : {
                         info: 'File containing user chat logs where the link of an image was found. Useful to detect what type of image an user has posted.',
-                        logs: [ ]
+                        logs: []
                     };
-                    if(lastLogs.logs.push(toSave) >= imageLogMax){
+                    if (lastLogs.logs.push(toSave) >= imageLogMax) {
                         lastLogs.logs.shift();
                     }
                     fs.writeFile('python/imagelogs.json', JSON.stringify(lastLogs, null, 4), 'utf8', function(error) {
-                        if(error) console.log('Error updating imagelogs.json →', error);
+                        if (error) console.log('Error updating imagelogs.json →', error);
                     });
                 });
             }
@@ -384,8 +391,7 @@ new DubAPI({
                 setTimeout(function() {
                     userCooldown.remove(thisUser);
                 }, cooldown * 1000);
-            } else if (data.user.role == null) {
-            } else if (bot.roles[data.user.role].type == "resident-dj" && data.message.indexOf('!') != -1){
+            } else if (data.user.role == null) {} else if (bot.roles[data.user.role].type == "resident-dj" && data.message.indexOf('!') != -1) {
                 userCooldown.push(thisUser);
                 setTimeout(function() {
                     userCooldown.remove(thisUser);
@@ -444,7 +450,7 @@ new DubAPI({
                 bot.sendChat("@" + thisUser + " @zubohm is my daddy");
             }
 
-            if(/.*this.*new.*plug.*/i.test(data.message))
+            if (/.*this.*new.*plug.*/i.test(data.message))
                 bot.sendChat('@' + thisUser + ' http://imgur.com/uG1wSj3');
 
 
@@ -519,7 +525,8 @@ new DubAPI({
                         console.log('Some other error: ', err.code);
                     }
                 });
-            }*/ else if (data.message.split(" ")[0] == "!meme") {
+            }*/
+            else if (data.message.split(" ")[0] == "!meme") {
                 var meme = data.message.replace("!meme ", "");
 
                 if (meme.indexOf("why not") != -1) {
@@ -649,7 +656,8 @@ new DubAPI({
                 setTimeout(function() {
                     neonCat = true;
                 }, 60000);
-            } else if (data.message == "!lastplayed") {
+            }
+            /*else if (data.message == "!lastplayed") {
                 var historyFile = "history/" + currentID + ".txt";
                 fs.stat(historyFile, function(err, stat) {
 
@@ -680,7 +688,8 @@ new DubAPI({
                         console.log('Some other error: ', err.code);
                     }
                 });
-            } else if (data.message == "!props") {
+            }*/
+            /*else if (data.message == "!props") {
                 if (thisUser === currentDJName) {
                     bot.sendChat('@' + thisUser + ' we know you love your song, but let others also prop you!');
                     return;
@@ -735,7 +744,8 @@ new DubAPI({
 
 
 
-            } else if (data.message == "!eta") {
+            } */
+            else if (data.message == "!eta") {
                 bot.sendChat("In order to get the ETA Timer, please download the DubX Extension from https://dubx.net/");
                 bot.sendChat("http://i.imgur.com/ldj2jqf.png");
             } else if (data.message == "!myprops") {
@@ -770,7 +780,8 @@ new DubAPI({
                         console.log('Some other error: ', err.code);
                     }
                 });
-            } else if (data.message == "!mylove") {
+            }
+            /*else if (data.message == "!mylove") {
 
                 var userFile;
                 var thisUser = data.user.username;
@@ -802,11 +813,12 @@ new DubAPI({
                         console.log('Some other error: ', err.code);
                     }
                 });
-            } else if (data.message == "!rules") {
+            } */
+            else if (data.message == "!rules") {
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
                 bot.sendChat(targetName + " Rules: http://git.io/vWJnY");
-				
+
             } else if (data.message.split(" ")[0] == "!kappa") {
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
@@ -816,14 +828,14 @@ new DubAPI({
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
                 bot.sendChat(targetName + " you can download DubX at http://www.dubx.net");
-				
-	    } else if (data.message.split(" ")[0] == "!css") {
+
+            } else if (data.message.split(" ")[0] == "!css") {
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
                 bot.sendChat(targetName + " Fancy css files: http://imgur.com/a/WeXhS");
-				bot.sendChat( "Custom css chooser: https://goo.gl/Gs6gih");	
-				
-	    } else if (data.message.split(" ")[0] == "!bg") {
+                bot.sendChat("Custom css chooser: https://goo.gl/Gs6gih");
+
+            } else if (data.message.split(" ")[0] == "!bg") {
                 var args = data.message.split(' ').slice(1);
                 var target = args[args.length - 1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
@@ -832,33 +844,34 @@ new DubAPI({
                     'Maskinen': 'http://imgur.com/a/Up7b2',
                     'Netux': 'http://imgur.com/a/j6QbM'
                 };
+
                 function checkIfSpecify() {
                     var r = null;
                     Object.keys(bgLinks).forEach(function(name) {
-                        if(name.toLowerCase() === args[0].toLowerCase())
+                        if (name.toLowerCase() === args[0].toLowerCase())
                             r = name;
                     });
                     return r;
                 }
                 var bgUrl;
-                if(args.length > 0 && (bgUrl = checkIfSpecify()) !== null) {
+                if (args.length > 0 && (bgUrl = checkIfSpecify()) !== null) {
                     bot.sendChat(targetName + ' ' + bgUrl + "'s BGs: " + bgLinks[bgUrl]);
                 } else {
                     Object.keys(bgLinks).forEach(function(name, i) {
                         bot.sendChat((i === 0 ? targetName : '') + ' ' + name + "'s BGs: " + bgLinks[name]);
                     });
                 }
-	    } else if (data.message.split(" ")[0] == "!queue") {
+            } else if (data.message.split(" ")[0] == "!queue") {
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
                 /*
-                bot.sendChat(targetName + " 1. Click Queue a song (under the video)");	
-				bot.sendChat( " 2. Search the song you would like to play in the search bar at the top.")
-				bot.sendChat( " 3. Press the play button next to the song of your choice. Your song will have been queued")
-				*/
+            bot.sendChat(targetName + " 1. Click Queue a song (under the video)");	
+			bot.sendChat( " 2. Search the song you would like to play in the search bar at the top.")
+			bot.sendChat( " 3. Press the play button next to the song of your choice. Your song will have been queued")
+			*/
                 bot.sendChat(targetName + 'How to Queue a Song: http://imgur.com/a/Q7nNN');
             }
-            else if (data.message.split(" ")[0] == "!hate") {
+            /*else if (data.message.split(" ")[0] == "!hate") {
                 if (data.message.split(" ").length > 1) {
                     var username = data.message.split(" ")[1].replace("@", "");
                     var userFile;
@@ -866,7 +879,7 @@ new DubAPI({
                     if (username == "nb3bot") {
                         bot.sendChat("You can't hate me, you can only love me, @" + thisUser + "!");
 
-                    } else if (username == "everyone"){
+                    } else if (username == "everyone") {
                         bot.sendChat("Nice try! :4head:");
                         bot.moderateBanUser(data.user.id, 60);
                     } else {
@@ -909,7 +922,8 @@ new DubAPI({
                     }
                 }
 
-            } else if (data.message.split(" ")[0] == "!plops") {
+            }*/
+            else if (data.message.split(" ")[0] == "!plops") {
                 bot.sendChat("@" + thisUser + " :poop:");
             } else if (data.message.split(" ")[0] == "!ping") {
                 bot.sendChat("@" + thisUser + " pong!");
@@ -943,13 +957,14 @@ new DubAPI({
 
             } else if (data.message == "!" + thisUser) {
                 bot.sendChat("@" + thisUser + " is an awesome dude! <3 :)");
-            } else if (data.message.split(" ")[0] == "!love") {
+            }
+            /* else if (data.message.split(" ")[0] == "!love") {
                 if (data.message.split(" ").length > 1) {
                     var username = data.message.split(" ")[1].replace("@", "");
                     if (username == thisUser) {
                         bot.sendChat("@" + thisUser + " just use your hand....");
                         return 1;
-                    } else if (username == "everyone"){
+                    } else if (username == "everyone") {
                         bot.sendChat("Nice try! :4head:");
                         bot.moderateBanUser(data.user.id, 60);
                         return 1;
@@ -1015,7 +1030,8 @@ new DubAPI({
                     }
 
                 }
-            } else if (/!(love\%|lovepercent|lovepercentage)/.test(data.message.split(" ")[0])) {
+            } */
+            else if (/!(love\%|lovepercent|lovepercentage)/.test(data.message.split(" ")[0])) {
                 if (data.message.split(" ").length > 1) {
                     var username = data.message.split(" ")[1].replace("@", "");
                     if (username == thisUser) {
