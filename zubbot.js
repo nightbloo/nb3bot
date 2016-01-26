@@ -843,7 +843,7 @@ new DubAPI({
                     'Snaky': 'https://imgur.com/a/ZO2Nz',
                     'Maskinen': 'https://imgur.com/a/Up7b2',
                     'Netux': 'https://imgur.com/a/j6QbM',
-                    'Frosolf': 'https://imgur.com/a/Xi4Cx'
+                    'Frosolf': 'https://imgur.com/a/NZvz1 | https://imgur.com/a/Xi4Cx (anime)'
                 };
 
                 function checkIfSpecify() {
