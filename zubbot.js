@@ -840,9 +840,10 @@ new DubAPI({
                 var target = args[args.length - 1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
                 var bgLinks = {
-                    'Snaky': 'http://imgur.com/a/ZO2Nz',
-                    'Maskinen': 'http://imgur.com/a/Up7b2',
-                    'Netux': 'http://imgur.com/a/j6QbM'
+                    'Snaky': 'https://imgur.com/a/ZO2Nz',
+                    'Maskinen': 'https://imgur.com/a/Up7b2',
+                    'Netux': 'https://imgur.com/a/j6QbM',
+                    'Frosolf': 'https://imgur.com/a/Xi4Cx'
                 };
 
                 function checkIfSpecify() {
