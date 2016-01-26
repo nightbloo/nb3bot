@@ -748,7 +748,7 @@ new DubAPI({
             else if (data.message == "!eta") {
                 bot.sendChat("In order to get the ETA Timer, please download the DubX Extension from https://dubx.net/");
                 bot.sendChat("http://i.imgur.com/ldj2jqf.png");
-            } else if (data.message == "!myprops") {
+            }/* else if (data.message == "!myprops") {
 
                 var userFile;
                 var thisUser = data.user.username;
@@ -780,7 +780,7 @@ new DubAPI({
                         console.log('Some other error: ', err.code);
                     }
                 });
-            }
+            } */
             /*else if (data.message == "!mylove") {
 
                 var userFile;
