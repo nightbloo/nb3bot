@@ -164,6 +164,7 @@ new DubAPI({
     console.log("------------------------ CREATED BY ZUBOHM ----------------------------------------");
     console.log("--------------------------Version 0.15----------------------------------------------");
 
+    /*
     console.log('Checking if all directories exists...');
     var dataDirectories = ['history', 'quotes', 'scores', 'users', 'python'];
     dataDirectories.forEach(function(dirStr) {
@@ -171,6 +172,7 @@ new DubAPI({
         console.log('Directory ' + dirStr + ' doesn\'t exists, creating it...');
         fs.mkdir(dirStr);
     });
+    */
 
     function connect() {
         bot.connect(process.env.DT_ROOM);
@@ -199,6 +201,7 @@ new DubAPI({
                 console.log("DubTrack died, fuck you too DubTrack");
                 return 1;
             }
+
             lastMediaFKID = currentID;
             currentName = data.media.name;
             currentID = data.media.fkid;
@@ -870,7 +873,7 @@ new DubAPI({
 			bot.sendChat( " 2. Search the song you would like to play in the search bar at the top.")
 			bot.sendChat( " 3. Press the play button next to the song of your choice. Your song will have been queued")
 			*/
-                bot.sendChat(targetName + 'How to Queue a Song: http://imgur.com/a/Q7nNN');
+                bot.sendChat(targetName + ' How to Queue a Song: http://imgur.com/a/Q7nNN');
             }
             /*else if (data.message.split(" ")[0] == "!hate") {
                 if (data.message.split(" ").length > 1) {
