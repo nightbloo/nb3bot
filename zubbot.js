@@ -1049,6 +1049,10 @@ new DubAPI({
                     if (data.message.split(' ').length > 2) username2 === data.message.split(' ')[2].replace('@', '');
                     bot.sendChat('@' + thisUser + ' there is ' + (Math.floor(Math.random() * 100)) + '% of :nb3h: between ' + username2 + ' and ' + username);
                 }
+            } else if(/!(community|room|roominfo|info)/.test(data.message.split(' ')[0])) {
+                var target = data.message.split(" ")[1];
+                var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
+                bot.sendChat(targetName + 'This community plays EDM | Trap | and Chill. Songs over 6:30 will be skipped so please follow the guidelines! Rules: http://git.io/vWJnY')
             }
 
             if (data.user.username == "netuxbot") {
