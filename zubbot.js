@@ -873,7 +873,7 @@ new DubAPI({
 			bot.sendChat( " 2. Search the song you would like to play in the search bar at the top.")
 			bot.sendChat( " 3. Press the play button next to the song of your choice. Your song will have been queued")
 			*/
-                bot.sendChat(targetName + ' How to Queue a Song: http://imgur.com/a/Q7nNN');
+                bot.sendChat(targetName + ' How to Queue a Song: https://imgur.com/a/FghLg');
             }
             /*else if (data.message.split(" ")[0] == "!hate") {
                 if (data.message.split(" ").length > 1) {
