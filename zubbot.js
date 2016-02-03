@@ -649,7 +649,7 @@ new DubAPI({
                     if (response.stream != null) {
                         bot.sendChat("NightBlue3 is streaming " + response.stream.game + "! You can watch him at http://www.twitch.tv/nightblue3!");
                     } else {
-                        bot.sendChat("NightBlue3 is not currently streaming!");
+                        bot.sendChat("NightBlue3 is not currently streaming! He streams at http://www.twitch.tv/nightblue3");
                     }
                 });
             } else if (data.message == "!nyancat" && neonCat == true) {
