@@ -183,7 +183,7 @@ new DubAPI({
         bot.moderateMuteUser(user.id);
         bot.sendChat(message);
         setTimeout(function() {
-            bot.moderateUnmuteUser(data.user.id);
+            bot.moderateUnmuteUser(user.id);
         }, time);
     }
 
@@ -1089,7 +1089,7 @@ new DubAPI({
                 }
 
             }
-            // timeout
+            // !timeout
             else  if (bot.hasPermission(data.user, 'mute') && bot.hasPermission(data.user, 'kick') && data.message.split(" ")[0] == "!timeout") {
                 var username = data.message.split(" ")[1].replace("@", "");
                 var muteuser = bot.getUserByName(username, true);
