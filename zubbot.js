@@ -19,7 +19,7 @@
                                                         ABOUT
                         **************************************************************************
                         
-                                            Nb3Bot is a bot created for the
+                                            NightBlueBot is a bot created for the
                                             NightBlue3 room on www.dubtrack.fm
                                             
                                             
@@ -116,7 +116,7 @@ var httpReq = require('http').request;
 
 var reddit = require('redwrap');
 var AgarioClient = require('agario-client');
-var agclient = new AgarioClient("nb3bot");
+var agclient = new AgarioClient("NightBlueBot");
 var runTime = 0;
 setInterval(function() {
     runTime += 1;
@@ -291,7 +291,7 @@ new DubAPI({
                 lastChat.userID = data.user.id;
             }
 
-            if (/\@nb3bot (rock|paper|scissors)/gi.test(data.message)) {
+            if (/\@NightBlueBot (rock|paper|scissors)/gi.test(data.message)) {
                 var rps = ['rock', 'paper', 'scissors'],
                     pick = Math.floor(Math.random() * rps.length);
                 bot.sendChat('@' + data.user.username + ' ' + ['rock', 'paper', 'scissors'][pick]);
@@ -401,7 +401,7 @@ new DubAPI({
                 }, cooldown * 1000 * 0.5);
             }
             // Non Commands -- Bot Responses to tagging him.
-            if (data.message.indexOf("nb3bot") != -1) {
+            if (data.message.indexOf("NightBlueBot") != -1) {
 
                 // Responses
                 if (data.message.indexOf("make me some food") != -1 || data.message.indexOf("make me some noodles") != -1) {
@@ -445,11 +445,11 @@ new DubAPI({
 
             }
 
-            if (data.message.indexOf("isn't that right") != -1 && data.message.indexOf("nb3bot") != -1 && data.user.username == "zubohm") {
+            if (data.message.indexOf("isn't that right") != -1 && data.message.indexOf("NightBlueBot") != -1 && data.user.username == "zubohm") {
                 bot.sendChat("That's right, creator! :)")
-            } else if (data.message.indexOf("@nb3bot o/") != -1) {
+            } else if (data.message.indexOf("@NightBlueBot o/") != -1) {
                 bot.sendChat("@" + thisUser + " o/");
-            } else if (data.message.indexOf("@nb3bot who's your daddy?") != -1) {
+            } else if (data.message.indexOf("@NightBlueBot who's your daddy?") != -1) {
                 bot.sendChat("@" + thisUser + " @zubohm is my daddy");
             }
 
@@ -692,7 +692,7 @@ new DubAPI({
                     }
                 });
             }*/
-            /*else if (data.message == "!props") {
+            else if (data.message == "!props") {
                 if (thisUser === currentDJName) {
                     bot.sendChat('@' + thisUser + ' we know you love your song, but let others also prop you!');
                     return;
@@ -747,11 +747,12 @@ new DubAPI({
 
 
 
-            } */
+            }
             else if (data.message == "!eta") {
                 bot.sendChat("In order to get the ETA Timer, please download the DubX Extension from https://dubx.net/");
                 bot.sendChat("http://i.imgur.com/ldj2jqf.png");
-            }/* else if (data.message == "!myprops") {
+            }
+            else if (data.message == "!myprops") {
 
                 var userFile;
                 var thisUser = data.user.username;
@@ -783,8 +784,8 @@ new DubAPI({
                         console.log('Some other error: ', err.code);
                     }
                 });
-            } */
-            /*else if (data.message == "!mylove") {
+            }
+            else if (data.message == "!mylove") {
 
                 var userFile;
                 var thisUser = data.user.username;
@@ -816,7 +817,7 @@ new DubAPI({
                         console.log('Some other error: ', err.code);
                     }
                 });
-            } */
+            }
             else if (data.message == "!rules") {
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
@@ -875,12 +876,12 @@ new DubAPI({
 			*/
                 bot.sendChat(targetName + ' How to Queue a Song: https://imgur.com/a/FghLg');
             }
-            /*else if (data.message.split(" ")[0] == "!hate") {
+            else if (data.message.split(" ")[0] == "!hate") {
                 if (data.message.split(" ").length > 1) {
                     var username = data.message.split(" ")[1].replace("@", "");
                     var userFile;
                     userFile = "users/" + username + ".json";
-                    if (username == "nb3bot") {
+                    if (username == "NightBlueBot") {
                         bot.sendChat("You can't hate me, you can only love me, @" + thisUser + "!");
 
                     } else if (username == "everyone") {
@@ -926,7 +927,7 @@ new DubAPI({
                     }
                 }
 
-            }*/
+            }
             else if (data.message.split(" ")[0] == "!plops") {
                 bot.sendChat("@" + thisUser + " :poop:");
             } else if (data.message.split(" ")[0] == "!ping") {
@@ -962,20 +963,20 @@ new DubAPI({
             } else if (data.message == "!" + thisUser) {
                 bot.sendChat("@" + thisUser + " is an awesome dude! <3 :)");
             }
-            /* else if (data.message.split(" ")[0] == "!love") {
+            else if (data.message.split(" ")[0] == "!love") {
                 if (data.message.split(" ").length > 1) {
                     var username = data.message.split(" ")[1].replace("@", "");
                     if (username == thisUser) {
                         bot.sendChat("@" + thisUser + " just use your hand....");
                         return 1;
-                    } else if (username == "everyone") {
+                    } else if (username == "everyone" || username == "all") {
                         bot.sendChat("Nice try! :4head:");
                         bot.moderateBanUser(data.user.id, 60);
                         return 1;
                     }
                     var userFile;
                     userFile = "users/" + username + ".json";
-                    if (username.toLowerCase() == "nb3bot") {
+                    if (username.toLowerCase() == "NightBlueBot") {
                         bot.sendChat("I love you too, @" + thisUser + "!");
                         return 1;
 
@@ -1034,14 +1035,14 @@ new DubAPI({
                     }
 
                 }
-            } */
+            }
             else if (/!(love\%|lovepercent|lovepercentage)/.test(data.message.split(" ")[0])) {
                 if (data.message.split(" ").length > 1) {
                     var username = data.message.split(" ")[1].replace("@", "");
                     if (username == thisUser) {
                         bot.sendChat("@" + thisUser + " can't tell that so I'm asking you: how much do you love yourself?");
                         return;
-                    } else if (username === 'nb3bot') {
+                    } else if (username === 'NightBlueBot') {
                         bot.sendChat('@' + thisUser + " of course I love you 100%, silly <3");
                         return;
                     }
@@ -1060,28 +1061,28 @@ new DubAPI({
                 botWars = botWars.toLowerCase();
                 if (netuxchoice == "rock" || netuxchoice == "paper" || netuxchoice == "scissors") {
                     if (botWars == "rock" && netuxchoice == "scissors") {
-                        var nb3Score = parseInt(fs.readFileSync("scores/nb3bot.txt"));
+                        var nb3Score = parseInt(fs.readFileSync("scores/NightBlueBot.txt"));
                         var netuxScore = parseInt(fs.readFileSync("scores/netuxbot.txt"));
                         nb3Score += 1;
-                        fs.writeFileSync("scores/nb3bot.txt", nb3Score);
-                        bot.sendChat("@nb3bot wins! Score: " + nb3Score + " - " + netuxScore + " (NB3-Netux)");
+                        fs.writeFileSync("scores/NightBlueBot.txt", nb3Score);
+                        bot.sendChat("@NightBlueBot wins! Score: " + nb3Score + " - " + netuxScore + " (NB3-Netux)");
 
                     } else if (botWars == "paper" && netuxchoice == "rock") {
-                        var nb3Score = parseInt(fs.readFileSync("scores/nb3bot.txt"));
+                        var nb3Score = parseInt(fs.readFileSync("scores/NightBlueBot.txt"));
                         var netuxScore = parseInt(fs.readFileSync("scores/netuxbot.txt"));
                         nb3Score += 1;
-                        fs.writeFileSync("scores/nb3bot.txt", nb3Score);
-                        bot.sendChat("@nb3bot wins! Score: " + nb3Score + " - " + netuxScore + " (NB3-Netux)");
+                        fs.writeFileSync("scores/NightBlueBot.txt", nb3Score);
+                        bot.sendChat("@NightBlueBot wins! Score: " + nb3Score + " - " + netuxScore + " (NB3-Netux)");
                     } else if (botWars == "scissors" && netuxchoice == "paper") {
-                        var nb3Score = parseInt(fs.readFileSync("scores/nb3bot.txt"));
+                        var nb3Score = parseInt(fs.readFileSync("scores/NightBlueBot.txt"));
                         var netuxScore = parseInt(fs.readFileSync("scores/netuxbot.txt"));
                         nb3Score += 1;
-                        fs.writeFileSync("scores/nb3bot.txt", nb3Score);
-                        bot.sendChat("@nb3bot wins! Score: " + nb3Score + " - " + netuxScore + " (NB3-Netux)");
+                        fs.writeFileSync("scores/NightBlueBot.txt", nb3Score);
+                        bot.sendChat("@NightBlueBot wins! Score: " + nb3Score + " - " + netuxScore + " (NB3-Netux)");
                     } else if (botWars == netuxchoice) {
                         bot.sendChat("It's a tie!");
                     } else {
-                        var nb3Score = parseInt(fs.readFileSync("scores/nb3bot.txt"));
+                        var nb3Score = parseInt(fs.readFileSync("scores/NightBlueBot.txt"));
                         var netuxScore = parseInt(fs.readFileSync("scores/netuxbot.txt"));
                         netuxScore += 1;
                         fs.writeFileSync("scores/netuxbot.txt", netuxScore);
