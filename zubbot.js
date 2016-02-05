@@ -1082,6 +1082,7 @@ new DubAPI({
                 var muteuser = bot.getUserByName(username, true);
                 if (muteuser) {
                     var muteTime = parseInt(data.message.split(" ")[2]);
+                    if (!muteTime) muteTime = 5;
                     timeMute(muteuser, 0, "@" + username + " Muted for " + muteTime + " minutes!");
                 }
                 else {
@@ -1095,6 +1096,7 @@ new DubAPI({
                 var muteuser = bot.getUserByName(username, true);
                 if (muteuser) {
                     var muteTime = parseInt(data.message.split(" ")[2]);
+                    if (!muteTime) muteTime = 5;
                     timeout(muteuser, 0, "@" + muteuser.username + " timed out for " + muteTime + " minutes!");
                 }
                 else {
