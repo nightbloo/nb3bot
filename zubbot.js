@@ -1101,7 +1101,7 @@ new DubAPI({
                 }
             }
             // !seppuku
-            else if (data.message.split(" ")[0] == "!timeout") {
+            else if (data.message.split(" ")[0] == "!seppuku") {
                 clearUserChat(data.user);
                 bot.sendChat("Cleared all chat by " + data.user.name);
             }
