@@ -188,9 +188,9 @@ new DubAPI({
     }
 
     function clearUserChat(user) {
-        for (msg  in bot.getChatHistory()) {
-            if (user.id == msg.user.id) {
-                bot.moderateDeleteChat(msg.id)
+        for (var message in bot.getChatHistory()) {
+            if (user.id == message.user.id) {
+                bot.moderateDeleteChat(message.id)
             }
         }
     }
