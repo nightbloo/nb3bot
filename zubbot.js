@@ -97,10 +97,10 @@ Array.prototype.remove = function(element) {
 };
 require('dotenv').load();
 var DubAPI = require('dubapi');
-var jsonfile = require('jsonfile')
-var fs = require('fs')
-var fse = require('fs-extra')
-var util = require('util')
+var jsonfile = require('jsonfile');
+var fs = require('fs');
+var fse = require('fs-extra');
+var util = require('util');
 var path = require('path');
 var os = require("os");
 var TwitchClient = require("node-twitchtv");
@@ -188,10 +188,11 @@ new DubAPI({
     }
 
     function clearUserChat(user) {
-        console.log(bot.getChatHistory());
-        for (var message in bot.getChatHistory()) {
-            if (user.id == message.user.id) {
-                bot.moderateDeleteChat(message.id)
+        var chatHistory = bot.getChatHistory();
+        var arrayLength = chatHistory.length;
+        for (var i = 0; i < arrayLength; i++) {
+            if (user.id == chatHistory[i].user.id) {
+                bot.moderateDeleteChat(chatHistory[i].id)
             }
         }
     }
@@ -202,8 +203,6 @@ new DubAPI({
     }
 
     bot.on('connected', function(name) {
-
-
         console.log('Connected to ' + name);
     });
 
@@ -1096,7 +1095,7 @@ new DubAPI({
                 var muteuser = bot.getUserByName(username, true);
                 if (muteuser) {
                     var muteTime = parseInt(data.message.split(" ")[2]);
-                    timeout(muteuser, 0, "@" + username + " timed out for " + muteTime + " minutes!");
+                    timeout(muteuser, 0, "@" + muteuser.username + " timed out for " + muteTime + " minutes!");
                 }
                 else {
                     bot.sendChat("No user found by the name " + username + ".")
@@ -1105,7 +1104,7 @@ new DubAPI({
             // !seppuku
             else if (data.message.split(" ")[0] == "!seppuku") {
                 clearUserChat(data.user);
-                bot.sendChat("Cleared all chat by " + data.user.name);
+                bot.sendChat("Cleared all chat by " + data.user.username);
             }
 
             if (data.user.username == "netuxbot") {
