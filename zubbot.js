@@ -231,7 +231,6 @@ new DubAPI({
                     }).end();
                 }
             } else currentMediaPermaLink = 'https://youtube.com/watch?v=' + currentID;
-            bot.updub();
             /*var historyFile = "history/" + lastMediaFKID + ".txt";
             // Check for history file
             if (lastMediaFKID.length > 0) {
