@@ -1077,7 +1077,7 @@ new DubAPI({
                 bot.sendChat(targetName + 'This community plays EDM | Trap | and Chill. Songs over 6:30 will be skipped so please follow the guidelines! Rules: http://git.io/vWJnY')
             }
             // !mute
-            else if (data.user.hasPermission('mute') && data.message.split(" ")[0] == "!mute") {
+            else if (bot.hasPermission(data.user, 'mute') && data.message.split(" ")[0] == "!mute") {
                 var username = data.message.split(" ")[1].replace("@", "");
                 var muteuser = bot.getUserByName(username, true);
                 if (muteuser) {
@@ -1087,9 +1087,10 @@ new DubAPI({
                 else {
                     bot.sendChat("No user found by the name " + username + ".")
                 }
+
             }
             // timeout
-            else  if (data.user.hasPermission('mute') && data.user.hasPermission('kick') && data.message.split(" ")[0] == "!timeout") {
+            else  if (bot.hasPermission(data.user, 'mute') && bot.hasPermission(data.user, 'kick') && data.message.split(" ")[0] == "!timeout") {
                 var username = data.message.split(" ")[1].replace("@", "");
                 var muteuser = bot.getUserByName(username, true);
                 if (muteuser) {
