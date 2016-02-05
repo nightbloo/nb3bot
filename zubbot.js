@@ -178,6 +178,28 @@ new DubAPI({
         bot.connect(process.env.DT_ROOM);
     }
 
+    function timeMute(user, time, message) {
+        time *= 60000;
+        bot.moderateMuteUser(user.id);
+        bot.sendChat(message);
+        setTimeout(function() {
+            bot.moderateUnmuteUser(data.user.id);
+        }, time);
+    }
+
+    function clearUserChat(user) {
+        for (msg  in bot.getChatHistory()) {
+            if (user.id == msg.user.id) {
+                bot.moderateDeleteChat(msg.id)
+            }
+        }
+    }
+
+    function timeout(user, time, message) {
+        clearUserChat(user);
+        timeMute(user, time, message)
+    }
+
     bot.on('connected', function(name) {
 
 
@@ -336,11 +358,11 @@ new DubAPI({
 
                 if (imgRemovalDubs_Amount >= 0 && data.user.dubs < imgRemovalDubs_Amount) {
                     bot.moderateDeleteChat(data.id);
-                    bot.moderateMuteUser(data.user.id);
-                    bot.sendChat('User muted for ' + imgRemovalDubs_Time + ' minutes. Reason: Sending Images having less than ' + imgRemovalDubs_Amount + ' dubs.');
-                    setTimeout(function() {
-                        bot.moderateUnmuteUser(data.user.id);
-                    }, imgRemovalDubs_Time * 60000);
+                    timeMute(
+                        data.user,
+                        imgRemovalDubs_Time * 60000,
+                        'User muted for ' + imgRemovalDubs_Time + ' minutes. Reason: Sending Images having less than ' + imgRemovalDubs_Amount + ' dubs.'
+                    );
                     toSave.punishType = 'mute';
                 } else {
                     setTimeout(function() {
@@ -1053,6 +1075,35 @@ new DubAPI({
                 var target = data.message.split(" ")[1];
                 var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
                 bot.sendChat(targetName + 'This community plays EDM | Trap | and Chill. Songs over 6:30 will be skipped so please follow the guidelines! Rules: http://git.io/vWJnY')
+            }
+            // !mute
+            else if (data.user.hasPermission('mute') && data.message.split(" ")[0] == "!mute") {
+                var username = data.message.split(" ")[1].replace("@", "");
+                var muteuser = bot.getUserByName(username, true);
+                if (muteuser) {
+                    var muteTime = parseInt(data.message.split(" ")[2]);
+                    timeMute(muteuser, 0, "@" + username + " Muted for " + muteTime + " minutes!");
+                }
+                else {
+                    bot.sendChat("No user found by the name " + username + ".")
+                }
+            }
+            // timeout
+            else  if (data.user.hasPermission('mute') && data.user.hasPermission('kick') && data.message.split(" ")[0] == "!timeout") {
+                var username = data.message.split(" ")[1].replace("@", "");
+                var muteuser = bot.getUserByName(username, true);
+                if (muteuser) {
+                    var muteTime = parseInt(data.message.split(" ")[2]);
+                    timeout(muteuser, 0, "@" + username + " timed out for " + muteTime + " minutes!");
+                }
+                else {
+                    bot.sendChat("No user found by the name " + username + ".")
+                }
+            }
+            // !seppuku
+            else if (data.message.split(" ")[0] == "!timeout") {
+                clearUserChat(data.user);
+                bot.sendChat("Cleared all chat by " + data.user.name);
             }
 
             if (data.user.username == "netuxbot") {
