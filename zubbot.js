@@ -196,12 +196,12 @@ new DubAPI({
     }
 
     function timeMute(user, time, message) {
-        time *= 60000;
+        var newTime = time * 60000;
         bot.moderateMuteUser(user.id);
         bot.sendChat(message);
         setTimeout(function () {
             bot.moderateUnmuteUser(user.id);
-        }, time);
+        }, newTime);
     }
 
     function clearUserChat(user) {
