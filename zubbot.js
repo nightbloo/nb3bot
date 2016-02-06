@@ -99,7 +99,6 @@ require('dotenv').load();
 var DubAPI = require('dubapi');
 var jsonfile = require('jsonfile');
 var fs = require('fs');
-var fse = require('fs-extra');
 var util = require('util');
 var path = require('path');
 var os = require("os");
@@ -121,6 +120,13 @@ var runTime = 0;
 setInterval(function() {
     runTime += 1;
 }, 1000);
+
+var sendgrid = null, zip;
+try {
+    sendgrid = require('sendgrid')(process.env.CHATLOGS_SENDGRID_KEY);
+    zip = require('node-zip')();
+} catch(x) { console.log('No SendGrid Key detected, chatlogs wont be recorded.'); }
+
 new DubAPI({
     username: process.env.DT_LOGIN,
     password: process.env.DT_PASS
@@ -164,15 +170,15 @@ new DubAPI({
     console.log("------------------------ CREATED BY ZUBOHM ----------------------------------------");
     console.log("--------------------------Version 0.15----------------------------------------------");
 
-    /*
     console.log('Checking if all directories exists...');
-    var dataDirectories = ['history', 'quotes', 'scores', 'users', 'python'];
+    var dataDirectories = ['history', 'quotes', 'users', 'python'];
     dataDirectories.forEach(function(dirStr) {
         if (fs.existsSync(dirStr)) return;
         console.log('Directory ' + dirStr + ' doesn\'t exists, creating it...');
         fs.mkdir(dirStr);
     });
-    */
+
+    if(sendgrid !== null) setupChatlogs(bot);
 
     function connect() {
         bot.connect(process.env.DT_ROOM);
@@ -1108,41 +1114,6 @@ new DubAPI({
                 clearUserChat(data.user);
                 bot.sendChat("Cleared all chat by " + data.user.username);
             }
-
-            if (data.user.username == "netuxbot") {
-                var netuxchoice = data.message.toLowerCase();
-                botWars = botWars.toLowerCase();
-                if (netuxchoice == "rock" || netuxchoice == "paper" || netuxchoice == "scissors") {
-                    if (botWars == "rock" && netuxchoice == "scissors") {
-                        var nb3Score = parseInt(fs.readFileSync("scores/NightBlueBot.txt"));
-                        var netuxScore = parseInt(fs.readFileSync("scores/netuxbot.txt"));
-                        nb3Score += 1;
-                        fs.writeFileSync("scores/NightBlueBot.txt", nb3Score);
-                        bot.sendChat("@NightBlueBot wins! Score: " + nb3Score + " - " + netuxScore + " (NB3-Netux)");
-
-                    } else if (botWars == "paper" && netuxchoice == "rock") {
-                        var nb3Score = parseInt(fs.readFileSync("scores/NightBlueBot.txt"));
-                        var netuxScore = parseInt(fs.readFileSync("scores/netuxbot.txt"));
-                        nb3Score += 1;
-                        fs.writeFileSync("scores/NightBlueBot.txt", nb3Score);
-                        bot.sendChat("@NightBlueBot wins! Score: " + nb3Score + " - " + netuxScore + " (NB3-Netux)");
-                    } else if (botWars == "scissors" && netuxchoice == "paper") {
-                        var nb3Score = parseInt(fs.readFileSync("scores/NightBlueBot.txt"));
-                        var netuxScore = parseInt(fs.readFileSync("scores/netuxbot.txt"));
-                        nb3Score += 1;
-                        fs.writeFileSync("scores/NightBlueBot.txt", nb3Score);
-                        bot.sendChat("@NightBlueBot wins! Score: " + nb3Score + " - " + netuxScore + " (NB3-Netux)");
-                    } else if (botWars == netuxchoice) {
-                        bot.sendChat("It's a tie!");
-                    } else {
-                        var nb3Score = parseInt(fs.readFileSync("scores/NightBlueBot.txt"));
-                        var netuxScore = parseInt(fs.readFileSync("scores/netuxbot.txt"));
-                        netuxScore += 1;
-                        fs.writeFileSync("scores/netuxbot.txt", netuxScore);
-                        bot.sendChat("@netuxbot wins! Score: " + nb3Score + " - " + netuxScore + " (NB3-Netux)");
-                    }
-                }
-            }
         } catch (x) {
             //bot.sendChat('uh oh, something went wrong :S');
             console.log('uh oh, something went wrong | timestamp: ' + new Date().toString());
@@ -1160,6 +1131,164 @@ new DubAPI({
 
 
 });
+
+function setupChatlogs(API) {
+    var lastSentTimestamp = null,
+        lastChatlogContents = null,
+        lastSongID = null,
+        lastDJUsername = null;
+
+    function getToday() { return new Date(new Date().toDateString() + ' 00:00:00') }
+    function forceSaveLogs() {
+        if(lastChatlogContents) {
+            console.log('Hold on a second, saving chatlogs');
+            fs.writeFileSync('chatlogs.txt', lastChatlogContents, 'utf8');
+        }
+    }
+    function refreshChatlogs(cb) {
+        lastSentTimestamp = getToday().getTime();
+        lastChatlogContents = 'timestamp=' + lastSentTimestamp + '\r\n';
+        fs.writeFile('chatlogs.txt', lastChatlogContents, 'utf8', cb);
+    }
+
+    /* Setup file (Reading & checking if it exists) */
+    fs.readFile('chatlogs.txt', 'utf8', function(err, contents) {
+        var now = new Date(), timestampRegExp = /(?!timestamp=)\d{1,17}/i;
+
+        if(err) {
+            if(err.code !== 'ENOENT') {
+                console.error(err);
+                return;
+            }
+            console.log("chatlogs.txt doesn't exists, making it");
+            refreshChatlogs(function(err1) {
+                if(err1) {
+                    console.log('Error creating chatlogs.txt');
+                    return console.error(err1);
+                }
+                console.log('Done creating chatlogs.txt')
+            });
+
+        }
+        if(!lastChatlogContents) lastChatlogContents = contents;
+        if(!lastSentTimestamp) lastSentTimestamp = parseInt(timestampRegExp.exec(contents.split('\r\n')[0]));
+
+        function sendMail() {
+            var zipFileName = 'chatlogs_' + new Date().toDateString().replace(/ /g, '_') + '.zip',
+                zipFile = zip.file('chatlogs.txt', fs.readFileSync('chatlogs.txt'));
+            var zipFileData = zipFile.generate({ base64:false, compression:'DEFLATE' });
+            fs.writeFileSync(zipFileName, zipFileData, 'binary');
+
+            sendgrid.send({
+                from: process.env.CHATLOGS_FROM,
+                to: process.env.CHATLOGS_TO,
+                subject: 'NightBlueBot Chat Logs - ' + now,
+                text: "NightBlueBot Chat Logs - " + now + ". Attached to this email",
+                files: [
+                    { path: zipFileName }
+                ]
+            }, function(err, json) {
+                if(err) {
+                    console.log('Error sending chatlog message');
+                    return console.error(err);
+                }
+
+                console.log('Email sent, refreshing chatlogs.txt');
+                refreshChatlogs(function(err1) {
+                    if(err1) {
+                        console.log('Error refreshing chatlogs.txt');
+                        return console.error(err1);
+                    }
+                    console.log('Done refreshing chatlogs.txt');
+                });
+            });
+
+            fs.unlink(zipFileName, function(err) {
+                if(err) {
+                    console.log('Error removing temporary zip file.');
+                    return console.error(err);
+                }
+            })
+        }
+
+        var tomorrow = getToday().setDate(now.getDay() + 1);
+        setTimeout(function() {
+            sendMail();
+            console.log('Sending Chatlogs email in ' + 86400000 + ' milliseconds.');
+            setInterval(sendMail, 86400000);
+        }, tomorrow - now.getTime() + 5);
+        console.log('Sending Chatlogs email in ' + (tomorrow - now.getTime() + 5) + ' milliseconds.');
+
+        function addChatLog(str) {
+            var prefix = new Date().toTimeString().split(' ')[0] + ' | ';
+            lastChatlogContents += '\r\n' + prefix + str;
+            fs.writeFile('chatlogs.txt', lastChatlogContents, 'utf8');
+        }
+
+        /* Setup events */
+        API.on(API.events.chatMessage, function(data) {
+            var role;
+            try { role = API.roles[data.user.role].label; }
+            catch(x) { role = 'Pleb'; }
+            addChatLog('(' + role + ') ' + data.user.username + ': ' + data.message);
+        });
+        API.on(API.events.roomPlaylistUpdate, function(data) {
+            if(!data.media || !data.user) return; // wut?
+            if(data.media.id === lastSongID) return;
+            lastSongID = data.media.id;
+            lastDJUsername = data.user.username;
+            addChatLog('[System] Current Song is ' + data.media.name + '. DJ is ' + data.user.username);
+        });
+        API.on(API.events.chatSkip, function(data) { addChatLog('[System] Song queued by ' + lastDJUsername + ' was skipped by ' + data.user.username); });
+        API.on('room_playlist-queue-reorder', function(data) { addChatLog('[System] ' + data.user.username + ' reordered the Queue.'); });
+        API.on('room_playlist-queue-remove-user-song', function(data) { addChatLog('[System] ' + data.user.username + ' removed a song queued by ' + data.removedUser.username + ' from the Queue.'); });
+        API.on('room_playlist-queue-remove-user', function(data) { addChatLog('[System] ' + data.user.username + ' cleared ' + data.removedUser.username + "'s queue."); });
+        API.on('user-pause-queue-mod', function(data) { addChatLog('[System] ' + data.mod.username + ' removed ' + data.user.username + ' from the Queue.'); });
+        API.on('room-lock-queue', function(data) { addChatLog('[System] ' + data.user.username + ' ' + (data.room.lockQueue ? 'locked' : 'unlocked') + " the room's Queue"); });
+        function chatLogSystemEvent(data) {
+            var user = data.user.username,
+                mod = data.mod.username,
+                type = '', suffix = '';
+            switch(data.type) {
+                case 'user-ban': type = 'banned'; break;
+                case 'user-unban': type = 'unbanned'; break;
+                case 'user-kick': type = 'kicked out of the room'; break;
+                case 'user-mute': type = 'muted'; break;
+                case 'user-unmute': type = 'unmuted'; break;
+                case 'user-setrole':
+                case 'user-unsetrole':
+                    var roleLabel;
+                    try { roleLabel = API.roles[data.user.role].label; }
+                    catch(x) { roleLabel = 'Pleb'; }
+                    type = 'made';
+                    suffix = 'a ' + roleLabel;
+                    break;
+            }
+            addChatLog('[System] ' + mod + ' ' + type + ' ' + user + ' ' + suffix);
+        };
+        API.on(API.events.userBan, chatLogSystemEvent);
+        API.on(API.events.userUnban, chatLogSystemEvent);
+        API.on(API.events.userKick, chatLogSystemEvent);
+        API.on(API.events.userMute, chatLogSystemEvent);
+        API.on(API.events.userUnmute, chatLogSystemEvent);
+        API.on(API.events.userSetRole, chatLogSystemEvent);
+        API.on(API.events.userUnsetRole, chatLogSystemEvent);
+
+        API.on('error', forceSaveLogs);
+        API.on('connected', function(roomName) { addChatLog('[BOT] Connected to ' + roomName); });
+        API.on('disconneted', function(roomName) { addChatLog('[BOT] Disconnected from ' + roomName); });
+
+        ['SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT', 'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM' ]
+            .forEach(function(sig) {
+                process.on(sig, function() {
+                    if(typeof sig === "string") {
+                        forceSaveLogs();
+                        process.exit(1);
+                    };
+                });
+            });
+    });
+}
 
 function roughSizeOfObject(object) {
 

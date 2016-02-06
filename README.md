@@ -15,6 +15,10 @@ COOLDOWN=number # [OPTIONAL] Number for per user cooldown (in seconds). Default 
 IMGTIME=number               # [OPTIONAL] Number for image removal (in seconds). Default is 15
 IMGREMOVALDUBS_AMOUNT=number # [OPTIONAL] Number of dubs necessary by the user to bypass instant image removal. Default is 10.
 IMGREMOVALDUBS_TIME=number   # [OPTIONAL] Number of time (in minutes) to unmute user after instant image removal. Default is 5.
+
+CHATLOGS_SENDGRID_KEY=sendgridkey # [OPTIONAL] SendGrid key for sending the chatlog email, if none then chatlogs wont be recorded.
+CHATLOGS_FROM=email               # [OPTIONAL] Email SendGrid uses to send email, this wont work if CHATLOGS_SENDGRID_KEY is not defined.
+CHATLOGS_TO=email                 # [OPTIONAL] Email SendGrid sends the email to, this wont work if CHATLOGS_SENDGRID_KEY is not defined.
 ```
 
 After doing all this you can just run ```node zubbot.js``` in your friendly neighborhood node terminal and all should be fine and dandy.
