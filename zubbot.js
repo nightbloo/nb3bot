@@ -120,7 +120,7 @@ var agclient = new AgarioClient("NightBlueBot");
 var agclient = new AgarioClient("NightBlueBot");
 var startTime = Date.now();
 function getRuntime() {
-    return Date.now() - startTime / 1000;
+    return (Date.now() - startTime) / 1000;
 }
 
 var sendgrid = null, zip;
