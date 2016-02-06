@@ -203,7 +203,7 @@ new DubAPI({
         var arrayLength = chatHistory.length;
         for (var i = 0; i < arrayLength; i++) {
             if (user.id == chatHistory[i].user.id) {
-                bot.moderateDeleteChat(chatHistory[i].id)
+                bot.moderateDeleteChat(chatHistory[i].id);
             }
         }
     }
