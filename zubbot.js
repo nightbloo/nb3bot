@@ -118,9 +118,9 @@ var reddit = require('redwrap');
 var AgarioClient = require('agario-client');
 var agclient = new AgarioClient("NightBlueBot");
 var agclient = new AgarioClient("NightBlueBot");
-var startTime = timestamp();
+var startTime = Date.now();
 function getRuntime() {
-    return timestamp() - startTime;
+    return Date.now() - startTime;
 }
 
 var sendgrid = null, zip;
