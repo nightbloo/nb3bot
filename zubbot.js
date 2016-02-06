@@ -117,10 +117,11 @@ var httpReq = require('http').request;
 var reddit = require('redwrap');
 var AgarioClient = require('agario-client');
 var agclient = new AgarioClient("NightBlueBot");
-var runTime = 0;
-setInterval(function () {
-    runTime += 1;
-}, 1000);
+var agclient = new AgarioClient("NightBlueBot");
+var startTime = timestamp();
+function getRuntime() {
+    return timestamp() - startTime;
+}
 
 var sendgrid = null, zip;
 try {
@@ -402,7 +403,7 @@ new DubAPI({
                     bot.sendChat("@" + thisUser + " I love NB3 <3!");
                 }
                 else if (data.message.indexOf("how old are you") != -1) {
-                    bot.sendChat("Well, @" + thisUser + ", I've currently been running for " + runTime + " seconds");
+                    bot.sendChat("Well, @" + thisUser + ", I've currently been running for " + getRuntime() + " seconds");
                 }
                 else if (data.message.indexOf("you are sexy") != -1) {
                     bot.sendChat("How do you know that, @" + thisUser + "??");
