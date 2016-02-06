@@ -145,6 +145,7 @@ Session.vim
 *.txt
 run.bat
 phyton/imagelogs.json
+chatlogs.txt
 ###############
 # Directories #
 ###############
