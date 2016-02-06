@@ -102,12 +102,8 @@ require('dotenv').load();
 var DubAPI = require('dubapi');
 var jsonfile = require('jsonfile');
 var fs = require('fs');
-var util = require('util');
-var path = require('path');
 var os = require("os");
 var TwitchClient = require("node-twitchtv");
-var urban = require('urban');
-var giphy = require('giphy-api')();
 // { client_id: "generatedClientId", scope: "user_read, channel_read_"}
 var captainApi = require('node-memecaptain-api');
 var account = fs.readFileSync("secrets/user.json"),
@@ -116,8 +112,6 @@ var client = new TwitchClient(account);
 var httpReq = require('http').request;
 var reddit = require('redwrap');
 var AgarioClient = require('agario-client');
-var agclient = new AgarioClient("NightBlueBot");
-var agclient = new AgarioClient("NightBlueBot");
 var startTime = Date.now();
 function getRuntime() {
     return (Date.now() - startTime) / 1000;
