@@ -11,11 +11,19 @@ DT_LOGIN=foo    # The emailadress used to login to the bot's account (if you don
 DT_PASS=bar     # The password used to login to the bot's account
 DT_ROOM=roomid  # The room which you want to connect to it's name/id (e.g. www.dubtrack.fm/join/{everything here})
 
+HTTPS_KEY=foo   # HTTPS Key
+HTTPS_CERT=bar  # HTTPS Certificate
+HTTPS_CA=foobar # HTTPS Certificate Authority
+
 REDIS_PORT=number    # [OPTIONAL] Port for Redis database, if not defined then defaults to 6379.
 REDIS_HOST=foo       # [OPTIONAL] Host for Redis database, if not defined then defaults to 127.0.0.1.
 REDIS_PASSWORD=bar   # [OPTIONAL] Password for Redis database, if not defined then defaults to empty string.
 REDIS_FAMILY=number  # [OPTIONAL] Family for Redis database (ip4 or ip6), if not defined then defaults to 4.
 REDIS_DB=number      # [OPTIONAL] Redis database to access, if not defined then defaults to 0.
+
+TWITCH_CLIENT_ID=foo       # Twitch Client ID
+TWITCH_CLIENT_SECRET=bar   # Twitch Secret ID
+TWITCH_REDIRECT_URL=string # Twitch Redirect URL
 
 COOLDOWN=number # [OPTIONAL] Number for per user cooldown (in seconds). Default is 30
 
