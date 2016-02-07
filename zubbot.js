@@ -98,7 +98,6 @@ Array.prototype.remove = function (element) {
         return false;
     }
 };
-
 require('dotenv').load();
 var DubAPI = require('dubapi');
 var jsonfile = require('jsonfile');
@@ -113,6 +112,10 @@ var client = new TwitchClient(account);
 var httpReq = require('http').request;
 var reddit = require('redwrap');
 var AgarioClient = require('agario-client');
+// Time formatting
+var moment = require('moment');
+// Redis Manager - handles all of the redis interaction
+var redisManager = require('./lib/redisManager.js');
 
 var startTime = Date.now();
 function getRuntimeMessage() {
@@ -158,20 +161,8 @@ new DubAPI({
     if (err) {
         return console.error(err);
     }
-    console.log("-----------------------------------------------------------------------------------");
-    console.log(" ▄▄        ▄  ▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄   ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄ ");
-    console.log("▐░░▌      ▐░▌▐░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░▌ ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌ ");
-    console.log("▐░▌░▌     ▐░▌▐░█▀▀▀▀▀▀▀█░▌▀▀▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌ ▀▀▀▀█░█▀▀▀▀  ");
-    console.log("▐░▌▐░▌    ▐░▌▐░▌       ▐░▌         ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌     ▐░▌      ");
-    console.log("▐░▌ ▐░▌   ▐░▌▐░█▄▄▄▄▄▄▄█░▌▄▄▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌▐░▌       ▐░▌     ▐░▌      ");
-    console.log("▐░▌  ▐░▌  ▐░▌▐░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░▌ ▐░▌       ▐░▌     ▐░▌      ");
-    console.log("▐░▌   ▐░▌ ▐░▌▐░█▀▀▀▀▀▀▀█░▌▀▀▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░▌       ▐░▌     ▐░▌      ");
-    console.log("▐░▌    ▐░▌▐░▌▐░▌       ▐░▌         ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌     ▐░▌      ");
-    console.log("▐░▌     ▐░▐░▌▐░█▄▄▄▄▄▄▄█░▌▄▄▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌     ▐░▌      ");
-    console.log("▐░▌      ▐░░▌▐░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░▌ ▐░░░░░░░░░░░▌     ▐░▌      ");
-    console.log(" ▀        ▀▀  ▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀   ▀▀▀▀▀▀▀▀▀▀▀       ▀       ");
-    console.log("------------------------ CREATED BY ZUBOHM ----------------------------------------");
-    console.log("--------------------------Version 0.15----------------------------------------------");
+    console.log("------------------------   NightBlueBot  -------------------------------------");
+    console.log("------------------------ CREATED BY ZUBOHM -----------------------------------");
 
     console.log('Checking if all directories exists...');
     var dataDirectories = ['history', 'quotes', 'users', 'python'];
@@ -229,6 +220,10 @@ new DubAPI({
         console.error(err);
     });
     bot.on(bot.events.roomPlaylistUpdate, function (data) {
+
+        // Save song time
+        redisManager.setLastSongTime(data.fkid, Date.now());
+
         //console.log(data);
         if (typeof data !== undefined) {
             // currentVideoThumb = data.media.images.thumbnail;
@@ -377,7 +372,7 @@ new DubAPI({
                     bot.sendChat("@" + thisUser + " I love NB3 <3!");
                 }
                 else if (data.message.indexOf("how old are you") != -1) {
-                    bot.sendChat("Well, @" + thisUser + ", I've currently been running for " + getRuntimeMessage() + ".");
+                    bot.sendChat("Well, @" + thisUser + ", I've currently been running for " + getRuntimeMessage().replace(" ago", "") + ".");
                 }
                 else if (data.message.indexOf("you are sexy") != -1) {
                     bot.sendChat("How do you know that, @" + thisUser + "??");
@@ -608,7 +603,6 @@ new DubAPI({
                         }
                         catch (err) {
                             userData = {
-                                love: 0,
                                 props: 0
                             };
                             jsonfile.writeFile(userFile, userData, function (err) {
@@ -618,7 +612,6 @@ new DubAPI({
                             });
                         }
                         userData.props += 1;
-                        userData.love = 0;
                         jsonfile.writeFile(userFile, userData, function (err) {
                             if (err != null) {
                                 console.log(err);
@@ -645,52 +638,24 @@ new DubAPI({
                 bot.sendChat("http://i.imgur.com/ldj2jqf.png");
             }
             else if (data.message == "!myprops") {
-                var userFile;
-                var thisUser = data.user.username;
-                userFile = "users/" + thisUser + ".json";
-                fs.stat(userFile, function (err, stat) {
-                    var thisUser = data.user.username;
-                    var userFile = "users/" + thisUser + ".json";
-                    var username = data.message.split(" ")[1];
-                    var userData = {};
-                    if (err == null) {
-                        var userData = jsonfile.readFileSync(userFile);
-                        if (userData.props == null) {
-                            bot.sendChat("@" + thisUser + " you don't have any props! Play a song to get props! :)");
-                            return 1;
-                        }
-                        bot.sendChat("@" + thisUser + " you have " + userData.props + " props! :)");
-                    }
-                    else if (err.code == 'ENOENT') {
-                        bot.sendChat("@" + thisUser + " you don't have any props! Play a song to get props! :)");
+                var userId = data.user.id;
+                redisManager.getProps(userId, function() {
+                    if (result) {
+                        bot.sendChat('@' + data.user.username + ' you have ' + result + ' props! :)');
                     }
                     else {
-                        console.log('Some other error: ', err.code);
+                        bot.sendChat('@' + data.user.username + ' you don\'t have any props! Play a song to get props! :)');
                     }
                 });
             }
             else if (data.message == "!mylove") {
-                var userFile;
-                var thisUser = data.user.username;
-                userFile = "users/" + thisUser + ".json";
-                fs.stat(userFile, function (err, stat) {
-                    var thisUser = data.user.username;
-                    var userFile = "users/" + thisUser + ".json";
-                    var username = data.message.split(" ")[1];
-                    var userData = {};
-                    if (err == null) {
-                        var userData = jsonfile.readFileSync(userFile);
-                        if (userData.love == null || userData.love == 0) {
-                            bot.sendChat("@" + thisUser + " you don't have any love! :(");
-                            return 1;
-                        }
-                        bot.sendChat("@" + thisUser + " you have " + userData.love + " hearts! :)");
-                    }
-                    else if (err.code == 'ENOENT') {
-                        bot.sendChat("@" + thisUser + " you don't have any love! :(");
+                var userId = data.user.id;
+                redisManager.getLove(userId, function(result) {
+                    if (result) {
+                        bot.sendChat('@' + data.user.username + ' you have ' + result + ' hearts! :)');
                     }
                     else {
-                        console.log('Some other error: ', err.code);
+                        bot.sendChat('@' + data.user.username + ' you don\'t have any love! :(');
                     }
                 });
             }
@@ -752,44 +717,35 @@ new DubAPI({
             else if (data.message.split(" ")[0] == "!hate") {
                 if (data.message.split(" ").length > 1) {
                     var username = data.message.split(" ")[1].replace("@", "");
-                    var userFile;
-                    userFile = "users/" + username + ".json";
-                    if (username == "NightBlueBot") {
-                        bot.sendChat("You can't hate me, you can only love me, @" + thisUser + "!");
-                    }
-                    else if (username == "everyone") {
+                    // Stop here if they are trying to do what they don't
+                    if (username == "everyone") {
                         bot.sendChat("Nice try! :4head:");
                         bot.moderateBanUser(data.user.id, 60);
+                        return 1;
                     }
-                    else {
-                        fs.stat(userFile, function (err, stat) {
-                            var username = data.message.split(" ")[1].replace("@", "");
-                            var userFile = "users/" + username + ".json";
-                            var userData = {};
-                            var loveArray = ["http://24.media.tumblr.com/7bd034e65b8db205dd4e94e60259e169/tumblr_n0ym2dtaUG1sqhy0go1_250.gif"];
-                            if (err == null) {
-                                var userData = jsonfile.readFileSync(userFile);
-                                userData.love -= 1;
-                                jsonfile.writeFile(userFile, userData, function (err) {
-                                    if (err != null) {
-                                        console.log(err);
-                                    }
-                                });
-                                bot.sendChat("@" + username + " " + thisUser + " has broken one of your hearts </3. You now have " + userData.love + " hearts.");
-                            }
-                            else if (err.code == 'ENOENT') {
-                                userData.love = -1;
-                                fs.writeFile(userFile, JSON.stringify(userData), function (err) {
-                                    if (err != null) {
-                                        console.log(err);
-                                    }
-                                });
-                                bot.sendChat("@" + username + " " + thisUser + " has broken one of your hearts </3. You now have " + userData.love + " hearts.");
+                    // Get that user object
+                    var thatUser = bot.getUserByName(username);
+                    if (thatUser) {
+                        // I love them all I watch over them and protect them
+                        if (thatUser.id == bot.getSelf().id) {
+                            bot.sendChat("You can't hate me, you can only love me, @" + thisUser + "!");
+                            return 1;
+                        }
+                        // Ok everything should be good from here
+                        redisManager.getLove(thatUser.id, function(result) {
+                            var love = result;
+                            if (love) {
+                                love--;
                             }
                             else {
-                                console.log('Some other error: ', err.code);
+                                love = -1;
                             }
+                            redisManager.setLove(thatUser.id, love);
+                            bot.sendChat("@" + thatUser.username + " " + data.user.username + " has broken one of your hearts </3. You now have " + love + " hearts.");
                         });
+                    }
+                    else {
+                        // Do nothing atm
                     }
                 }
             }
@@ -839,69 +795,40 @@ new DubAPI({
             else if (data.message.split(" ")[0] == "!love") {
                 if (data.message.split(" ").length > 1) {
                     var username = data.message.split(" ")[1].replace("@", "");
-                    if (username == thisUser) {
-                        bot.sendChat("@" + thisUser + " just use your hand....");
-                        return 1;
-                    }
-                    else if (username == "everyone" || username == "all") {
+                    // Stop here if they are trying to do what they don't
+                    if (username == "everyone") {
                         bot.sendChat("Nice try! :4head:");
                         bot.moderateBanUser(data.user.id, 60);
                         return 1;
                     }
-                    var userFile;
-                    userFile = "users/" + username + ".json";
-                    if (username.toLowerCase() == "nightbluebot") {
-                        bot.sendChat("I love you too, @" + thisUser + "!");
-                        return 1;
-
-                    }
-                    else {
-                        fs.stat(userFile, function (err, stat) {
-                            var username = data.message.split(" ")[1].replace("@", "");
-                            var userFile = "users/" + username + ".json";
-                            var userData = {};
-                            var loveArray = ["http://24.media.tumblr.com/7bd034e65b8db205dd4e94e60259e169/tumblr_n0ym2dtaUG1sqhy0go1_250.gif"];
-                            if (err == null) {
-                                try {
-                                    userData = jsonfile.readFileSync(userFile);
-                                }
-                                catch (err) {
-                                    userData = {
-                                        love: 0,
-                                        props: 0
-                                    };
-                                    jsonfile.writeFile(userFile, userData, function (err) {
-                                        if (err != null) {
-                                            console.log(err);
-                                        }
-                                    });
-                                }
-                                userData.love += 1;
-                                jsonfile.writeFile(userFile, userData, function (err) {
-                                    if (err != null) {
-                                        console.log(err);
-                                    }
-                                });
-                                bot.sendChat("@" + username + " " + thisUser + " has sent some love your way! <3 You now have " + userData.love + " hearts.");
-                            }
-                            else if (err.code == 'ENOENT') {
-                                userData.love = 1;
-                                fs.writeFile(userFile, JSON.stringify(userData), function (err) {
-                                    if (err != null) {
-                                        console.log(err);
-                                    }
-                                });
-                                if (thisUser == "netuxbot" && username == "zubbot") {
-                                    bot.sendChat("I love you too, @netuxbot!");
-                                }
-                                else {
-                                    bot.sendChat("@" + username + " " + thisUser + " has sent some love your way! <3 You now have " + userData.love + " hearts.");
-                                }
+                    // Get that user object
+                    var thatUser = bot.getUserByName(username);
+                    if (thatUser) {
+                        // I love them all I watch over them and protect them
+                        if (thatUser.id == bot.getSelf().id) {
+                            bot.sendChat("I love you too, @" + thisUser + "!");
+                            return 1;
+                        }
+                        // Lets see if they should be told that they have a hand...
+                        if (thatUser.id == data.user.id) {
+                            bot.sendChat("@" + thisUser + " just use your hand....");
+                            return 1;
+                        }
+                        // Ok everything should be good from here
+                        redisManager.getLove(thatUser.id, function(result) {
+                            var love = result;
+                            if (love) {
+                                love++;
                             }
                             else {
-                                console.log('Some other error: ', err.code);
+                                love = 1;
                             }
+                            redisManager.setLove(thatUser.id, love);
+                            bot.sendChat("@" + thatUser.username + " " + data.user.username + " has sent some love your way! <3 You now have " + love + " hearts.");
                         });
+                    }
+                    else {
+                        // Do nothing atm
                     }
                 }
             }
@@ -962,6 +889,16 @@ new DubAPI({
             else if (data.message.split(" ")[0] == "!seppuku") {
                 clearUserChat(data.user);
                 bot.sendChat("Cleared all chat by " + data.user.username);
+            }
+            else if (/!(community|room|roominfo|info)/.test(data.message.split(' ')[0])) {
+                redisManager.getLastSongTime(currentID, function(result) {
+                    if (result) {
+                        bot.sendChat("This song was last played " + timeDifference(Date.now(), result) + ".");
+                    }
+                    else {
+                        bot.sendChat("This song has not played in the last 5 weeks. Maybe this is a remix, or a reupload.")
+                    }
+                });
             }
         }
         catch (x) {
@@ -1204,32 +1141,8 @@ function roughSizeOfObject(object) {
     return recurse(object);
 }
 
-function timeDifference(current, previous) {
-    var msPerMinute = 60 * 1000;
-    var msPerHour = msPerMinute * 60;
-    var msPerDay = msPerHour * 24;
-    var msPerMonth = msPerDay * 30;
-    var msPerYear = msPerDay * 365;
-    var elapsed = current - previous;
-
-    if (elapsed < msPerMinute) {
-        return Math.round(elapsed / 1000) + ' seconds';
-    }
-    else if (elapsed < msPerHour) {
-        return Math.round(elapsed / msPerMinute) + ' minutes';
-    }
-    else if (elapsed < msPerDay) {
-        return Math.round(elapsed / msPerHour) + ' hours';
-    }
-    else if (elapsed < msPerMonth) {
-        return 'approximately ' + Math.round(elapsed / msPerDay) + ' days';
-    }
-    else if (elapsed < msPerYear) {
-        return 'approximately ' + Math.round(elapsed / msPerMonth) + ' months';
-    }
-    else {
-        return 'approximately ' + Math.round(elapsed / msPerYear) + ' years';
-    }
+function timeDifference(newTime, oldTime) {
+    return moment(oldTime).from(newTime);
 }
 
 function time_format(d) {
