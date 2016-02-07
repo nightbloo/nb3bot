@@ -671,6 +671,7 @@ new DubAPI({
                     var target = data.message.split(" ")[1];
                     var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
                     bot.sendChat(targetName + " you can download DubX at http://www.dubx.net");
+                    bot.sendChat("We made a guide to help you install DubX! https://git.io/vzCVn");
                 }
                 else if (data.message.split(" ")[0] == "!css") {
                     var target = data.message.split(" ")[1];
