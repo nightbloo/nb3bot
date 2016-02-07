@@ -149,8 +149,8 @@ new DubAPI({
     var userCooldown = new Array();
     var cooldown = (process.env.COOLDOWN == undefined ? 30 : process.env.COOLDOWN); // Cooldown in seconds
     var imgTime = (process.env.IMGTIME == undefined ? 15 : process.env.IMGTIME); // Cooldown in seconds
-    var imgRemovalDubs_Amount = (process.env.IMAGEREMOVALDUBS_AMOUNT == undefined ? 10 : process.env.IMAGEREMOVALDUBS_AMOUNT),
-        imgRemovalDubs_Time = (process.env.IMAGEREMOVALDUBS_TIME == undefined ? 5 : process.env.IMAGEREMOVALDUBS_TIME);
+    var imgRemovalDubs_Amount = (process.env.IMAGEREMOVALDUBS_AMOUNT == undefined ? 10 : process.env.IMAGEREMOVALDUBS_AMOUNT);
+    var imgRemovalDubs_Time = (process.env.IMAGEREMOVALDUBS_TIME == undefined ? 5 : process.env.IMAGEREMOVALDUBS_TIME);
     var imageLogMax = (process.env.IMAGELOGMAX == undefined ? 11 : process.env.IMAGELOGMAX);
     var lastMediaFKID = "",
         currentMediaPermaLink = undefined;
@@ -333,7 +333,7 @@ new DubAPI({
                     bot.moderateDeleteChat(data.id);
                     timeMute(
                         data.user,
-                        imgRemovalDubs_Time * 60000,
+                        imgRemovalDubs_Time,
                         'User muted for ' + imgRemovalDubs_Time + ' minutes. Reason: Sending Images having less than ' + imgRemovalDubs_Amount + ' dubs.'
                     );
                     toSave.punishType = 'mute';
@@ -377,7 +377,7 @@ new DubAPI({
                     userCooldown.remove(thisUser);
                 }, cooldown * 1000 * 0.5);
             }
-            // Non Commands -- Bot Responses to tagging him.
+            // Non Commands -- Bot Responses to tagging her.
             if (data.message.indexOf("NightBlueBot") != -1) {
                 // Responses
                 if (data.message.indexOf("make me some food") != -1 || data.message.indexOf("make me some noodles") != -1) {
@@ -399,7 +399,7 @@ new DubAPI({
                     bot.sendChat("@" + thisUser + " I love NB3 <3!");
                 }
                 else if (data.message.indexOf("how old are you") != -1) {
-                    bot.sendChat("Well, @" + thisUser + ", I've currently been running for " + getRuntimeMessage() + " seconds");
+                    bot.sendChat("Well, @" + thisUser + ", I've currently been running for " + getRuntimeMessage() + ".");
                 }
                 else if (data.message.indexOf("you are sexy") != -1) {
                     bot.sendChat("How do you know that, @" + thisUser + "??");
@@ -959,7 +959,7 @@ new DubAPI({
                     if (isNaN(muteTime)) {
                         muteTime = 5;
                     }
-                    timeMute(muteuser, 0, "@" + username + " Muted for " + muteTime + " minutes!");
+                    timeMute(muteuser, muteTime, "@" + username + " Muted for " + muteTime + " minutes!");
                 }
                 else {
                     bot.sendChat("No user found by the name " + username + ".")
@@ -974,7 +974,7 @@ new DubAPI({
                     if (isNaN(muteTime)) {
                         muteTime = 5;
                     }
-                    timeout(muteuser, 0, "@" + muteuser.username + " timed out for " + muteTime + " minutes!");
+                    timeout(muteuser, muteTime, "@" + muteuser.username + " timed out for " + muteTime + " minutes!");
                 }
                 else {
                     bot.sendChat("No user found by the name " + username + ".")
@@ -1170,7 +1170,7 @@ function setupChatlogs(API) {
                     break;
             }
             addChatLog('[System] ' + mod + ' ' + type + ' ' + user + ' ' + suffix);
-        };
+        }
         API.on(API.events.userBan, chatLogSystemEvent);
         API.on(API.events.userUnban, chatLogSystemEvent);
         API.on(API.events.userKick, chatLogSystemEvent);
