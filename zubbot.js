@@ -664,6 +664,12 @@ new DubAPI({
                         }
                     });
                 }
+                else if (data.message.split(" ")[0] == "!subsunday") {
+                    var target = data.message.split(" ")[1];
+                    var targetName = getTargetName(target);
+                    bot.sendChat(targetName + " On Sunday we lock the queue and let only NightBlue3 twitch subs play for the duration of the stream that day.");
+                    bot.sendChat("You can sub to Nightblue3 https://www.twitch.tv/nightblue3/subscribe");
+                }
                 else if (data.message == "!rules") {
                     var target = data.message.split(" ")[1];
                     var targetName = getTargetName(target);
