@@ -21,7 +21,8 @@ app.get('/auth/twitch/', function (req, res) {
         twitchManager.getThisUser(accessToken, function (err, body) {
             if (err) {
                 console.error(err);
-                res.send("An error happened! 1");
+                res.send("getThisUser");
+                res.send(err);
                 return;
             }
             if (body) {
@@ -31,7 +32,8 @@ app.get('/auth/twitch/', function (req, res) {
                 redisManager.getTwitchAuthKey(key, function (err, result) {
                     if (err) {
                         console.error(err);
-                        res.send("An error happened! 2");
+                        res.send("getTwitchAuthKey");
+                        res.send(err);
                         return;
                     }
                     // see if we need to save this key.
@@ -46,7 +48,8 @@ app.get('/auth/twitch/', function (req, res) {
                         }
                         else if (err) {
                             console.error(err);
-                            res.send("An error happened! 3");
+                            res.send("getChannelSubscriptionOfUser");
+                            res.send(err);
                             return;
                         }
                         if (body2) {
