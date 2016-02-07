@@ -98,6 +98,7 @@ Array.prototype.remove = function (element) {
         return false;
     }
 };
+
 require('dotenv').load();
 var DubAPI = require('dubapi');
 var jsonfile = require('jsonfile');
@@ -112,9 +113,10 @@ var client = new TwitchClient(account);
 var httpReq = require('http').request;
 var reddit = require('redwrap');
 var AgarioClient = require('agario-client');
+
 var startTime = Date.now();
-function getRuntime() {
-    return (Date.now() - startTime) / 1000;
+function getRuntimeMessage() {
+    return timeDifference(Date.now(), startTime);;
 }
 
 var sendgrid = null, zip;
@@ -397,7 +399,7 @@ new DubAPI({
                     bot.sendChat("@" + thisUser + " I love NB3 <3!");
                 }
                 else if (data.message.indexOf("how old are you") != -1) {
-                    bot.sendChat("Well, @" + thisUser + ", I've currently been running for " + getRuntime() + " seconds");
+                    bot.sendChat("Well, @" + thisUser + ", I've currently been running for " + getRuntimeMessage() + " seconds");
                 }
                 else if (data.message.indexOf("you are sexy") != -1) {
                     bot.sendChat("How do you know that, @" + thisUser + "??");
@@ -1192,19 +1194,15 @@ function setupChatlogs(API) {
                         forceSaveLogs();
                         process.exit(1);
                     }
-                    ;
                 });
             });
     });
 }
 
 function roughSizeOfObject(object) {
-
     var objectList = [];
-
     var recurse = function (value) {
         var bytes = 0;
-
         if (typeof value === 'boolean') {
             bytes = 4;
         }
@@ -1223,40 +1221,36 @@ function roughSizeOfObject(object) {
                 bytes += recurse(value[i])
             }
         }
-
         return bytes;
     };
-
     return recurse(object);
 }
 
 function timeDifference(current, previous) {
-
     var msPerMinute = 60 * 1000;
     var msPerHour = msPerMinute * 60;
     var msPerDay = msPerHour * 24;
     var msPerMonth = msPerDay * 30;
     var msPerYear = msPerDay * 365;
-
     var elapsed = current - previous;
 
     if (elapsed < msPerMinute) {
-        return Math.round(elapsed / 1000) + ' seconds ago';
+        return Math.round(elapsed / 1000) + ' seconds';
     }
     else if (elapsed < msPerHour) {
-        return Math.round(elapsed / msPerMinute) + ' minutes ago';
+        return Math.round(elapsed / msPerMinute) + ' minutes';
     }
     else if (elapsed < msPerDay) {
-        return Math.round(elapsed / msPerHour) + ' hours ago';
+        return Math.round(elapsed / msPerHour) + ' hours';
     }
     else if (elapsed < msPerMonth) {
-        return 'approximately ' + Math.round(elapsed / msPerDay) + ' days ago';
+        return 'approximately ' + Math.round(elapsed / msPerDay) + ' days';
     }
     else if (elapsed < msPerYear) {
-        return 'approximately ' + Math.round(elapsed / msPerMonth) + ' months ago';
+        return 'approximately ' + Math.round(elapsed / msPerMonth) + ' months';
     }
     else {
-        return 'approximately ' + Math.round(elapsed / msPerYear) + ' years ago';
+        return 'approximately ' + Math.round(elapsed / msPerYear) + ' years';
     }
 }
 
