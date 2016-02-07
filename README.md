@@ -10,6 +10,13 @@ Once you've made the file fill it with the login info/connection info of your bo
 DT_LOGIN=foo    # The emailadress used to login to the bot's account (if you don't have one, then make one)
 DT_PASS=bar     # The password used to login to the bot's account
 DT_ROOM=roomid  # The room which you want to connect to it's name/id (e.g. www.dubtrack.fm/join/{everything here})
+
+REDIS_PORT=number    # [OPTIONAL] Port for Redis database, if not defined then defaults to 6379.
+REDIS_HOST=foo       # [OPTIONAL] Host for Redis database, if not defined then defaults to 127.0.0.1.
+REDIS_PASSWORD=bar   # [OPTIONAL] Password for Redis database, if not defined then defaults to empty string.
+REDIS_FAMILY=number  # [OPTIONAL] Family for Redis database (ip4 or ip6), if not defined then defaults to 4.
+REDIS_DB=number      # [OPTIONAL] Redis database to access, if not defined then defaults to 0.
+
 COOLDOWN=number # [OPTIONAL] Number for per user cooldown (in seconds). Default is 30
 
 IMGTIME=number               # [OPTIONAL] Number for image removal (in seconds). Default is 15
