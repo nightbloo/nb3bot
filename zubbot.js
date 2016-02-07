@@ -644,7 +644,7 @@ new DubAPI({
                 }
                 else if (data.message == "!myprops") {
                     var userId = data.user.id;
-                    redisManager.getProps(userId, function () {
+                    redisManager.getProps(userId, function (result) {
                         if (result) {
                             bot.sendChat('@' + data.user.username + ' you have ' + result + ' props! :)');
                         }
