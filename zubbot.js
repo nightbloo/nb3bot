@@ -323,12 +323,6 @@ new DubAPI({
             });
             var re = /http(|s):\/\/.+\.(gif|png|jpg|jpeg)/i;
             if (re.test(data.message.toLowerCase()) && data.user.id !== bot.getSelf().id) {
-                var toSave = {
-                    timestamp: [Date.now(), new Date().toString()],
-                    user: [data.user.username, data.user.id],
-                    message: data.message,
-                    punishType: undefined
-                };
                 if (imgRemovalDubs_Amount >= 0 && data.user.dubs < imgRemovalDubs_Amount) {
                     bot.moderateDeleteChat(data.id);
                     timeMute(
@@ -336,28 +330,12 @@ new DubAPI({
                         imgRemovalDubs_Time,
                         'User muted for ' + imgRemovalDubs_Time + ' minutes. Reason: Sending Images having less than ' + imgRemovalDubs_Amount + ' dubs.'
                     );
-                    toSave.punishType = 'mute';
                 }
                 else {
                     setTimeout(function () {
                         bot.moderateDeleteChat(data.id);
                     }, imgTime * 1000);
-                    toSave.punishType = 'removal';
                 }
-                fs.exists('python/imagelogs.json', function (itDoes) {
-                    var lastLogs = itDoes ? JSON.parse(fs.readFileSync('python/imagelogs.json', 'utf8')) : {
-                        info: 'File containing user chat logs where the link of an image was found. Useful to detect what type of image an user has posted.',
-                        logs: []
-                    };
-                    if (lastLogs.logs.push(toSave) >= imageLogMax) {
-                        lastLogs.logs.shift();
-                    }
-                    fs.writeFile('python/imagelogs.json', JSON.stringify(lastLogs, null, 4), 'utf8', function (error) {
-                        if (error) {
-                            console.log('Error updating imagelogs.json →', error);
-                        }
-                    });
-                });
             }
             var thisUser = data.user.username;
             if (userCooldown.contains(thisUser)) {
@@ -872,7 +850,7 @@ new DubAPI({
                     }
                     var userFile;
                     userFile = "users/" + username + ".json";
-                    if (username.toLowerCase() == "NightBlueBot") {
+                    if (username.toLowerCase() == "nightbluebot") {
                         bot.sendChat("I love you too, @" + thisUser + "!");
                         return 1;
 
@@ -959,7 +937,7 @@ new DubAPI({
                     if (isNaN(muteTime)) {
                         muteTime = 5;
                     }
-                    timeMute(muteuser, muteTime, "@" + username + " Muted for " + muteTime + " minutes!");
+                    timeMute(muteuser, muteTime, "@" + username + " muted for " + muteTime + " minutes!");
                 }
                 else {
                     bot.sendChat("No user found by the name " + username + ".")
