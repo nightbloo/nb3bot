@@ -138,6 +138,9 @@ new DubAPI({
      * @param {DubAPI} bot
      * */
     function (err, bot) {
+        // keymetrics
+        require('./lib/keymetrics.js').keymetrics(bot);
+
         var currentName = "";
         var currentID = "";
         var currentType = "";
@@ -264,6 +267,10 @@ new DubAPI({
                 }
             }
         });
+        function getTargetName(target) {
+            return target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target);
+        }
+
         bot.on(bot.events.chatMessage, function (data) {
             // Make sure the damn bot doesn't damn crash damnit.
             if (typeof data === "undefined" || typeof data.user === "undefined") {
@@ -659,30 +666,30 @@ new DubAPI({
                 }
                 else if (data.message == "!rules") {
                     var target = data.message.split(" ")[1];
-                    var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
+                    var targetName = getTargetName(target);
                     bot.sendChat(targetName + " Rules: http://git.io/vWJnY");
                 }
                 else if (data.message.split(" ")[0] == "!kappa") {
                     var target = data.message.split(" ")[1];
-                    var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
+                    var targetName = getTargetName(target);
                     bot.sendChat(targetName + " " + thisUser + " has sent a Kappa your way! :kappa:");
                 }
                 else if (data.message.split(" ")[0] == "!dubx") {
                     var target = data.message.split(" ")[1];
-                    var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
+                    var targetName = getTargetName(target);
                     bot.sendChat(targetName + " you can download DubX at http://www.dubx.net");
-                    bot.sendChat("We made a guide to help you install DubX! https://git.io/vzCVn");
+                    bot.sendChat("Follow this guide to help you install DubX! https://git.io/vzCVn");
                 }
                 else if (data.message.split(" ")[0] == "!css") {
                     var target = data.message.split(" ")[1];
-                    var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
+                    var targetName = getTargetName(target);
                     bot.sendChat(targetName + " Fancy css files: http://imgur.com/a/WeXhS");
                     bot.sendChat("Custom css chooser: https://goo.gl/Gs6gih");
                 }
                 else if (data.message.split(" ")[0] == "!bg") {
                     var args = data.message.split(' ').slice(1);
                     var target = args[args.length - 1];
-                    var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
+                    var targetName = getTargetName(target);
                     var bgLinks = {
                         'Snaky': 'https://imgur.com/a/ZO2Nz',
                         'Maskinen': 'https://imgur.com/a/Up7b2',
@@ -712,7 +719,7 @@ new DubAPI({
                 }
                 else if (data.message.split(" ")[0] == "!queue") {
                     var target = data.message.split(" ")[1];
-                    var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
+                    var targetName = getTargetName(target);
                     bot.sendChat(targetName + ' How to Queue a Song: https://imgur.com/a/FghLg');
                 }
                 else if (data.message.split(" ")[0] == "!hate") {
@@ -764,23 +771,23 @@ new DubAPI({
                 }
                 else if (data.message.split(" ")[0] == "!english") {
                     var target = data.message.split(" ")[1];
-                    var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
+                    var targetName = getTargetName(target);
                     bot.sendChat(targetName + ' Please stick to English in this room, doing otherwise will result in a mute.');
                 }
                 else if (data.message.split(" ")[0] == "!shush") {
                     var target = data.message.split(" ")[1];
-                    var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
+                    var targetName = getTargetName(target);
                     bot.sendChat(targetName + ' (click for better quality) http://i.imgur.com/uFE8PfA.png');
                     bot.sendChat('(snippet from Community Rules, http://git.io/vWJnY#miscellaneous)');
                 }
                 else if (/!(gema|fuckgema|gemasucks|gemaisshit)/i.test(data.message.split(" ")[0])) {
                     var target = data.message.split(" ")[1];
-                    var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
+                    var targetName = getTargetName(target);
                     bot.sendChat(targetName + ' to bypass GEMA blocked videos you can use this extension http://www.unblocker.yt/en/');
                 }
                 else if (data.message.split(" ")[0] === 'videocheck') {
                     var target = data.message.split(" ")[1];
-                    var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
+                    var targetName = getTargetName(target);
                     bot.sendChat(targetName + ' check if current video is available on any country at https://nb3x.nl/videocheck.php');
                 }
                 else if (data.message.split(" ")[0] == "!request") {
@@ -853,7 +860,7 @@ new DubAPI({
                 }
                 else if (/!(community|room|roominfo|info)/.test(data.message.split(' ')[0])) {
                     var target = data.message.split(" ")[1];
-                    var targetName = (target == undefined ? "" : (target.indexOf('@') == 0 ? target : '@' + target));
+                    var targetName = getTargetName(target);
                     bot.sendChat(targetName + 'This community plays EDM | Trap | and Chill. Songs over 6:30 will be skipped so please follow the guidelines! Rules: http://git.io/vWJnY')
                 }
                 // !mute

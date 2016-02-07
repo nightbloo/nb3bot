@@ -13,6 +13,7 @@
     "node-memecaptain-api": "1.0.x",
     "node-twitchtv": "0.0.x",
     "node-zip": "^1.1.1",
+    "pmx": "^0.6.0",
     "redwrap": "0.0.x",
     "sendgrid": "^2.0.0"
   },
