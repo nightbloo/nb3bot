@@ -893,7 +893,7 @@ new DubAPI({
                 else if (/!(lastplayed|history)/.test(data.message.split(' ')[0])) {
                     redisManager.getLastSongTime(currentID, function (result) {
                         if (result) {
-                            bot.sendChat("This song was last played " + timeDifference(Date.now(), result) + ".");
+                            bot.sendChat("This song was last played " + timeDifference(Date.now(), parseInt(result)) + ".");
                         }
                         else {
                             bot.sendChat("This song has not played in the last 5 weeks. Maybe this is a remix, or a reupload.")
