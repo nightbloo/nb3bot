@@ -7,15 +7,16 @@
     "agario-client": "1.1.x",
     "dotenv": "1.2.x",
     "dubapi": ">0.2.4",
+    "express": "^4.13.4",
     "ioredis": "latest",
     "jsonfile": "2.2.x",
     "moment": "^2.11.2",
     "node-memecaptain-api": "1.0.x",
-    "node-twitchtv": "0.0.x",
     "node-zip": "^1.1.1",
     "pmx": "^0.6.0",
     "redwrap": "0.0.x",
-    "sendgrid": "^2.0.0"
+    "sendgrid": "^2.0.0",
+    "twitch-api": "^0.4.3"
   },
   "devDependencies": {},
   "scripts": {

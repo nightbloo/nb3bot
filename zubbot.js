@@ -101,15 +101,13 @@ var DubAPI = require('dubapi');
 var jsonfile = require('jsonfile');
 var fs = require('fs');
 var os = require("os");
-var TwitchClient = require("node-twitchtv");
 // { client_id: "generatedClientId", scope: "user_read, channel_read_"}
 var captainApi = require('node-memecaptain-api');
-var account = fs.readFileSync("secrets/user.json"),
-    accountObj = JSON.parse(account);
-var client = new TwitchClient(account);
 var httpReq = require('http').request;
 var reddit = require('redwrap');
 var AgarioClient = require('agario-client');
+// Twitch Stuff
+var twitchManager = require('./lib/twitchManager.js');
 // Time formatting
 var moment = require('moment');
 // Redis Manager - handles all of the redis interaction
@@ -569,14 +567,14 @@ new DubAPI({
                     bot.sendChat("@" + thisUser + " The current song is " + currentName + ", the link is " + currentMediaPermaLink);
                 }
                 else if (data.message == "!stream") {
-                    client.streams({
-                        channel: "nightblue3"
-                    }, function (err, response) {
-                        if (err != null) {
+                    twitchManager.getStream(function(err, body) {
+                        if (err) {
                             console.log(err);
                         }
-                        if (response.stream != null) {
-                            bot.sendChat("NightBlue3 is streaming " + response.stream.game + "! You can watch him at http://www.twitch.tv/nightblue3!");
+                        var stream = body.stream;
+                        if (stream) {
+                            bot.sendChat(stream.channel.display_name + " is streaming " + stream.channel.game + "! You can watch him at " + stream.channel.url + "!");
+                            bot.sendChat(stream.preview.small + " Viewers:" + stream.viewers);
                         }
                         else {
                             bot.sendChat("NightBlue3 is not currently streaming! He streams at http://www.twitch.tv/nightblue3");
