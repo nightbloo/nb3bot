@@ -235,7 +235,13 @@ new DubAPI({
             currentType = data.media.type;
 
             // Save song time
-            redisManager.setLastSongTime(currentID, Date.now());
+            redisManager.getLastSong(function(result) {
+                if (result) {
+                    redisManager.setLastSongTime(result, Date.now());
+                }
+                redisManager.setLastSong(currentID);
+            });
+
 
             currentDJName = (data.user == undefined ? "404usernamenotfound" : (data.user.username == undefined ? "404usernamenotfound" : data.user.username));
             if (currentType == "soundcloud") {
