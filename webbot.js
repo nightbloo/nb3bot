@@ -21,7 +21,7 @@ app.get('/auth/twitch/', function (req, res) {
         twitchManager.getThisUser(accessToken, function (err, body) {
             if (err) {
                 console.error(err);
-                res.send("An error happened!");
+                res.send("An error happened! 1");
                 return;
             }
             if (body) {
@@ -31,21 +31,23 @@ app.get('/auth/twitch/', function (req, res) {
                 redisManager.getTwitchAuthKey(key, function (err, result) {
                     if (err) {
                         console.error(err);
-                        res.send("An error happened!");
+                        res.send("An error happened! 2");
                         return;
                     }
                     // see if we need to save this key.
                     if (!result) {
                         redisManager.setTwitchAuthKey(key, user);
                     }
-                    res.send('Use "!twitchlink ' + key + '" in the dubtrack chat to get link your dubtrack to your twitch.');
                     // See if they are a sub
                     twitchManager.getChannelSubscriptionOfUser(user, accessToken, function (err, body2) {
+                        res.send('Use "!twitchlink ' + key + '" in the dubtrack chat to get link your dubtrack to your twitch.');
                         if (err && err.status == 404) {
                             res.send("You are not a twitch sub!");
                         }
                         else if (err) {
                             console.error(err);
+                            res.send("An error happened! 3");
+                            return;
                         }
                         if (body2) {
                             res.send("Your a Twitch sub! When you use the !twitchlink command it will make any needed change.");
