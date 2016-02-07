@@ -16,13 +16,14 @@ var twitchManager = require('./lib/twitchManager.js');
 var redisManager = require('./lib/redisManager.js');
 
 app.get('/auth/twitch/', function (req, res) {
+    var send = '';
     if (req.query.code && req.query.scope) {
         var accessToken = req.query.code;
         twitchManager.getThisUser(accessToken, function (err, body) {
             if (err) {
                 console.error(err);
-                res.send("getThisUser");
-                res.send(err);
+                send += 'getThisUser\n';
+                res.send(send + err);
                 return;
             }
             if (body) {
@@ -32,8 +33,8 @@ app.get('/auth/twitch/', function (req, res) {
                 redisManager.getTwitchAuthKey(key, function (err, result) {
                     if (err) {
                         console.error(err);
-                        res.send("getTwitchAuthKey");
-                        res.send(err);
+                        send += 'getTwitchAuthKey\n';
+                        res.send(send + err);
                         return;
                     }
                     // see if we need to save this key.
@@ -42,22 +43,22 @@ app.get('/auth/twitch/', function (req, res) {
                     }
                     // See if they are a sub
                     twitchManager.getChannelSubscriptionOfUser(user, accessToken, function (err, body2) {
-                        res.send('Use "!twitchlink ' + key + '" in the dubtrack chat to get link your dubtrack to your twitch.');
+                        send += 'Use "!twitchlink ' + key + '" in the dubtrack chat to get link your dubtrack to your twitch.\n';
                         if (err && err.status == 404) {
                             res.send("You are not a twitch sub!");
                         }
                         else if (err) {
                             console.error(err);
-                            res.send("getChannelSubscriptionOfUser");
-                            res.send(err);
+                            send += 'getChannelSubscriptionOfUser\n';
+                            res.send(send + err);
                             return;
                         }
                         if (body2) {
-                            res.send("Your a Twitch sub! When you use the !twitchlink command it will make any needed change.");
-                            res.send('Just note if you have a staff role as it is it will not change your role');
+                            send += 'Your a Twitch sub! When you use the !twitchlink command it will make any needed change.\n';
+                            send += 'Just note if you have a staff role as it is it will not change your role.\n';
                             redisManager.setTwitchSub(user, true);
                         }
-                        res.end();
+                        res.send(send);
                     });
                 });
             }
