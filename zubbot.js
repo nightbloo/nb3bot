@@ -912,6 +912,50 @@ new DubAPI({
                         }
                     });
                 }
+                else if (data.message.split(" ")[0] == "!twitchlink") {
+                    var key = data.message.split(" ")[1].replace("@", "");
+                    redisManager.getTwitchDubAuthKey(key, function(err, result) {
+                        if (err) {
+                            console.error(err);
+                            return;
+                        }
+                        if (result) {
+                            if (data.user.id = result) {
+                                if (bot.getSelf().hasPermission('set-roles')) {
+                                    if (!data.user.role) {
+                                        bot.moderateSetRole(data.user.id, 'resident-dj');
+                                    }
+                                }
+                            }
+                            else {
+                                bot.sendChat('This key has been used on another dubtrack account!');
+                            }
+                        }
+                        else {
+                            redisManager.getTwitchAuthKey(key, function(error, result) {
+                                if (err) {
+                                    console.error(err);
+                                    return;
+                                }
+                                if (result) {
+                                    redisManager.setTwitch(data.user.id, result);
+                                    bot.sendChat('@' + data.user.username + ' your account has been linked with the twitch account ' + result);
+                                    if (data.user.id = result) {
+                                        if (bot.getSelf().hasPermission('set-roles')) {
+                                            if (!data.user.role) {
+                                                bot.moderateSetRole(data.user.id, 'resident-dj');
+                                            }
+                                        }
+                                    }
+                                }
+                                else {
+                                    /// Well this is not a key it seems just let it go
+                                }
+                            });
+
+                        }
+                    });
+                }
             }
             catch (x) {
                 //bot.sendChat('uh oh, something went wrong :S');
