@@ -23,7 +23,7 @@ app.get('/auth/twitch/', function (req, res) {
             if (err) {
                 console.error(err);
                 send += 'getThisUser\n';
-                res.send(send + err);
+                res.send(send + ' ' + err.status + ':' + err.error + ': ' + err.message);
                 return;
             }
             if (body) {
@@ -34,7 +34,7 @@ app.get('/auth/twitch/', function (req, res) {
                     if (err) {
                         console.error(err);
                         send += 'getTwitchAuthKey\n';
-                        res.send(send + err);
+                        res.send(send + ' ' + err.status + ':' + err.error + ': ' + err.message);
                         return;
                     }
                     // see if we need to save this key.
@@ -50,7 +50,7 @@ app.get('/auth/twitch/', function (req, res) {
                         else if (err) {
                             console.error(err);
                             send += 'getChannelSubscriptionOfUser\n';
-                            res.send(send + err);
+                            res.send(send + ' ' + err.status + ':' + err.error + ': ' + err.message);
                             return;
                         }
                         if (body2) {
