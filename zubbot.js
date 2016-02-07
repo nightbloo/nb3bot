@@ -890,7 +890,7 @@ new DubAPI({
                 clearUserChat(data.user);
                 bot.sendChat("Cleared all chat by " + data.user.username);
             }
-            else if (/!(lastplayed|history|)/.test(data.message.split(' ')[0])) {
+            else if (/!(lastplayed|history)/.test(data.message.split(' ')[0])) {
                 redisManager.getLastSongTime(currentID, function(result) {
                     if (result) {
                         bot.sendChat("This song was last played " + timeDifference(Date.now(), result) + ".");
