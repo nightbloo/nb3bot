@@ -221,9 +221,6 @@ new DubAPI({
     });
     bot.on(bot.events.roomPlaylistUpdate, function (data) {
 
-        // Save song time
-        redisManager.setLastSongTime(data.fkid, Date.now());
-
         //console.log(data);
         if (typeof data !== undefined) {
             // currentVideoThumb = data.media.images.thumbnail;
@@ -236,6 +233,9 @@ new DubAPI({
             currentName = data.media.name;
             currentID = data.media.fkid;
             currentType = data.media.type;
+
+            // Save song time
+            redisManager.setLastSongTime(currentID, Date.now());
 
             currentDJName = (data.user == undefined ? "404usernamenotfound" : (data.user.username == undefined ? "404usernamenotfound" : data.user.username));
             if (currentType == "soundcloud") {
