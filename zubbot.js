@@ -914,12 +914,8 @@ new DubAPI({
                     });
                 }
                 else if (data.message.split(" ")[0] == "!twitchlink") {
-                    var key = data.message.split(" ")[1].replace("@", "");
-                    redisManager.getTwitchDubAuthKey(key, function(err, result) {
-                        if (err) {
-                            console.error(err);
-                            return;
-                        }
+                    var key = data.message.split(" ")[1];
+                    redisManager.getTwitchDubAuthKey(key, function(result) {
                         if (result) {
                             if (data.user.id = result) {
                                 if (bot.getSelf().hasPermission('set-roles')) {
@@ -933,11 +929,7 @@ new DubAPI({
                             }
                         }
                         else {
-                            redisManager.getTwitchAuthKey(key, function(error, result) {
-                                if (err) {
-                                    console.error(err);
-                                    return;
-                                }
+                            redisManager.getTwitchAuthKey(key, function(result) {
                                 if (result) {
                                     redisManager.setTwitch(data.user.id, result);
                                     bot.sendChat('@' + data.user.username + ' your account has been linked with the twitch account ' + result);
@@ -953,7 +945,6 @@ new DubAPI({
                                     /// Well this is not a key it seems just let it go
                                 }
                             });
-
                         }
                     });
                 }
