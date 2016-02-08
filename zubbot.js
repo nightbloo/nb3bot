@@ -247,7 +247,7 @@ new DubAPI({
                         if (props > 1) {
                             propss += 's';
                         }
-                        bot.sendChat('User ' + currentDJ.username + ' got ' + props + propss + ' for the song they just played.');
+                        bot.sendChat('User ' + currentDJ.username + ' got ' + props + ' ' + propss + ' for the song they just played.');
                     }
                 }
                 else {
