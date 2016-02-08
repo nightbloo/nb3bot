@@ -42,13 +42,7 @@ app.get('/auth/twitch/', function (req, res) {
                     // ok we know that they have token and a name
                     var user = body.display_name;
                     var key = crypto.createHash('md5').update(user).digest('hex');
-                    redisManager.getTwitchAuthKey(key, function (err, result) {
-                        if (err) {
-                            console.error(err);
-                            send += 'getTwitchAuthKey\n';
-                            res.send(send + ' ' + err.status + ':' + err.error + ': ' + err.message);
-                            return;
-                        }
+                    redisManager.getTwitchAuthKey(key, function (result) {
                         // see if we need to save this key.
                         if (!result) {
                             redisManager.setTwitchAuthKey(key, user);
