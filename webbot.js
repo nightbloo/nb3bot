@@ -48,7 +48,7 @@ app.get('/auth/twitch/', function (req, res) {
                             redisManager.setTwitchAuthKey(key, user);
                         }
                         // See if they are a sub
-                        twitchManager.getChannelSubscriptionOfUser(user, accessToken, function (err, body) {
+                        twitchManager.getChannelSubscriptionOfUser(user, 'Nightblue3', accessToken, function (err, body) {
                             send += 'Use "!twitchlink ' + key + '" in the dubtrack chat to get link your dubtrack to your twitch.\n';
                             if (err && err.status == 404) {
                                 res.send("You are not a twitch sub!");
