@@ -1009,6 +1009,9 @@ function setupChatlogs(API) {
 
         /* Setup events */
         API.on(API.events.chatMessage, function (data) {
+            if (!data || !data.user) {
+                return;
+            }
             var role;
             try {
                 role = API.roles[data.user.role].label;
@@ -1030,21 +1033,39 @@ function setupChatlogs(API) {
             addChatLog('[System] Current Song is ' + data.media.name + '. DJ is ' + data.user.username);
         });
         API.on(API.events.chatSkip, function (data) {
+            if (!data || !data.user) {
+                return;
+            }
             addChatLog('[System] Song queued by ' + lastDJUsername + ' was skipped by ' + data.user.username);
         });
         API.on('room_playlist-queue-reorder', function (data) {
+            if (!data || !data.user) {
+                return;
+            }
             addChatLog('[System] ' + data.user.username + ' reordered the Queue.');
         });
         API.on('room_playlist-queue-remove-user-song', function (data) {
+            if (!data || !data.user) {
+                return;
+            }
             addChatLog('[System] ' + data.user.username + ' removed a song queued by ' + data.removedUser.username + ' from the Queue.');
         });
         API.on('room_playlist-queue-remove-user', function (data) {
+            if (!data || !data.user) {
+                return;
+            }
             addChatLog('[System] ' + data.user.username + ' cleared ' + data.removedUser.username + "'s queue.");
         });
         API.on('user-pause-queue-mod', function (data) {
+            if (!data || !data.user) {
+                return;
+            }
             addChatLog('[System] ' + data.mod.username + ' removed ' + data.user.username + ' from the Queue.');
         });
         API.on('room-lock-queue', function (data) {
+            if (!data || !data.user) {
+                return;
+            }
             addChatLog('[System] ' + data.user.username + ' ' + (data.room.lockQueue ? 'locked' : 'unlocked') + " the room's Queue");
         });
 
