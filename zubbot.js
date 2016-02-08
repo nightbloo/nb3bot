@@ -918,7 +918,7 @@ new DubAPI({
                     redisManager.getTwitchDubAuthKey(key, function(result) {
                         if (result) {
                             if (data.user.id = result) {
-                                if (bot.getSelf().hasPermission('set-roles')) {
+                                if (bot.hasPermission(bot.getSelf(), 'set-roles')) {
                                     if (!data.user.role) {
                                         bot.moderateSetRole(data.user.id, 'resident-dj');
                                     }
@@ -934,7 +934,7 @@ new DubAPI({
                                     redisManager.setTwitch(data.user.id, result);
                                     bot.sendChat('@' + data.user.username + ' your account has been linked with the twitch account ' + result);
                                     if (data.user.id = result) {
-                                        if (bot.getSelf().hasPermission('set-roles')) {
+                                        if (bot.hasPermission(bot.getSelf(), 'set-roles')) {
                                             if (!data.user.role) {
                                                 bot.moderateSetRole(data.user.id, 'resident-dj');
                                             }
