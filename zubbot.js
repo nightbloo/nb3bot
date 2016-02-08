@@ -76,6 +76,7 @@
  !mute - mute the user for x amount of time
  !timeout - remove all messages from user and mute them for x amount of time
  !seppuku - remove all messages from self
+ !sub|subs|subscribe|residentdj|rdj - Will give info about being a sub and how to get RDJ
 
  Keys
  ~ = recommendation
@@ -654,6 +655,14 @@ new DubAPI({
                     var targetName = getTargetName(target);
                     bot.sendChat(targetName + " On Sunday we lock the queue and let only NightBlue3 twitch subs play for the duration of the stream that day.");
                     bot.sendChat("You can sub to Nightblue3 https://www.twitch.tv/nightblue3/subscribe");
+                }
+                else if (/!(sub|subs|subscribe|residentdj|rdj)/i.test(data.message.split(" ")[0])) {
+                    var target = data.message.split(" ")[1];
+                    var targetName = getTargetName(target);
+                    bot.sendChat(targetName + " to get Resident DJ be a sub to Nightblue3's twitch.");
+                    bot.sendChat('You can become a sub to NB3 here! https://twitch.tv/nightblue3/subscribe');
+                    bot.sendChat('Once your a sub you can go to https://nightbluebot.larry1123.net/auth/twitch/ and I will give subs RDJ!');
+                    bot.sendChat('Resident DJs can play in locked queues (notably Sub Sunday) and have shorter command cooldowns');
                 }
                 else if (data.message == "!rules") {
                     var target = data.message.split(" ")[1];
