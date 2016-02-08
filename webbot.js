@@ -24,6 +24,12 @@ app.get('/auth/twitch/', function (req, res) {
     if (req.query.code && req.query.scope) {
         var code = req.query.code;
         twitchManager.getAccessToken(code, function(err, body) {
+            if (err) {
+                console.error(err);
+                send += 'getAccessToken\n';
+                res.send(send + ' ' + err.status + ':' + err.error + ': ' + err.message);
+                return;
+            }
             var accessToken = body.access_token;
             twitchManager.getAuthenticatedUser(accessToken, function (err, body) {
                 if (err) {
@@ -67,6 +73,9 @@ app.get('/auth/twitch/', function (req, res) {
                             res.send(send);
                         });
                     });
+                }
+                else {
+                    // Error?
                 }
             });
         });
