@@ -118,7 +118,6 @@ function getRuntimeMessage() {
     return timeDifference(Date.now(), startTime);
 }
 
-var sendgrid = null, zip;
 try {
     sendgrid = require('sendgrid')(process.env.CHATLOGS_SENDGRID_KEY);
     zip = require('node-zip')();
@@ -163,6 +162,7 @@ new DubAPI({
         console.log("------------------------   NightBlueBot  -------------------------------------");
         console.log("------------------------ CREATED BY ZUBOHM -----------------------------------");
 
+        /*
         console.log('Checking if all directories exists...');
         var dataDirectories = ['history', 'quotes', 'users', 'python'];
         dataDirectories.forEach(function (dirStr) {
@@ -172,6 +172,7 @@ new DubAPI({
             console.log('Directory ' + dirStr + ' doesn\'t exists, creating it...');
             fs.mkdir(dirStr);
         });
+        */
 
         if (sendgrid !== null) {
             setupChatlogs(bot);
@@ -968,15 +969,13 @@ new DubAPI({
     });
 
 function setupChatlogs(API) {
-    var lastSentTimestamp = null,
-        lastChatlogContents = null,
+    var lastChatlogContents = null,
         lastSongID = null,
         lastDJUsername = null;
 
     function getToday() {
         return new Date(new Date().toDateString() + ' 00:00:00')
     }
-
     function forceSaveLogs() {
         if (lastChatlogContents) {
             console.log('Hold on a second, saving chatlogs');
@@ -984,23 +983,15 @@ function setupChatlogs(API) {
         }
     }
 
-    function refreshChatlogs(cb) {
-        lastSentTimestamp = getToday().getTime();
-        lastChatlogContents = 'timestamp=' + lastSentTimestamp + '\r\n';
-        fs.writeFile('chatlogs.txt', lastChatlogContents, 'utf8', cb);
-    }
-
     /* Setup file (Reading & checking if it exists) */
     fs.readFile('chatlogs.txt', 'utf8', function (err, contents) {
-        var now = new Date(), timestampRegExp = /(?!timestamp=)\d{1,17}/i;
-
         if (err) {
             if (err.code !== 'ENOENT') {
                 console.error(err);
                 return;
             }
             console.log("chatlogs.txt doesn't exists, making it");
-            refreshChatlogs(function (err1) {
+            fs.writeFile('chatlogs.txt', lastChatlogContents = 'Chat Logs - ' + getToday().toString() + '\r\n', 'utf8', function (err1) {
                 if (err1) {
                     console.log('Error creating chatlogs.txt');
                     return console.error(err1);
@@ -1011,55 +1002,6 @@ function setupChatlogs(API) {
         if (!lastChatlogContents) {
             lastChatlogContents = contents;
         }
-        if (!lastSentTimestamp) {
-            lastSentTimestamp = parseInt(timestampRegExp.exec(contents.split('\r\n')[0]));
-        }
-
-        function sendMail() {
-            var zipFileName = 'chatlogs_' + new Date().toDateString().replace(/ /g, '_') + '.zip',
-                zipFile = zip.file('chatlogs.txt', fs.readFileSync('chatlogs.txt'));
-            var zipFileData = zipFile.generate({base64: false, compression: 'DEFLATE'});
-            fs.writeFileSync(zipFileName, zipFileData, 'binary');
-
-            sendgrid.send({
-                from: process.env.CHATLOGS_FROM,
-                to: process.env.CHATLOGS_TO,
-                subject: 'NightBlueBot Chat Logs - ' + now,
-                text: "NightBlueBot Chat Logs - " + now + ". Attached to this email",
-                files: [
-                    {path: zipFileName}
-                ]
-            }, function (err, json) {
-                if (err) {
-                    console.log('Error sending chatlog message');
-                    return console.error(err);
-                }
-
-                console.log('Email sent, refreshing chatlogs.txt');
-                refreshChatlogs(function (err1) {
-                    if (err1) {
-                        console.log('Error refreshing chatlogs.txt');
-                        return console.error(err1);
-                    }
-                    console.log('Done refreshing chatlogs.txt');
-                });
-            });
-
-            fs.unlink(zipFileName, function (err) {
-                if (err) {
-                    console.log('Error removing temporary zip file.');
-                    return console.error(err);
-                }
-            })
-        }
-
-        var tomorrow = getToday().setDate(now.getDay() + 1);
-        setTimeout(function () {
-            sendMail();
-            console.log('Sending Chatlogs email in ' + 86400000 + ' milliseconds.');
-            setInterval(sendMail, 86400000);
-        }, tomorrow - now.getTime() + 5);
-        console.log('Sending Chatlogs email in ' + (tomorrow - now.getTime() + 5) + ' milliseconds.');
 
         function addChatLog(str) {
             var prefix = new Date().toTimeString().split(' ')[0] + ' | ';
@@ -1107,6 +1049,7 @@ function setupChatlogs(API) {
         API.on('room-lock-queue', function (data) {
             addChatLog('[System] ' + data.user.username + ' ' + (data.room.lockQueue ? 'locked' : 'unlocked') + " the room's Queue");
         });
+
         function chatLogSystemEvent(data) {
             var user = data.user.username,
                 mod = data.mod.username,
@@ -1142,7 +1085,6 @@ function setupChatlogs(API) {
             }
             addChatLog('[System] ' + mod + ' ' + type + ' ' + user + ' ' + suffix);
         }
-
         API.on(API.events.userBan, chatLogSystemEvent);
         API.on(API.events.userUnban, chatLogSystemEvent);
         API.on(API.events.userKick, chatLogSystemEvent);
