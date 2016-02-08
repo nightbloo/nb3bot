@@ -101,7 +101,6 @@ var DubAPI = require('dubapi');
 var jsonfile = require('jsonfile');
 var fs = require('fs');
 var os = require("os");
-// { client_id: "generatedClientId", scope: "user_read, channel_read_"}
 var captainApi = require('node-memecaptain-api');
 var httpReq = require('http').request;
 var reddit = require('redwrap');
@@ -112,6 +111,9 @@ var twitchManager = require('./lib/twitchManager.js');
 var moment = require('moment');
 // Redis Manager - handles all of the redis interaction
 var redisManager = require('./lib/redisManager.js');
+// props Manager
+var PropsManager = require('./lib/propsManager.js');
+var propsManager = new PropsManager(redisManager);
 
 var startTime = Date.now();
 function getRuntimeMessage() {
@@ -141,6 +143,7 @@ new DubAPI({
         var currentName = "";
         var currentID = "";
         var currentType = "";
+        var currentDJ = null;
         var currentDJName = "";
         var currentStream = "";
         var neonCat = true;
@@ -223,8 +226,7 @@ new DubAPI({
         bot.on(bot.events.roomPlaylistUpdate, function (data) {
             if (data !== undefined) {
                 if (data.media == undefined) {
-                    console.log("DubTrack died, fuck you too DubTrack");
-                    return 1;
+                    return;
                 }
                 lastMediaFKID = currentID;
                 currentName = data.media.name;
@@ -237,6 +239,26 @@ new DubAPI({
                     }
                     redisManager.setLastSong(currentID);
                 });
+                // Save Props
+                if (currentDJ) {
+                    var props = propsManager.onSongChange(currentDJ.id);
+                    if (props) {
+                        var propss = 'prop';
+                        if (props > 1) {
+                            propss += 's';
+                        }
+                        bot.sendChat('User ' + currentDJ.username + ' got ' + props + propss + ' for the song they just played.');
+                    }
+                }
+                else {
+                    propsManager.resetProps();
+                }
+                if (data.user) {
+                    currentDJ = data.user;
+                }
+                else {
+                    currentDJ = null;
+                }
                 currentDJName = (data.user == undefined ? "404usernamenotfound" : (data.user.username == undefined ? "404usernamenotfound" : data.user.username));
                 if (currentType == "soundcloud") {
                     currentStream = data.media.streamURL;
@@ -591,52 +613,11 @@ new DubAPI({
                     }, 60000);
                 }
                 else if (data.message == "!props") {
-                    if (thisUser === currentDJName) {
-                        bot.sendChat('@' + thisUser + ' we know you love your song, but let others also prop you!');
+                    if (data.user.id === currentDJ.id) {
+                        bot.sendChat('@' + data.user.username + ' we know you love your song, but let others also prop you!');
                         return;
                     }
-                    var userFile;
-                    userFile = "users/" + currentDJName + ".json";
-                    fs.stat(userFile, function (err, stat) {
-                        var username = data.message.split(" ")[1];
-                        var userFile = "users/" + currentDJName + ".json";
-                        var username = data.message.split(" ")[1];
-                        var userData = {};
-                        if (err == null) {
-                            try {
-                                userData = jsonfile.readFileSync(userFile);
-                            }
-                            catch (err) {
-                                userData = {
-                                    props: 0
-                                };
-                                jsonfile.writeFile(userFile, userData, function (err) {
-                                    if (err != null) {
-                                        console.log(err);
-                                    }
-                                });
-                            }
-                            userData.props += 1;
-                            jsonfile.writeFile(userFile, userData, function (err) {
-                                if (err != null) {
-                                    console.log(err);
-                                }
-                            });
-                            bot.sendChat("@" + currentDJName + " " + thisUser + " likes your song! Keep it up! :)");
-                        }
-                        else if (err.code == 'ENOENT') {
-                            userData.props = 1;
-                            fs.writeFile(userFile, JSON.stringify(userData), function (err) {
-                                if (err != null) {
-                                    console.log(err);
-                                }
-                            });
-                            bot.sendChat("@" + currentDJName + " " + thisUser + " likes your song! Keep it up! :)");
-                        }
-                        else {
-                            console.log('Some other error: ', err.code);
-                        }
-                    });
+                    propsManager.addProp(data.user.id);
                 }
                 else if (data.message == "!eta") {
                     bot.sendChat("In order to get the ETA Timer, please download the DubX Extension from https://dubx.net/");
@@ -646,7 +627,11 @@ new DubAPI({
                     var userId = data.user.id;
                     redisManager.getProps(userId, function (result) {
                         if (result) {
-                            bot.sendChat('@' + data.user.username + ' you have ' + result + ' props! :)');
+                            var propss = 'prop';
+                            if (result > 1) {
+                                propss += 's';
+                            }
+                            bot.sendChat('@' + data.user.username + ' you have ' + result + ' ' + propss + '! :)');
                         }
                         else {
                             bot.sendChat('@' + data.user.username + ' you don\'t have any props! Play a song to get props! :)');
@@ -1070,6 +1055,9 @@ function setupChatlogs(API) {
         });
 
         function chatLogSystemEvent(data) {
+            if (!data || !data.user) {
+                return;
+            }
             var user = data.user.username,
                 mod = data.mod.username,
                 type = '', suffix = '';
