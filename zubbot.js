@@ -240,7 +240,7 @@ new DubAPI({
                 if (currentType == "soundcloud") {
                     currentStream = data.media.streamURL;
                     currentMediaPermaLink = "not found (?!) or something went wrong";
-                    if (accountObj.sc_client_id) {
+                    if (process.env.SC_CLIENT_ID) {
                         httpReq({
                             hostname: 'api.soundcloud.com',
                             path: '/tracks/' + currentID + '?client_id=' + accountObj.sc_client_id,

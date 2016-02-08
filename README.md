@@ -25,6 +25,8 @@ TWITCH_CLIENT_ID=foo       # Twitch Client ID
 TWITCH_CLIENT_SECRET=bar   # Twitch Secret ID
 TWITCH_REDIRECT_URL=string # Twitch Redirect URL
 
+SC_CLIENT_ID=foo # Soundcloud client ID to get song url
+
 COOLDOWN=number # [OPTIONAL] Number for per user cooldown (in seconds). Default is 30
 
 IMGTIME=number               # [OPTIONAL] Number for image removal (in seconds). Default is 15
