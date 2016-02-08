@@ -918,11 +918,15 @@ new DubAPI({
                     redisManager.getTwitchDubAuthKey(key, function(result) {
                         if (result) {
                             if (data.user.id = result) {
-                                if (bot.hasPermission(bot.getSelf(), 'set-roles')) {
-                                    if (!data.user.role) {
-                                        bot.moderateSetRole(data.user.id, 'resident-dj');
+                                redisManager.getTwitchSub(result, function(result) {
+                                    if (result) {
+                                        if (bot.hasPermission(bot.getSelf(), 'set-roles')) {
+                                            if (!data.user.role) {
+                                                bot.moderateSetRole(data.user.id, 'resident-dj');
+                                            }
+                                        }
                                     }
-                                }
+                                });
                             }
                             else {
                                 bot.sendChat('This key has been used on another dubtrack account!');
@@ -933,11 +937,15 @@ new DubAPI({
                                 if (result) {
                                     redisManager.setTwitch(data.user.id, result);
                                     bot.sendChat('@' + data.user.username + ' your account has been linked with the twitch account ' + result);
-                                    if (bot.hasPermission(bot.getSelf(), 'set-roles')) {
-                                        if (!data.user.role) {
-                                            bot.moderateSetRole(data.user.id, 'resident-dj');
+                                    redisManager.getTwitchSub(result, function(result) {
+                                        if (result) {
+                                            if (bot.hasPermission(bot.getSelf(), 'set-roles')) {
+                                                if (!data.user.role) {
+                                                    bot.moderateSetRole(data.user.id, 'resident-dj');
+                                                }
+                                            }
                                         }
-                                    }
+                                    });
                                 }
                                 else {
                                     /// Well this is not a key it seems just let it go
