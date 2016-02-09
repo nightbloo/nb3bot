@@ -442,7 +442,11 @@ new DubAPI({
                     bot.sendChat('@' + thisUser + ' http://imgur.com/uG1wSj3');
                 }
                 if (data.message == "!hello") {
-                    bot.sendChat("Hi There, @" + data.user.username);
+                    var secretChance = Math.floor(Math.random() * 100) === 0;
+                    if(secretChance) {
+                        bot.sendChat('@' + thisUser + ' hello...');
+                        setTimeout(function() { bot.sendChat("... it's me..."); }, 4500)
+                    } else bot.sendChat("Hi There, @" + data.user.username);
                 }
                 else if (data.message == "!agar") {
                     AgarioClient.servers.createParty("US-Atlanta", function (data) {
@@ -845,7 +849,7 @@ new DubAPI({
                     if (data.message.split(" ").length > 1) {
                         var username = data.message.split(" ")[1].replace("@", "");
                         if (username == thisUser) {
-                            bot.sendChat("@" + thisUser + " can't tell that so I'm asking you: how much do you love yourself?");
+                            bot.sendChat("@" + thisUser + " well I don't know.... how much do you love yourself?");
                             return;
                         }
                         else if (username === 'NightBlueBot') {
