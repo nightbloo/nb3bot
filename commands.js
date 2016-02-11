@@ -349,9 +349,10 @@ function regCommands(commandManager) {
                         return 1;
                     }
                     // Ok everything should be good from here
+                    var heartList = [ ':heart:', ':blue_heart:', ':purple_heart:', ':green_heart:', ':yellow_heart:' ];
                     utils.redisManager.incLove(utils.getUserId());
                     utils.redisManager.getLove(utils.getUserId(), function(love) {
-                        utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " gave you a heart <3. You now have " + love + " hearts.");
+                        utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " gave you a heart " + heartList[Math.floor(Math.random() * heartList.length)] + ". You now have " + love + " hearts.");
                     });
                 }
                 else if (username != '') {
