@@ -346,11 +346,12 @@ function regCommands(commandManager) {
                     // Lets see if they should be told that they have a hand...
                     if (thatUser.id == utils.getUserId()) {
                         utils.bot.sendChat("@" + utils.getUserUsername() + " just use your hand....");
+                        return 1;
                     }
                     // Ok everything should be good from here
                     utils.redisManager.incLove(utils.getUserId());
                     utils.redisManager.getLove(utils.getUserId(), function(love) {
-                        utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " has broken one of your hearts </3. You now have " + love + " hearts.");
+                        utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " gave you a heart <3. You now have " + love + " hearts.");
                     });
                 }
                 else if (username != '') {
