@@ -319,8 +319,8 @@ function regCommands(commandManager) {
                         return 1;
                     }
                     // Ok everything should be good from here
-                    utils.redisManager.decLove(utils.getUserId());
-                    utils.redisManager.getLove(utils.getUserId(), function(love) {
+                    utils.redisManager.decLove(thatUser.id);
+                    utils.redisManager.getLove(thatUser.id, function(love) {
                         utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " has broken one of your hearts </3. You now have " + love + " hearts.");
                     });
                 }
@@ -350,8 +350,11 @@ function regCommands(commandManager) {
                     }
                     // Ok everything should be good from here
                     var heartList = [ ':heart:', ':blue_heart:', ':purple_heart:', ':green_heart:', ':yellow_heart:' ];
-                    utils.redisManager.incLove(utils.getUserId());
-                    utils.redisManager.getLove(utils.getUserId(), function(love) {
+                    utils.redisManager.incLove(thatUser.id);
+                    utils.redisManager.getLove(thatUser.id, function(love) {
+                        if (utils.getUserId() == '56083b920cd1cc03003fe8e2') {
+                            utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " has broken one of your hearts </3. You now have " + love + " hearts.");
+                        }
                         utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " gave you a heart " + heartList[Math.floor(Math.random() * heartList.length)] + ". You now have " + love + " hearts.");
                     });
                 }
