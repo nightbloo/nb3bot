@@ -661,6 +661,15 @@ function regCommands(commandManager) {
                 }
             }
         )
+        ,
+        new Command('skip', ['skip'], 0, [], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                utils.timeMuteUser(5, '!shush');
+            }
+        )
     ].forEach(function (command) {
             var ret = commandManager.addCommand(command);
             if (!ret) {
