@@ -355,7 +355,9 @@ function regCommands(commandManager) {
                         if (utils.getUserId() == '56083b920cd1cc03003fe8e2') {
                             utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " has broken one of your hearts </3. You now have " + love + " hearts.");
                         }
-                        utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " gave you a heart " + heartList[Math.floor(Math.random() * heartList.length)] + ". You now have " + love + " hearts.");
+                        else {
+                            utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " gave you a heart " + heartList[Math.floor(Math.random() * heartList.length)] + ". You now have " + love + " hearts.");
+                        }
                     });
                 }
                 else if (username != '') {
