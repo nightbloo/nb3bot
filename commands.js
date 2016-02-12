@@ -352,11 +352,11 @@ function regCommands(commandManager) {
                     var heartList = [ ':heart:', ':blue_heart:', ':purple_heart:', ':green_heart:', ':yellow_heart:' ];
                     utils.redisManager.incLove(thatUser.id);
                     utils.redisManager.getLove(thatUser.id, function(love) {
-                        if (utils.getUserId() == '56083b920cd1cc03003fe8e2') {
-                            utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " has broken one of your hearts </3. You now have " + love + " hearts.");
-                        }
-                        else if (thatUser.id == utils.bot.getSelf().id) {
+                        if (thatUser.id == utils.bot.getSelf().id) {
                             utils.bot.sendChat('Nice people like you have given me ' + love + ' hearts. ' + heartList[Math.floor(Math.random() * heartList.length)] + ' Thank you!');
+                        }
+                        else if (utils.getUserId() == '56083b920cd1cc03003fe8e2') {
+                            utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " has broken one of your hearts </3. You now have " + love + " hearts.");
                         }
                         else {
                             utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " gave you a heart " + heartList[Math.floor(Math.random() * heartList.length)] + ". You now have " + love + " hearts.");
