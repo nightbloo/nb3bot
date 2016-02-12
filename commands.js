@@ -346,7 +346,7 @@ function regCommands(commandManager) {
                     // Lets see if they should be told that they have a hand...
                     if (thatUser.id == utils.getUserId()) {
                         utils.bot.sendChat("@" + utils.getUserUsername() + " just use your hand....");
-                        return 1;
+                        return;
                     }
                     // Ok everything should be good from here
                     var heartList = [ ':heart:', ':blue_heart:', ':purple_heart:', ':green_heart:', ':yellow_heart:' ];
@@ -354,6 +354,9 @@ function regCommands(commandManager) {
                     utils.redisManager.getLove(thatUser.id, function(love) {
                         if (utils.getUserId() == '56083b920cd1cc03003fe8e2') {
                             utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " has broken one of your hearts </3. You now have " + love + " hearts.");
+                        }
+                        else if (thatUser.id == utils.bot.getSelf().id) {
+                            utils.bot.sendChat('Nice people like you have given me ' + love + ' hearts. ' + heartList[Math.floor(Math.random() * heartList.length)] + ' Thank you!');
                         }
                         else {
                             utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " gave you a heart " + heartList[Math.floor(Math.random() * heartList.length)] + ". You now have " + love + " hearts.");
