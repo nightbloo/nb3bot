@@ -349,7 +349,7 @@ function regCommands(commandManager) {
                         return;
                     }
                     // Ok everything should be good from here
-                    var heartList = [ ':heart:', ':blue_heart:', ':purple_heart:', ':green_heart:', ':yellow_heart:' ];
+                    var heartList = [ ':heart:', ':blue_heart:', ':purple_heart:', ':green_heart:', ':yellow_heart:', ':nb3h:' ];
                     utils.redisManager.incLove(thatUser.id);
                     utils.redisManager.getLove(thatUser.id, function(love) {
                         if (thatUser.id == utils.bot.getSelf().id) {
