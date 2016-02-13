@@ -142,6 +142,8 @@ function regCommands(commandManager) {
             function (utils) {
                 if (utils.getUserId() === utils.currentDJ.id) {
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' we know you love your song, but let others also prop you!');
+                    // Make sure that they can't spam it
+                    commandManager.setUserOnCooldown(utils, this, utils.settingsManager.getCooldown());
                     return;
                 }
                 utils.propsManager.addProp(utils.getUserId());
