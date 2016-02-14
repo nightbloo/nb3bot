@@ -534,7 +534,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.redisManager.getLastSongTime(utils.getMediaId(), function (result) {
+                utils.redisManager.getLastSongTime(utils.getMediaFkid(), function (result) {
                     if (result) {
                         utils.bot.sendChat('This song was last played ' + timeDifference(Date.now(), parseInt(result)) + '.');
                     }
