@@ -694,6 +694,15 @@ function regCommands(commandManager) {
                 utils.bot.sendChat('(snippet from For Producers/Promoters, https://git.io/vWJnY#for-producerspromoters)');
             }
         )
+        ,
+        new Command('producerslist', ['producerslist', 'promoterslist'], 0, [], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                utils.bot.sendChat(utils.getTargetName() + ' Promoters/Producers list: https://goo.gl/sGrMbB');
+            }
+        )
     ].forEach(function (command) {
             var ret = commandManager.addCommand(command);
             if (!ret) {
