@@ -142,7 +142,7 @@ new DubAPI({
         console.log("------------------------ CREATED BY ZUBOHM -----------------------------------");
 
         if (sendgrid !== null) {
-            setupChatlogs(bot);
+            // setupChatlogs(bot); This is restarting the BOT because of max-memory exceed, temporary commented
         }
 
         function connect() {
