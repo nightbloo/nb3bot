@@ -275,6 +275,7 @@ function regCommands(commandManager) {
                     ,
                     'SiilerBloo': 'https://imgur.com/a/oZKQ3'
                 };
+
                 function checkIfSpecify() {
                     var r = null;
                     Object.keys(bgLinks).forEach(function (name) {
@@ -284,6 +285,7 @@ function regCommands(commandManager) {
                     });
                     return r;
                 }
+
                 var bgUrl;
                 if (args.length > 0 && (bgUrl = checkIfSpecify())) {
                     utils.bot.sendChat(utils.getTargetName(2) + ' ' + bgUrl + "'s BGs: " + bgLinks[bgUrl]);
@@ -322,7 +324,7 @@ function regCommands(commandManager) {
                     }
                     // Ok everything should be good from here
                     utils.redisManager.decLove(thatUser.id);
-                    utils.redisManager.getLove(thatUser.id, function(love) {
+                    utils.redisManager.getLove(thatUser.id, function (love) {
                         utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " has broken one of your hearts </3. You now have " + love + " hearts.");
                     });
                 }
@@ -351,9 +353,9 @@ function regCommands(commandManager) {
                         return;
                     }
                     // Ok everything should be good from here
-                    var heartList = [ ':heart:', ':blue_heart:', ':purple_heart:', ':green_heart:', ':yellow_heart:', ':nb3h:' ];
+                    var heartList = [':heart:', ':blue_heart:', ':purple_heart:', ':green_heart:', ':yellow_heart:', ':nb3h:'];
                     utils.redisManager.incLove(thatUser.id);
-                    utils.redisManager.getLove(thatUser.id, function(love) {
+                    utils.redisManager.getLove(thatUser.id, function (love) {
                         if (thatUser.id == utils.bot.getSelf().id) {
                             utils.bot.sendChat('Nice people like you have given me ' + love + ' hearts. ' + heartList[Math.floor(Math.random() * heartList.length)] + ' Thank you!');
                         }
@@ -416,13 +418,13 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('shush', ['shush'], 1, [], [],
+        new Command('shush', ['shush', 'sush'], 1, [], [],
             /**
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' (Click for better quality) http://i.imgur.com/uFE8PfA.png');
-                utils.bot.sendChat('(snippet from Community Rules, http://git.io/vWJnY#miscellaneous)');
+                utils.bot.sendChat(utils.getTargetName() + ' (Click for better quality) https://i.imgur.com/uFE8PfA.png');
+                utils.bot.sendChat('(snippet from Community Rules, https://git.io/vWJnY#miscellaneous)');
             }
         )
         ,
@@ -602,7 +604,7 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 var message = '';
-                commandManager.getCommandList().forEach(function(commandListElement) {
+                commandManager.getCommandList().forEach(function (commandListElement) {
                     message += (message == '' ? '' : ', ') + commandListElement.commandId;
                 });
                 message = utils.getTargetName() + ' Hi the commands I have are: ' + message;
@@ -680,6 +682,16 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 utils.timeMuteUser(5, '!shush');
+            }
+        )
+        ,
+        new Command('producers', ['producers', 'promoters'], 0, [], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                utils.bot.sendChat(utils.getTargetName() + ' (Click for better quality) https://i.imgur.com/XmnAYIJ.png');
+                utils.bot.sendChat('(snippet from For Producers/Promoters, https://git.io/vWJnY#for-producerspromoters)');
             }
         )
     ].forEach(function (command) {
