@@ -409,7 +409,7 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('english', ['english'], 1, [], [],
+        new Command('english', ['english', 'eng'], 1, [], [],
             /**
              * @param {MessageUtils} utils
              */
