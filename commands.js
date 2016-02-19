@@ -617,11 +617,11 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                if (utils.getMessage().split(" ")[1] == undefined) {
+                if (utils.getCommandArgument(0) == undefined) {
                     return 1;
                 }
-                var input = isNaN(parseInt(utils.getMessage().split(" ")[1]));
-                if (!input) {
+                var input = parseInt(utils.getCommandArgument(0));
+                if (!isNaN(input)) {
                     utils.settingsManager.setCooldown(input);
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' set cooldown to ' + utils.getMessage().split(' ')[1] + ' seconds.');
                 }
