@@ -61,19 +61,8 @@
  * [] = arg
  **************************************************************************
  */
-Array.prototype.contains = function (element) {
-    return (this.indexOf(element) > -1);
-};
-Array.prototype.remove = function (element) {
-    if (this.contains(element)) {
-        this.splice(this.indexOf(element), 1);
-        return true;
-    }
-    else {
-        return false;
-    }
-};
-require('dotenv').load();
+
+require('./lib/utilsLoader');
 var DubAPI = require('dubapi');
 var jsonfile = require('jsonfile');
 var fs = require('fs');

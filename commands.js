@@ -38,12 +38,11 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                var secretChance = Math.floor(Math.random() * 100) === 0;
-                if (secretChance) {
+                if (Math.dice(50) === 0) {
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' hello...');
                     setTimeout(function () {
                         utils.bot.sendChat('... it\'s me...');
-                    }, 4500); // you left out a ; how dare you!
+                    }, 4500);
                 }
                 else {
                     utils.bot.sendChat('Hi There, @' + utils.getUserUsername());
@@ -83,7 +82,7 @@ function regCommands(commandManager) {
                         console.log(err);
                     }
                     var children = data.data.children;
-                    var random = Math.floor((Math.random() * children.length - 1) + 1);
+                    var random = Math.dice(1, children.length);
                     if (children[random].data.url.indexOf("imgur") > -1) {
                         utils.bot.sendChat(children[random].data.url);
                     }
@@ -187,10 +186,10 @@ function regCommands(commandManager) {
             function (utils) {
                 utils.redisManager.getLove(utils.getUserId(), function (result) {
                     if (result) {
-                        utils.bot.sendChat('@' + utils.getUserUsername() + ' you have ' + result + ' hearts! :)');
+                        utils.bot.sendChat('@' + utils.getUserUsername() + ' you have ' + result + ' hearts! :' + (result <= 0 ? '(' : ')'));
                     }
                     else {
-                        utils.bot.sendChat('@' + utils.getUserUsername() + ' you don\'t have any love! :(');
+                        utils.bot.sendChat('@' + utils.getUserUsername() + ' you don\'t have any hearts! :(');
                     }
                 });
             }
@@ -233,7 +232,13 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' ' + utils.getUserUsername() + ' has sent a Kappa your way! :kappa:');
+                var kappaList = [':Kappa:', ':KappaPride:', ':KappaRoss:', ':Keepo:', ':froKappaK:', ':hoyNyanKappa:', ':kingKappa:', ':lordKappa:', ':ragKappa:', ':kappaI:', ':kappaRoll:', ':blacKappa:', ':kappaEnvy:', ':kappaBlues:', ':kappaPrince:', ':kappaWarmth:', ':kappaYella:', ':sunKappa:', ':yummiKappa:', ':zirkelKappa:', ':buttsKappa:', ':azumiPikappa:'];
+                var random = kappaList[Math.dice(kappaList.length)];
+                if (utils.getTargetName()) {
+                    utils.bot.sendChat(utils.getTargetName() + ' ' + utils.getUserUsername() + ' has sent a Kappa your way! ' + random);
+                } else {
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' ' + random);
+                }
             }
         )
         ,
@@ -262,8 +267,6 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                var args = utils.getMessage().split(' ').slice(1);
-                var targetName = utils.getTargetName(args.length - 1);
                 var bgLinks = {
                     'Snaky': 'https://imgur.com/a/ZO2Nz'
                     ,
@@ -279,7 +282,7 @@ function regCommands(commandManager) {
                 function checkIfSpecify() {
                     var r = null;
                     Object.keys(bgLinks).forEach(function (name) {
-                        if (name.toLowerCase() === args[0].toLowerCase()) {
+                        if (name.toLowerCase() === utils.getCommandArguments()[0].toLowerCase()) {
                             r = name;
                         }
                     });
@@ -287,12 +290,12 @@ function regCommands(commandManager) {
                 }
 
                 var bgUrl;
-                if (args.length > 0 && (bgUrl = checkIfSpecify())) {
+                if (utils.getCommandArguments().length > 0 && (bgUrl = checkIfSpecify())) {
                     utils.bot.sendChat(utils.getTargetName(2) + ' ' + bgUrl + "'s BGs: " + bgLinks[bgUrl]);
                 }
                 else {
                     Object.keys(bgLinks).forEach(function (name, i) {
-                        utils.bot.sendChat((i === 0 ? targetName : '') + ' ' + name + "'s BGs: " + bgLinks[name]);
+                        utils.bot.sendChat((i === 0 ? utils.getTargetName() : '') + ' ' + name + "'s BGs: " + bgLinks[name]);
                     });
                 }
             }
@@ -319,7 +322,10 @@ function regCommands(commandManager) {
                 if (thatUser) {
                     // I love them all I watch over them and protect them
                     if (thatUser.id == utils.bot.getSelf().id) {
-                        utils.bot.sendChat('You can\'t hate me, you can only love me, @' + utils.getUserUsername() + '!');
+                        utils.bot.sendChat("You can't hate me, you can only love me, @" + utils.getUserUsername() + '!');
+                        return 1;
+                    } else if (thatUser.id == utils.getUserId()) {
+                        utils.bot.sendChat("No! Don't hate yourself please! Know that we all love you :nb3h:");
                         return 1;
                     }
                     // Ok everything should be good from here
@@ -357,13 +363,13 @@ function regCommands(commandManager) {
                     utils.redisManager.incLove(thatUser.id);
                     utils.redisManager.getLove(thatUser.id, function (love) {
                         if (thatUser.id == utils.bot.getSelf().id) {
-                            utils.bot.sendChat('Nice people like you have given me ' + love + ' hearts. ' + heartList[Math.floor(Math.random() * heartList.length)] + ' Thank you!');
+                            utils.bot.sendChat('Nice people like you have given me ' + love + ' hearts. ' + heartList[Math.dice(heartList.length)] + ' Thank you!');
                         }
                         else if (utils.getUserId() == '56083b920cd1cc03003fe8e2') {
                             utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " has broken one of your hearts </3. You now have " + love + " hearts.");
                         }
                         else {
-                            utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " gave you a heart " + heartList[Math.floor(Math.random() * heartList.length)] + ". You now have " + love + " hearts.");
+                            utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " gave you a heart " + heartList[Math.dice(heartList.length)] + ". You now have " + love + " hearts.");
                         }
                     });
                 }
@@ -446,13 +452,13 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('lovepercentage', ['lovepercent', 'love\%', 'lovepercentage'], 1, [], [],
+        new Command('lovepercentage', ['lovepercent', 'love%', 'lovepercentage'], 1, [], [],
             /**
              * @param {MessageUtils} utils
              */
             function (utils) {
-                if (utils.getMessage().split(" ").length > 1) {
-                    var username = utils.getMessage().split(" ")[1].replace("@", "");
+                if (utils.getCommandArguments().length > 1) {
+                    var username = utils.getTargetName();
                     if (username == utils.getUserUsername()) {
                         utils.bot.sendChat("@" + utils.getUserUsername() + " well I don't know.... how much do you love yourself?");
                         return;
@@ -462,10 +468,10 @@ function regCommands(commandManager) {
                         return;
                     }
                     var username2 = utils.getUserUsername();
-                    if (utils.getMessage().split(' ').length > 2) {
-                        username2 = utils.getMessage().split(' ')[2].replace('@', '');
+                    if (utils.getCommandArguments().length > 2) {
+                        username2 = utils.getTargetName(2);
                     }
-                    utils.bot.sendChat('@' + utils.getUserUsername() + ' there is ' + (Math.floor(Math.random() * 100)) + '% of :nb3h: between ' + username2 + ' and ' + username);
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' there is ' + Math.dice(100) + '% of :nb3h: between ' + username2 + ' and ' + username);
                 }
             }
         )
@@ -488,7 +494,7 @@ function regCommands(commandManager) {
                 var username = utils.getTargetName().replace("@", "");
                 var muteuser = utils.bot.getUserByName(username, true);
                 if (muteuser) {
-                    var muteTime = parseFloat(utils.getMessage().split(" ")[2]);
+                    var muteTime = parseFloat(utils.getCommandArguments()[1]);
                     if (isNaN(muteTime)) {
                         muteTime = 5;
                     }
@@ -509,7 +515,7 @@ function regCommands(commandManager) {
                 var username = utils.getTargetName().replace("@", "");
                 var muteuser = utils.bot.getUserByName(username, true);
                 if (muteuser) {
-                    var muteTime = parseFloat(utils.getMessage().split(" ")[2]);
+                    var muteTime = parseFloat(utils.getCommandArguments()[1]);
                     if (isNaN(muteTime)) {
                         muteTime = 5;
                     }
@@ -552,7 +558,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                var key = utils.getMessage().split(" ")[1];
+                var key = utils.getCommandArguments()[0];
                 utils.redisManager.getTwitchDubAuthKey(key, function (result) {
                     if (result) {
                         if (utils.getUserId = result) {
@@ -617,13 +623,13 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                if (utils.getCommandArgument(0) == undefined) {
+                if (utils.getCommandArguments[0] == undefined) {
                     return 1;
                 }
-                var input = parseInt(utils.getCommandArgument(0));
+                var input = parseInt(utils.getCommandArguments[0]);
                 if (!isNaN(input)) {
                     utils.settingsManager.setCooldown(input);
-                    utils.bot.sendChat('@' + utils.getUserUsername() + ' set cooldown to ' + utils.getMessage().split(' ')[1] + ' seconds.');
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' set cooldown to ' + utils.getCommandArguments[0] + ' seconds.');
                 }
             }
         )
@@ -633,11 +639,11 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                if (utils.getMessage().split(" ")[1] == undefined) {
+                if (utils.getCommandArguments[0] == undefined) {
                     return 1;
                 }
-                var input = isNaN(parseInt(utils.getMessage().split(" ")[1])());
-                if (!input) {
+                var input = parseInt(utils.getCommandArguments[0]);
+                if (!isNaN(input)) {
                     utils.settingsManager.setImgTime(input);
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' set image removal time to ' + input + ' seconds.');
                 }
@@ -649,27 +655,27 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                if (utils.getMessage().split(" ")[1] == undefined) {
+                if (utils.getCommandArguments[0] == undefined) {
                     return 1;
                 }
-                var input = isNaN(parseInt(utils.getMessage().split(" ")[1])());
-                if (!input) {
+                var input = parseInt(utils.getCommandArguments[0]);
+                if (!isNaN(input)) {
                     utils.settingsManager.setImgDubsAmount(input);
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' set the amount of dubs for images to ' + input);
                 }
             }
         )
         ,
-        new Command('imgRemoveMuteTime', ['imgRemoveMuteTime'], 0, ['mod'], [],
+        new Command('imgremovemutetime', ['imgremovemutetime'], 0, ['mod'], [],
             /**
              * @param {MessageUtils} utils
              */
             function (utils) {
-                if (utils.getMessage().split(" ")[1] == undefined) {
+                if (utils.getCommandArguments[0] == undefined) {
                     return 1;
                 }
-                var input = isNaN(parseInt(utils.getMessage().split(" ")[1])());
-                if (!input) {
+                var input = parseInt(utils.getCommandArguments[0]);
+                if (!isNaN(input)) {
                     utils.settingsManager.setImgRemoveMuteTime(input);
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' users will now get muted for ' + input + ' minutes for not meeting the required amount of dubs.');
                 }
