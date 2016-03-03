@@ -596,7 +596,7 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('commands', ['commands'], 0, [], [],
+        new Command('commands', ['commands'], 0, ['resident-dj'], [],
             /**
              * @param {MessageUtils} utils
              */
