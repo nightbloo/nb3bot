@@ -1,7 +1,6 @@
 'use strict';
 
-// load .env settings
-require('dotenv').load();
+require('./lib/utilsLoader');
 // setup file reader
 var read = require('fs').readFileSync;
 // setup web server
@@ -15,10 +14,12 @@ var crypto = require('crypto');
 var twitchManager = require('./lib/twitchManager.js');
 var redisManager = require('./lib/redisManager.js');
 
+// Direct the peeps home
 app.get('/', function (req, res) {
     res.redirect('https://github.com/nightbloo/nb3bot');
     res.end();
 });
+// Handle the twitch stuff
 app.get('/auth/twitch/', function (req, res) {
     var send = '';
     if (req.query.code && req.query.scope) {

@@ -1,4 +1,6 @@
-require('dotenv').load();
+'use strict';
+
+require('./lib/utilsLoader');
 
 function sendMail() {
     var sendgrid = require('sendgrid')(process.env.CHATLOGS_SENDGRID_KEY);

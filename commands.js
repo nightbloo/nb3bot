@@ -529,16 +529,6 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('seppuku', ['seppuku'], 0, [], [],
-            /**
-             * @param {MessageUtils} utils
-             */
-            function (utils) {
-                utils.botUtils.clearUserChat(utils.getUser());
-                utils.bot.sendChat("Cleared all chat by " + utils.getUserUsername());
-            }
-        )
-        ,
         new Command('lastplayed', ['lastplayed', 'history'], 1, [], [],
             /**
              * @param {MessageUtils} utils
@@ -563,7 +553,7 @@ function regCommands(commandManager) {
                 var key = utils.getCommandArguments()[0];
                 utils.redisManager.getTwitchDubAuthKey(key, function (result) {
                     if (result) {
-                        if (utils.getUserId = result) {
+                        if (utils.getUserId == result) {
                             utils.redisManager.getTwitchSub(result, function (result) {
                                 if (result) {
                                     if (utils.bot.hasPermission(utils.bot.getSelf(), 'set-roles')) {

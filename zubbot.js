@@ -62,6 +62,8 @@
  **************************************************************************
  */
 
+'use strict';
+
 require('./lib/utilsLoader');
 var DubAPI = require('dubapi');
 var jsonfile = require('jsonfile');
