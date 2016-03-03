@@ -236,7 +236,8 @@ function regCommands(commandManager) {
                 var random = kappaList[Math.dice(kappaList.length)];
                 if (utils.getTargetName()) {
                     utils.bot.sendChat(utils.getTargetName() + ' ' + utils.getUserUsername() + ' has sent a Kappa your way! ' + random);
-                } else {
+                }
+                else {
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' ' + random);
                 }
             }
@@ -324,7 +325,8 @@ function regCommands(commandManager) {
                     if (thatUser.id == utils.bot.getSelf().id) {
                         utils.bot.sendChat("You can't hate me, you can only love me, @" + utils.getUserUsername() + '!');
                         return 1;
-                    } else if (thatUser.id == utils.getUserId()) {
+                    }
+                    else if (thatUser.id == utils.getUserId()) {
                         utils.bot.sendChat("No! Don't hate yourself please! Know that we all love you :nb3h:");
                         return 1;
                     }

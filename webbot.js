@@ -15,7 +15,7 @@ var crypto = require('crypto');
 var twitchManager = require('./lib/twitchManager.js');
 var redisManager = require('./lib/redisManager.js');
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
     res.redirect('https://github.com/nightbloo/nb3bot');
     res.end();
 });
@@ -23,7 +23,7 @@ app.get('/auth/twitch/', function (req, res) {
     var send = '';
     if (req.query.code && req.query.scope) {
         var code = req.query.code;
-        twitchManager.getAccessToken(code, function(err, body) {
+        twitchManager.getAccessToken(code, function (err, body) {
             if (err) {
                 console.error(err);
                 send += 'getAccessToken\n';
@@ -81,7 +81,7 @@ app.get('/auth/twitch/', function (req, res) {
 
 var httpServer = http.createServer(app);
 httpServer.listen(80);
-if(process.env.HTTPS_KEY && process.env.HTTPS_CERT && process.env.HTTPS_CA) {
+if (process.env.HTTPS_KEY && process.env.HTTPS_CERT && process.env.HTTPS_CA) {
     var httpsServer = https.createServer({
         key: read(process.env.HTTPS_KEY),
         cert: read(process.env.HTTPS_CERT),

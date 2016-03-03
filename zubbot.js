@@ -148,7 +148,7 @@ new DubAPI({
         });
 
         bot.on('error', function (err) {
-                console.error(err);
+            console.error(err);
         });
 
         bot.on(bot.events.roomPlaylistUpdate, function (data) {
@@ -223,7 +223,7 @@ new DubAPI({
             }
         });
 
-        bot.on(bot.events.chatMessage, function(data) {
+        bot.on(bot.events.chatMessage, function (data) {
             // Setup Utils!
             var messageUtils = new MessageUtils(bot, redisManager, twitchManager, propsManager, settingsManager, chatUtils, userUtils, mediaUtils, botUtils, data);
             messageUtils.currentMediaPermaLink = currentMediaPermaLink;
@@ -252,6 +252,7 @@ function setupChatlogs(API) {
     function getToday() {
         return new Date(new Date().toDateString() + ' 00:00:00')
     }
+
     function forceSaveLogs() {
         if (lastChatlogContents) {
             console.log('Hold on a second, saving chatlogs');
@@ -385,6 +386,7 @@ function setupChatlogs(API) {
             }
             addChatLog('[System] ' + mod + ' ' + type + ' ' + user + ' ' + suffix);
         }
+
         API.on(API.events.userBan, chatLogSystemEvent);
         API.on(API.events.userUnban, chatLogSystemEvent);
         API.on(API.events.userKick, chatLogSystemEvent);

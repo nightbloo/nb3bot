@@ -48,5 +48,9 @@ function sendMail() {
     });
 }
 
-if(/*process.env.CHATLOGS_SENDGRID_KEY*/false) sendMail();
-else console.log('No SendGrid Key defined, not sending Email');
+if (/*process.env.CHATLOGS_SENDGRID_KEY*/false) {
+    sendMail();
+}
+else {
+    console.log('No SendGrid Key defined, not sending Email');
+}
