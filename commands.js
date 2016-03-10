@@ -278,6 +278,9 @@ function regCommands(commandManager) {
                     'Frosolf': 'https://imgur.com/a/NZvz1 | https://imgur.com/a/Xi4Cx (anime)'
                     ,
                     'SiilerBloo': 'https://imgur.com/a/oZKQ3'
+                    ,
+                    'Pikachu': 'http://imgur.com/a/75R64'
+                    ,
                 };
 
                 function checkIfSpecify() {
