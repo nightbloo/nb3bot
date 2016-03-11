@@ -94,6 +94,7 @@ var commandManager = new CommandManager();
 var startTime = Date.now();
 
 var sendgrid = null;
+var zip = null;
 try {
     sendgrid = require('sendgrid')(process.env.CHATLOGS_SENDGRID_KEY);
     zip = require('node-zip')();
@@ -159,6 +160,9 @@ new DubAPI({
                     return;
                 }
                 lastMediaFKID = currentID;
+                if(data.media.fkid === lastMediaFKID) {
+                    return;
+                }
                 currentName = data.media.name;
                 currentID = data.media.fkid;
                 currentType = data.media.type;

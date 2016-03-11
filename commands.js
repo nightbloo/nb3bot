@@ -462,7 +462,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                if (utils.getCommandArguments().length > 1) {
+                if (utils.getCommandArguments().length > 0) {
                     var username = utils.getTargetName();
                     if (username == utils.getUserUsername()) {
                         utils.bot.sendChat("@" + utils.getUserUsername() + " well I don't know.... how much do you love yourself?");
@@ -473,7 +473,7 @@ function regCommands(commandManager) {
                         return;
                     }
                     var username2 = utils.getUserUsername();
-                    if (utils.getCommandArguments().length > 2) {
+                    if (utils.getCommandArguments().length > 1) {
                         username2 = utils.getTargetName(2);
                     }
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' there is ' + Math.dice(100) + '% of :nb3h: between ' + username2 + ' and ' + username);
@@ -618,13 +618,13 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                if (utils.getCommandArguments[0] == undefined) {
+                if (utils.getCommandArguments()[0] == undefined) {
                     return 1;
                 }
-                var input = parseInt(utils.getCommandArguments[0]);
+                var input = parseInt(utils.getCommandArguments()[0]);
                 if (!isNaN(input)) {
                     utils.settingsManager.setCooldown(input);
-                    utils.bot.sendChat('@' + utils.getUserUsername() + ' set cooldown to ' + utils.getCommandArguments[0] + ' seconds.');
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' set cooldown to ' + utils.getCommandArguments()[0] + ' seconds.');
                 }
             }
         )
@@ -634,10 +634,10 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                if (utils.getCommandArguments[0] == undefined) {
+                if (utils.getCommandArguments()[0] == undefined) {
                     return 1;
                 }
-                var input = parseInt(utils.getCommandArguments[0]);
+                var input = parseInt(utils.getCommandArguments()[0]);
                 if (!isNaN(input)) {
                     utils.settingsManager.setImgTime(input);
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' set image removal time to ' + input + ' seconds.');
@@ -650,10 +650,10 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                if (utils.getCommandArguments[0] == undefined) {
+                if (utils.getCommandArguments()[0] == undefined) {
                     return 1;
                 }
-                var input = parseInt(utils.getCommandArguments[0]);
+                var input = parseInt(utils.getCommandArguments()[0]);
                 if (!isNaN(input)) {
                     utils.settingsManager.setImgDubsAmount(input);
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' set the amount of dubs for images to ' + input);
@@ -666,10 +666,10 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                if (utils.getCommandArguments[0] == undefined) {
+                if (utils.getCommandArguments()[0] == undefined) {
                     return 1;
                 }
-                var input = parseInt(utils.getCommandArguments[0]);
+                var input = parseInt(utils.getCommandArguments()[0]);
                 if (!isNaN(input)) {
                     utils.settingsManager.setImgRemoveMuteTime(input);
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' users will now get muted for ' + input + ' minutes for not meeting the required amount of dubs.');

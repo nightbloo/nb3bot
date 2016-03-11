@@ -29,9 +29,9 @@ SC_CLIENT_ID=foo # Soundcloud client ID to get song url
 
 COOLDOWN=number # [OPTIONAL] Number for per user cooldown (in seconds). Default is 30
 
-IMGTIME=number               # [OPTIONAL] Number for image removal (in seconds). Default is 15
-IMGREMOVALDUBS_AMOUNT=number # [OPTIONAL] Number of dubs necessary by the user to bypass instant image removal. Default is 10.
-IMGREMOVALDUBS_TIME=number   # [OPTIONAL] Number of time (in minutes) to unmute user after instant image removal. Default is 5.
+IMGTIME=number               # [OPTIONAL] Number for image removal (in seconds), if less than 0 then it's disabled. Default is 15
+IMGREMOVALDUBS_AMOUNT=number # [OPTIONAL] Number of dubs necessary by the user to bypass instant image removal, if less than 0 then it's disabled. Default is 10.
+IMGREMOVALDUBS_TIME=number   # [OPTIONAL] Number of time (in minutes) to unmute user after instant image removal, if less than 0 then it's disabled. Default is 5.
 
 CHATLOGS_SENDGRID_KEY=sendgridkey # [OPTIONAL] SendGrid key for sending the chatlog email, if none then chatlogs wont be recorded.
 CHATLOGS_FROM=email               # [OPTIONAL] Email SendGrid uses to send email, this wont work if CHATLOGS_SENDGRID_KEY is not defined.
