@@ -358,67 +358,7 @@ function regCommands(commandManager) {
                     if (thatUser.id == utils.bot.getSelf().id) {
                         utils.bot.sendChat('I love you too, @' + utils.getUserUsername() + '!');
                     }
-                    // Lets see if they sho
-
-324
-325
-326
-327
-328
-329
-330
-331
-332
-333
-334
-335
-336
-337
-338
-339
-340
-341
-342
-343
-344
-345
-346
-347
-348
-349
-350
-351
-352
-353
-                // Get that user object
-                var thatUser = utils.bot.getUserByName(username);
-                if (thatUser) {
-                    // I love them all I watch over them and protect them
-                    if (thatUser.id == utils.bot.getSelf().id) {
-                        utils.bot.sendChat("You can't hate me, you can only love me, @" + utils.getUserUsername() + '!');
-                        return 1;
-                    }
-                    else if (thatUser.id == utils.getUserId()) {
-                        utils.bot.sendChat("No! Don't hate yourself please! Know that we all love you :nb3h:");
-                        return 1;
-                    }
-                    // Ok everything should be good from here
-                    utils.redisManager.decLove(thatUser.id);
-                    utils.redisManager.getLove(thatUser.id, function (love) {
-                        utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " has broken one of your hearts </3. You now have " + love + " hearts.");
-                    });
-                }
-                else if (username != '') {
-                    utils.bot.sendChat('@' + utils.getUserUsername() + ' I would tell them that you hate them but they seem to not be here.');
-                }
-            }
-        )
-        ,
-        new Command('love', ['love'], 1, [], [],
-            /**
-             * @param {MessageUtils} utils
-             */
-uld be told that they have a hand...
+                    // Lets see if they should be told that they have a hand...
                     if (thatUser.id == utils.getUserId()) {
                         utils.bot.sendChat("@" + utils.getUserUsername() + " just use your hand....");
                         return;
@@ -450,15 +390,6 @@ uld be told that they have a hand...
              */
             function (utils) {
                 utils.bot.sendChat(utils.getTargetName() + ' :poop:');
-            }
-        )
-        ,
-        new Command('cat', ['cat'], 1, [], [],
-            /**
-             * @param {MessageUtils} utils
-             */
-            function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' :nb3three: http://i.imgur.com/FmbuPNe.jpg ');
             }
         )
         ,
