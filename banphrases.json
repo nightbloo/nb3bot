@@ -18,7 +18,7 @@
     {
       "phrase": "plug.dj",
       "reason": "advertising that site"
-      "bantime": 180
+      "bantime": "p"
     },
   ]
 }
