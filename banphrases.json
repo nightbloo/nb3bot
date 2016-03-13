@@ -4,21 +4,24 @@
       "phrase": "strawpoii.me",
       "reason": "Posting screamers.",
       "banTime": "p"
-    },
+    }
+  ,
     {
       "phrase": "mysterysnowdown.com",
       "reason": "Go phish at another pool.",
       "banTime": "p"
-    },
+    }
+  ,
     {
       "phrase": "joblink.xyz",
       "reason": "Scam/Virus",
       "banTime": "p"
-    },
+    }
+  ,
     {
       "phrase": "plug.dj",
       "reason": "advertising that site",
-      "bantime": "p"
+      "bantime": 180
     }
   ]
 }
