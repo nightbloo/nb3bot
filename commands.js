@@ -275,12 +275,11 @@ function regCommands(commandManager) {
                     ,
                     'Netux': 'https://imgur.com/a/j6QbM'
                     ,
-                    'Frosolf': 'https://imgur.com/a/NZvz1 | https://imgur.com/a/Xi4Cx (anime)'
+                    'Frosolf': 'https://imgur.com/a/NZvz1 | https://goo.gl/sqfesS (anime)'
                     ,
                     'SiilerBloo': 'https://imgur.com/a/oZKQ3'
                     ,
                     'Pikachu': 'http://imgur.com/a/75R64'
-                    ,
                 };
 
                 function checkIfSpecify() {

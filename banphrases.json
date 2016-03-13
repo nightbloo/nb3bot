@@ -17,8 +17,8 @@
     },
     {
       "phrase": "plug.dj",
-      "reason": "advertising that site"
+      "reason": "advertising that site",
       "bantime": "p"
-    },
+    }
   ]
 }
