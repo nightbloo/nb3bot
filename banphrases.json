@@ -14,6 +14,11 @@
       "phrase": "joblink.xyz",
       "reason": "Scam/Virus",
       "banTime": "p"
+    },
+    {
+      "phrase": "plug.dj",
+      "reason": "advertising that site"
+      "bantime": 180
     }
   ]
 }
