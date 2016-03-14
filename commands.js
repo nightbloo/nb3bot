@@ -98,15 +98,6 @@ function regCommands(commandManager) {
                 utils.bot.sendChat('@' + utils.getUserUsername() + ' The current song is ' + utils.getMediaName() + ', the link is ' + utils.currentMediaPermaLink);
             }
         )
-		,
-		new Command('Batman', ['Batman', 'batman'], 1, ['resident-dj'], [],
-            /**
-             * @param {MessageUtils} utils
-             */
-            function (utils) {
-                utils.bot.sendChat('@' + utils.getUserUsername() + ' http://i.imgur.com/O30aE9U.png');
-            }
-        )
         ,
         new Command('stream', ['stream'], 1, [], [],
             /**
