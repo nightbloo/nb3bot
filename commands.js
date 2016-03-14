@@ -99,7 +99,7 @@ function regCommands(commandManager) {
             }
         )
 		,
-		new Command('Batman', ['Batman'], 1, ['resident-dj'], [],
+		new Command('Batman', ['Batman', 'batman'], 1, ['resident-dj'], [],
             /**
              * @param {MessageUtils} utils
              */
