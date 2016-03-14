@@ -195,17 +195,6 @@ function regCommands(commandManager) {
             }
         )
         ,
-        // RDJ+ because of how much spam it can cause
-        new Command('subsunday', ['subsunday'], 1, [], [],
-            /**
-             * @param {MessageUtils} utils
-             */
-            function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' On Sunday we lock the queue and let only NightBlue3 twitch subs play for the duration of the stream that day.');
-                utils.bot.sendChat('You can sub to Nightblue3 https://www.twitch.tv/nightblue3/subscribe');
-            }
-        )
-        ,
         new Command('residentdj', ['sub', 'subs', 'subscribe', 'residentdj', 'rdj'], 1, ['resident-dj'], [],
             /**
              * @param {MessageUtils} utils
@@ -214,7 +203,7 @@ function regCommands(commandManager) {
                 utils.bot.sendChat(utils.getTargetName() + " To get Resident DJ be a sub to Nightblue3's twitch.");
                 utils.bot.sendChat('You can become a sub to NB3 here! https://twitch.tv/nightblue3/subscribe.');
                 utils.bot.sendChat('Once you\'re a sub you can go to https://nightbluebot.larry1123.net/auth/twitch/ and I will give subs RDJ!');
-                utils.bot.sendChat('Resident DJs can play in locked queues (notably Sub Sunday) and have shorter command cooldowns.');
+                utils.bot.sendChat('Resident DJs can play in locked queues (notably during stream) and have shorter command cooldowns.');
             }
         )
         ,
