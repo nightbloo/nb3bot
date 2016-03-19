@@ -537,10 +537,10 @@ function regCommands(commandManager) {
             function (utils) {
                 utils.redisManager.getLastSongTime(utils.getMediaFkid(), function (result) {
                     if (result) {
-                        utils.bot.sendChat('This song was last played ' + timeDifference(Date.now(), parseInt(result)) + '.');
+                        utils.bot.sendChat('This video was last played ' + timeDifference(Date.now(), parseInt(result)) + '.');
                     }
                     else {
-                        utils.bot.sendChat('This song has not played in the last 5 weeks. Maybe this is a remix, or a reupload.');
+                        utils.bot.sendChat('This video has not played in the last 5 weeks. Maybe the song is a remix, or a reupload.');
                     }
                 });
             }
