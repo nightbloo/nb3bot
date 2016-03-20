@@ -23,5 +23,29 @@
       "reason": "advertising that site",
       "banTime": 180
     }
+  ,
+    {
+      "phrase": "nigger",
+      "reason": "Saying the N word",
+      "banTime": 120
+    }
+  ,
+    {
+      "phrase": "Nigger",
+      "reason": "Saying the N word",
+      "banTime": 120
+    }
+  ,
+    {
+      "phrase": "reggiN",
+      "reason": "Saying the N word",
+      "banTime": 120
+    }
+  ,
+    {
+      "phrase": "nigger",
+      "reason": "Saying the N word",
+      "banTime": 120
+    }
   ]
 }
