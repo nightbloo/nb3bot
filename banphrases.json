@@ -25,6 +25,12 @@
     }
   ,
     {
+      "phrase": "plug dj",
+      "reason": "advertising that site",
+      "banTime": 180
+    }
+  ,
+    {
       "phrase": "nigger",
       "reason": "Saying the N word",
       "banTime": 120
