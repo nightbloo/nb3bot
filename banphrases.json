@@ -31,19 +31,13 @@
     }
   ,
     {
-      "phrase": "Nigger",
+      "phrase": "reggin",
       "reason": "Saying the N word",
       "banTime": 120
     }
   ,
     {
-      "phrase": "reggiN",
-      "reason": "Saying the N word",
-      "banTime": 120
-    }
-  ,
-    {
-      "phrase": "nigger",
+      "phrase": "niggar",
       "reason": "Saying the N word",
       "banTime": 120
     }
