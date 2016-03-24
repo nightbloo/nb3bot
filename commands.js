@@ -461,7 +461,7 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 if (utils.getCommandArguments().length > 0) {
-                    var username = utils.getTargetName();
+                    var username = utils.getTargetName().replace('@', '');
                     if (username.toLowerCase() == utils.getUserUsername().toLowerCase()) {
                         utils.bot.sendChat("@" + utils.getUserUsername() + " well I don't know.... how much do you love yourself?");
                         return;
@@ -472,7 +472,7 @@ function regCommands(commandManager) {
                     }
                     var username2 = utils.getUserUsername();
                     if (utils.getCommandArguments().length > 1) {
-                        username2 = utils.getTargetName(2);
+                        username2 = utils.getTargetName(2).replace('@', '');
                         if (username2.toLowerCase() == utils.bot.getSelf().username.toLowerCase()) {
                             utils.bot.sendChat('@' + utils.getUserUsername() + " I love " + username2 + " 100%" + (username2.toLowerCase() == utils.bot.getSelf().username.toLowerCase()) ? "" : ", silly <3");
                         }
