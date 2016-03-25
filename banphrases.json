@@ -31,6 +31,12 @@
     }
   ,
     {
+      "phrase": "plug,dj",
+      "reason": "advertising that site",
+      "banTime": 180
+    }
+  ,
+    {
       "phrase": "plugdj",
       "reason": "advertising that site",
       "banTime": 180
