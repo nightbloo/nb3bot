@@ -462,6 +462,29 @@ function regCommands(commandManager) {
             function (utils) {
                 if (utils.getCommandArguments().length > 0) {
                     var username = utils.getTargetName().replace('@', '');
+                    var username2 = utils.getUserUsername();
+                    if (utils.getCommandArguments().length > 1) {
+                        username2 = utils.getTargetName(2).replace('@', '');
+                        /**
+                         * @return {boolean}
+                         */
+                        function XOR(foo, bar) {
+                            return foo ? !bar : bar;
+                        }
+                        if (XOR(username.toLowerCase() == utils.getUserUsername().toLowerCase(), username2.toLowerCase() == utils.getUserUsername().toLowerCase())) {
+                            if (XOR(username.toLowerCase() == utils.bot.getSelf().username.toLowerCase(), username2.toLowerCase() == utils.bot.getSelf().username.toLowerCase())) {
+                                username = utils.bot.getSelf().username;
+                            }
+                        }
+                        else if (username2.toLowerCase() == utils.bot.getSelf().username.toLowerCase()) {
+                            utils.bot.sendChat("@" + utils.getUserUsername() + " I love " + username + " 100%.");
+                            return;
+                        }
+                        else if (username.toLowerCase() == utils.bot.getSelf().username.toLowerCase()) {
+                            utils.bot.sendChat("@" + utils.getUserUsername() + " I love " + username2 + " 100%.");
+                            return;
+                        }
+                    }
                     if (username.toLowerCase() == utils.getUserUsername().toLowerCase()) {
                         utils.bot.sendChat("@" + utils.getUserUsername() + " well I don't know.... how much do you love yourself?");
                         return;
@@ -469,13 +492,6 @@ function regCommands(commandManager) {
                     else if (username.toLowerCase() == utils.bot.getSelf().username.toLowerCase()) {
                         utils.bot.sendChat('@' + utils.getUserUsername() + " of course I love you 100%, silly <3");
                         return;
-                    }
-                    var username2 = utils.getUserUsername();
-                    if (utils.getCommandArguments().length > 1) {
-                        username2 = utils.getTargetName(2).replace('@', '');
-                        if (username2.toLowerCase() == utils.bot.getSelf().username.toLowerCase()) {
-                            utils.bot.sendChat('@' + utils.getUserUsername() + " I love " + username2 + " 100%" + (username2.toLowerCase() == utils.bot.getSelf().username.toLowerCase()) ? "" : ", silly <3");
-                        }
                     }
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' there is ' + Math.dice(100) + '% of :nb3h: between ' + username2 + ' and ' + username);
                 }
