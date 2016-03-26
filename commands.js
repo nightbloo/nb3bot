@@ -625,7 +625,7 @@ function regCommands(commandManager) {
                 commandManager.getCommandList().forEach(function (commandListElement) {
                     message += (message == '' ? '' : ', ') + commandListElement.commandId;
                 });
-                message = utils.getTargetName() + ' Hi the commands I have are: ' + message;
+                message = utils.getTargetName() + ' Hi, the commands I have are: ' + message;
                 utils.bot.sendChat(message);
             }
         )
