@@ -409,7 +409,7 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('selfpromotion', ['selfpromotion'], 1, [], [],
+        new Command('selfpromotion', ['selfpromotion', 'selfpromo'], 1, [], [],
             /**
              * @param {MessageUtils} utils
              */
