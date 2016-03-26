@@ -56,7 +56,7 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 AgarioClient.servers.createParty("US-Atlanta", function (data) {
-                    utils.bot.sendChat('@' + utils.getUserUsername() + ' has created an agario party. Join them at www.agar.io/#' + data.key);
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' has created an agario party. Join them at https://agar.io/#' + data.key);
                 });
             }
         )
