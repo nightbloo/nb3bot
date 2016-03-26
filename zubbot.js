@@ -230,19 +230,19 @@ new DubAPI({
         });
 
         bot.on(bot.events.chatMessage, function (data) {
-            // Setup Utils!
-            var messageUtils = new MessageUtils(bot, redisManager, twitchManager, propsManager, settingsManager, chatUtils, userUtils, mediaUtils, botUtils, data);
-            messageUtils.currentMediaPermaLink = currentMediaPermaLink;
-            messageUtils.currentDJ = currentDJ;
-            messageUtils.getRuntimeMessage = function () {
-                return timeDifference(Date.now(), startTime);
-            };
             if (typeof data === "undefined" || typeof data.user === "undefined") {
                 console.error("data is undefined");
                 // It won't crash now.
                 bot.reconnect();
                 return;
             }
+            // Setup Utils
+            var messageUtils = new MessageUtils(bot, redisManager, twitchManager, propsManager, settingsManager, chatUtils, userUtils, mediaUtils, botUtils, data);
+            messageUtils.currentMediaPermaLink = currentMediaPermaLink;
+            messageUtils.currentDJ = currentDJ;
+            messageUtils.getRuntimeMessage = function () {
+                return timeDifference(Date.now(), startTime);
+            };
             chatManager.processChat(messageUtils, commandManager);
         });
 
