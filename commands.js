@@ -503,11 +503,11 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + 'This community plays EDM | Trap | and Chill. Songs over 6:30 will be skipped so please follow the guidelines! Rules: http://git.io/vWJnY');
+                utils.bot.sendChat(utils.getTargetName() + 'This community plays ♪ CHILL | TRAP | EDM | D&B ♪. Songs over 6:30 will be skipped so please follow the guidelines! Rules: http://git.io/vWJnY');
             }
         )
         ,
-        // Mode command only no cooldown needed : require mute
+        // Mod command only no cooldown needed : require mute
         new Command('mute', ['mute'], 0, [], ['mute'],
             /**
              * @param {MessageUtils} utils
@@ -528,7 +528,7 @@ function regCommands(commandManager) {
             }
         )
         ,
-        // Mode command only no cooldown needed : require mute
+        // Mod command only no cooldown needed : require mute
         new Command('timeout', ['timeout'], 0, [], ['mute'],
             /**
              * @param {MessageUtils} utils
