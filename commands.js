@@ -616,7 +616,7 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('commands', ['commands'], 0, ['resident-dj'], [],
+        new Command('commands', ['commands'], 1, ['resident-dj'], [],
             /**
              * @param {MessageUtils} utils
              */
@@ -703,7 +703,7 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('producers', ['producers', 'promoters'], 0, [], [],
+        new Command('producers', ['producers', 'promoters'], 1, [], [],
             /**
              * @param {MessageUtils} utils
              */
@@ -713,12 +713,21 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('producerslist', ['producerslist', 'promoterslist'], 0, [], [],
+        new Command('producerslist', ['producerslist', 'promoterslist'], 1, [], [],
             /**
              * @param {MessageUtils} utils
              */
             function (utils) {
                 utils.bot.sendChat(utils.getTargetName() + ' Promoters/Producers list: https://goo.gl/sGrMbB');
+            }
+        )
+        ,
+        new Command('clear', ['clear', 'laggy'], 1, [], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                utils.bot.sendChat(utils.getTargetName() + ' You can clear you chat if it gets too laggy. https://i.imgur.com/D1T64mP.gif');
             }
         )
     ].forEach(function (command) {
