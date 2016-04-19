@@ -21,25 +21,25 @@
     {
       "phrase": "plug.dj",
       "reason": "advertising that site",
-      "banTime": 180
+      "banTime": 30
     }
   ,
     {
       "phrase": "plug dj",
       "reason": "advertising that site",
-      "banTime": 180
+      "banTime": 30
     }
   ,
     {
       "phrase": "plug,dj",
       "reason": "advertising that site",
-      "banTime": 180
+      "banTime": 30
     }
   ,
     {
       "phrase": "plugdj",
       "reason": "advertising that site",
-      "banTime": 180
+      "banTime": 30
     }
   ,
     {
