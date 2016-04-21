@@ -26,9 +26,6 @@ var reddit = require('redwrap');
 // Time formatting
 var moment = require('moment');
 
-// Other settings
-var neonCat = true;
-
 function regCommands(commandManager) {
     var Command = commandManager.Command;
     /**
@@ -128,10 +125,6 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 utils.bot.sendChat(":nyancat: ~ Meow!");
-                neonCat = false;
-                setTimeout(function () {
-                    neonCat = true;
-                }, 60000);
             }
         )
         ,
@@ -364,7 +357,7 @@ function regCommands(commandManager) {
                         return;
                     }
                     // Ok everything should be good from here
-                    var heartList = [':heart:', ':blue_heart:', ':purple_heart:', ':green_heart:', ':yellow_heart:', ':nb3h:', ':PBNHeart:'];
+                    var heartList = [':heart:', ':blue_heart:', ':purple_heart:', ':green_heart:', ':yellow_heart:', ':nb3h:', ':PBNHeart:', ':tastysheart:'];
                     utils.redisManager.incLove(thatUser.id);
                     utils.redisManager.getLove(thatUser.id, function (love) {
                         if (thatUser.id == utils.bot.getSelf().id) {
