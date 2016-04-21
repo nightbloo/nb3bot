@@ -15,6 +15,8 @@
  * @ZubOhm
  * @Netux
  * @Matt
+ * @DemoZ
+ * @Larry1123
  *
  **************************************************************************
  */
@@ -231,7 +233,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                var kappaList = [':Kappa:', ':KappaPride:', ':KappaRoss:', ':Keepo:', ':froKappaK:', ':hoyNyanKappa:', ':kingKappa:', ':lordKappa:', ':ragKappa:', ':kappaI:', ':kappaRoll:', ':blacKappa:', ':kappaEnvy:', ':kappaBlues:', ':kappaPrince:', ':kappaWarmth:', ':kappaYella:', ':sunKappa:', ':yummiKappa:', ':zirkelKappa:', ':buttsKappa:', ':azumiPikappa:'];
+                var kappaList = [':Kappa:', ':KappaPride:', ':KappaRoss:', ':Keepo:', ':froKappaK:', ':hoyNyanKappa:', ':kingKappa:', ':lordKappa:', ':ragKappa:', ':kappaI:', ':kappaRoll:', ':blacKappa:', ':kappaEnvy:', ':kappaBlues:', ':kappaPrince:', ':kappaWarmth:', ':kappaYella:', ':sunKappa:', ':yummiKappa:', ':zirkelKappa:', ':buttsKappa:', ':azumiPikappa:', ':Skappa:', 'OfficerKappa'];
                 var random = kappaList[Math.dice(kappaList.length)];
                 if (utils.getTargetName()) {
                     utils.bot.sendChat(utils.getTargetName() + ' ' + utils.getUserUsername() + ' has sent a Kappa your way! ' + random);
@@ -362,7 +364,7 @@ function regCommands(commandManager) {
                         return;
                     }
                     // Ok everything should be good from here
-                    var heartList = [':heart:', ':blue_heart:', ':purple_heart:', ':green_heart:', ':yellow_heart:', ':nb3h:'];
+                    var heartList = [':heart:', ':blue_heart:', ':purple_heart:', ':green_heart:', ':yellow_heart:', ':nb3h:', ':PBNHeart:'];
                     utils.redisManager.incLove(thatUser.id);
                     utils.redisManager.getLove(thatUser.id, function (love) {
                         if (thatUser.id == utils.bot.getSelf().id) {
@@ -432,7 +434,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' (Click for better quality) https://i.imgur.com/uFE8PfA.png');
+                utils.bot.sendChat(utils.getTargetName() + ' :NoSkip: (Click for better quality) https://i.imgur.com/uFE8PfA.png');
                 utils.bot.sendChat('(snippet from Community Rules, https://git.io/vWJnY#miscellaneous)');
             }
         )
@@ -503,7 +505,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + 'This community plays ♪ CHILL | TRAP | EDM | D&B ♪. Songs over 6:30 will be skipped so please follow the guidelines! Rules: http://git.io/vWJnY');
+                utils.bot.sendChat(utils.getTargetName() + 'This community plays ♪ CHILL | TRAP | D&B ♪. Songs over 6:30 will be skipped so please follow the guidelines! Rules: http://git.io/vWJnY');
             }
         )
         ,
