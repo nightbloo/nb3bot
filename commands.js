@@ -725,6 +725,15 @@ function regCommands(commandManager) {
                 utils.bot.sendChat(utils.getTargetName() + ' You can clear you chat if it gets too laggy. https://i.imgur.com/D1T64mP.gif');
             }
         )
+        ,
+        new Command('androidapp', ['android', 'androidapp', 'androidapk'], 1, [], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                utils.bot.sendChat(utils.getTargetName() + ' Unofficial Android only (sorry iPhone users) app for Dubtrack: http://www.mar974.co/dubtrack/. Thank mar974 :D');
+            }
+        )
     ].forEach(function (command) {
             var ret = commandManager.addCommand(command);
             if (!ret) {
