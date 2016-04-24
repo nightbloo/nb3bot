@@ -23,8 +23,12 @@
 
 var AgarioClient = require('agario-client');
 var reddit = require('redwrap');
+// Random seeds
+var seedrandom = require('seed-random');
 // Time formatting
 var moment = require('moment');
+// Request
+var httpReq = require('http').request;
 
 function regCommands(commandManager) {
     var Command = commandManager.Command;
@@ -488,7 +492,10 @@ function regCommands(commandManager) {
                         utils.bot.sendChat('@' + utils.getUserUsername() + " of course I love you 100%, silly <3");
                         return;
                     }
+
+                    seedrandom(username.hashCode() + username2.hashCode(), { global: true });
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' there is ' + Math.dice(100) + '% of :nb3h: between ' + username2 + ' and ' + username);
+                    seedrandom.resetGlobal();
                 }
             }
         )
@@ -694,7 +701,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.timeMuteUser(5, '!shush');
+                utils.timeMuteUser(5, '!shush ' + utils.getUserUsername());
             }
         )
         ,
@@ -732,6 +739,44 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 utils.bot.sendChat(utils.getTargetName() + ' Unofficial Android app (sorry iOS users) for Dubtrack: http://www.mar974.co/dubtrack/. Thank mar974 :D');
+            }
+        )
+        ,
+        new Command('catfact', ['catfact', 'catfacts'], 1, [], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                function noFacts () {
+                    utils.bot.sendChat(utils.getTargetName() + ' no cat facts found :(');
+                }
+                httpReq({
+                    hostname: 'catfacts-api.appspot.com',
+                    path: '/api/facts',
+                    method: 'GET'
+                }, function (res) {
+                    var data = '';
+                    res.setEncoding('utf8');
+                    res.on('data', function (chunk) {
+                        data += chunk;
+                    });
+                    res.on('error', function (x) {
+                        noFacts();
+                        console.error(x);
+                    });
+                    res.on('end', function () {
+                        try {
+                            data = JSON.parse(data);
+                        } catch(x) {
+                            noFacts();
+                        }
+                        var waysOfSayingIt = [
+                            '%u Cat fact: %f',
+                            '%u Did you know: %f?'
+                        ];
+                        utils.bot.sendChat(waysOfSayingIt[Math.dice(waysOfSayingIt.length)].replace('%u', utils.getTargetName()).replace('%f', data.facts[0]));
+                    });
+                }).end();
             }
         )
     ].forEach(function (command) {

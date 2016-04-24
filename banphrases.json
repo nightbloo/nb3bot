@@ -19,43 +19,13 @@
     }
   ,
     {
-      "phrase": "plug.dj",
+      "phrase": [ "plug.dj", "plug dj", "plug,dj", "plugdj", "plug(dot)dj", "plugdotdj" ],
       "reason": "advertising that site",
       "banTime": 30
     }
   ,
     {
-      "phrase": "plug dj",
-      "reason": "advertising that site",
-      "banTime": 30
-    }
-  ,
-    {
-      "phrase": "plug,dj",
-      "reason": "advertising that site",
-      "banTime": 30
-    }
-  ,
-    {
-      "phrase": "plugdj",
-      "reason": "advertising that site",
-      "banTime": 30
-    }
-  ,
-    {
-      "phrase": "nigger",
-      "reason": "Saying the N word",
-      "banTime": 120
-    }
-  ,
-    {
-      "phrase": "reggin",
-      "reason": "Saying the N word",
-      "banTime": 120
-    }
-  ,
-    {
-      "phrase": "niggar",
+      "phrase": [ "nigger", "reggin", "niggar", "raggin" ],
       "reason": "Saying the N word",
       "banTime": 120
     }

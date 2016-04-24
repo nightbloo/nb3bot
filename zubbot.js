@@ -54,7 +54,9 @@
  * !mute - mute the user for x amount of time
  * !timeout - remove all messages from user and mute them for x amount of time
  * !seppuku - remove all messages from self
- * !sub|subs|subscribe|residentdj|rdj - Will give info about being a sub and how to get RDJ
+ * !sub|subs|subscribe|residentdj|rdj - will give info about being a sub and how to get RDJ
+ * !androidapp - direct link to Dubtrack's Unofficial android app
+ * !catfact - responds with a random cat fact from http://catfacts-api.appspot.com/
  *
  * Keys
  * ~ = recommendation
@@ -103,6 +105,8 @@ catch (x) {
     console.log('No SendGrid Key detected, chatlogs wont be recorded.');
 }
 
+console.log('> Starting DubAPI...');
+
 new DubAPI({
         username: process.env.DT_LOGIN,
         password: process.env.DT_PASS
@@ -130,8 +134,10 @@ new DubAPI({
         if (err) {
             return console.error(err);
         }
-        console.log("------------------------   NightBlueBot  -------------------------------------");
-        console.log("------------------------ CREATED BY ZUBOHM -----------------------------------");
+
+        console.log("> NightBlueBot");
+        console.log("> CREATED   BY ZUBOHM");
+        console.log("> DEVELOPED BY ZUBOHM, NETUX, MATT, DEMOZ, LARRY1123");
 
         if (sendgrid !== null) {
             // setupChatlogs(bot); This is restarting the BOT because of max-memory exceed, temporary commented
