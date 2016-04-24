@@ -742,7 +742,7 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('catfact', ['catfact', 'catfacts'], 1, [], [],
+        new Command('catfact', ['catfact', 'catfacts'], 1, ['resident-dj'], [],
             /**
              * @param {MessageUtils} utils
              */
