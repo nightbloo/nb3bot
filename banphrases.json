@@ -17,13 +17,7 @@
       "reason": "Scam/Virus",
       "banTime": "p"
     }
-  ,
-    {
-      "phrase": [ "plug.dj", "plug dj", "plug,dj", "plugdj", "plug(dot)dj", "plugdotdj" ],
-      "reason": "advertising that site",
-      "banTime": 30
-    }
-  ,
+  ,  
     {
       "phrase": [ "nigger", "reggin", "niggar", "raggin" ],
       "reason": "Saying the N word",
