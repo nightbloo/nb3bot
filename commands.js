@@ -779,6 +779,15 @@ function regCommands(commandManager) {
                 }).end();
             }
         )
+        ,
+        new Command('animeform', ['animeform'], 1, [], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                utils.bot.sendChat(utils.getTargetName() + ' Form: http://goo.gl/forms/3RyWutJV9C | Public Results: https://goo.gl/d4lvua');
+            }
+        )
     ].forEach(function (command) {
             var ret = commandManager.addCommand(command);
             if (!ret) {
