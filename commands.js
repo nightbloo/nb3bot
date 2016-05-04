@@ -785,7 +785,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' Form: http://goo.gl/forms/3RyWutJV9C | Worksheet List: https://goo.gl/d4lvua');
+                utils.bot.sendChat(utils.getTargetName() + ' Form: http://goo.gl/forms/3RyWutJV9C | List: https://goo.gl/d4lvua');
             }
         )
     ].forEach(function (command) {
