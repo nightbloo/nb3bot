@@ -780,12 +780,12 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('animelist', ['anime', 'animes', 'animelist', 'animeform'], 1, [], [],
+        new Command('animelist', ['anime', 'animes', 'animelist'], 1, [], [],
             /**
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' Form: http://goo.gl/forms/3RyWutJV9C | List: https://goo.gl/d4lvua');
+                utils.bot.sendChat(utils.getTargetName() + ' Anime List: https://goo.gl/d4lvua');
             }
         )
     ].forEach(function (command) {
