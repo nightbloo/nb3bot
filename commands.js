@@ -733,7 +733,6 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                console.log(utils.getId());
                 utils.bot.moderateDeleteChat(utils.getId());
                 utils.timeMuteUser(5, '!shush ' + utils.getUserUsername());
             }
