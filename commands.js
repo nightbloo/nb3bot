@@ -225,6 +225,37 @@ function regCommands(commandManager) {
             }
         )
         ,
+        new Command('getrule', ['getrule'], 1, [], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                var args;
+                var argsLength = utils.getCommandArguments().length;
+                var rule;
+                console.log('argsLength', argsLength);
+                if (argsLength > 0) {
+                    for (var way = argsLength > 1 ? 1 : 0; way >= 0; way--) {
+                        args = utils.getCommandArguments().slice(0, argsLength - way).join(' ').toLowerCase();
+                        console.log('way', way, 'args', args);
+                        switch (args) { // TODO: Make this into a JSON (?)
+                            default:
+                                if (way == 0)
+                                    utils.bot.sendChat('@' + utils.getUserUsername() + ' no said rule found. Sending link to rules instead.');
+                                break;
+                            case 'aboutstaff':
+                            case 'about staff':
+                                rule = "If you disrespect the staff, ignore warnings or request from staff, or are trying to disrupt the actions of the mods you will be banned from the community permanently.";
+                                break;
+                        }
+                        if (rule) break;
+                    }
+                }
+                rule = rule || "Rules: http://git.io/vWJnY";
+                utils.bot.sendChat((way == 1 ? utils.getTargetName(utils.getCommandArguments().length) + ' ' : '') + rule);
+            }
+        )
+        ,
         new Command('kappa', ['kappa'], 1, [], [],
             /**
              * @param {MessageUtils} utils
@@ -470,6 +501,7 @@ function regCommands(commandManager) {
                         function XOR(foo, bar) {
                             return foo ? !bar : bar;
                         }
+
                         if (XOR(username.toLowerCase() == utils.getUserUsername().toLowerCase(), username2.toLowerCase() == utils.getUserUsername().toLowerCase())) {
                             if (XOR(username.toLowerCase() == utils.bot.getSelf().username.toLowerCase(), username2.toLowerCase() == utils.bot.getSelf().username.toLowerCase())) {
                                 username = utils.bot.getSelf().username;
@@ -493,7 +525,7 @@ function regCommands(commandManager) {
                         return;
                     }
 
-                    seedrandom(username.hashCode() + username2.hashCode(), { global: true });
+                    seedrandom(username.hashCode() + username2.hashCode(), {global: true});
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' there is ' + Math.dice(100) + '% of :nb3h: between ' + username2 + ' and ' + username);
                     seedrandom.resetGlobal();
                 }
@@ -747,9 +779,10 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                function noFacts () {
+                function noFacts() {
                     utils.bot.sendChat(utils.getTargetName() + ' no cat facts found :(');
                 }
+
                 httpReq({
                     hostname: 'catfacts-api.appspot.com',
                     path: '/api/facts',
@@ -767,7 +800,7 @@ function regCommands(commandManager) {
                     res.on('end', function () {
                         try {
                             data = JSON.parse(data);
-                        } catch(x) {
+                        } catch (x) {
                             noFacts();
                         }
                         var waysOfSayingIt = [
@@ -785,7 +818,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' https://goo.gl/d4lvua');
+                utils.bot.sendChat(utils.getTargetName() + ' Anime List: https://goo.gl/d4lvua');
             }
         )
     ].forEach(function (command) {
