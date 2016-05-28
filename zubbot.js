@@ -230,7 +230,7 @@ new DubAPI({
                     }
                 }
                 else {
-                    currentMediaPermaLink = 'https://youtube.com/watch?v=' + currentID;
+                    currentMediaPermaLink = 'https://youtu.be/' + currentID;
                 }
             }
         });

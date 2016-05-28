@@ -780,39 +780,65 @@ function regCommands(commandManager) {
             /**
              * @param {MessageUtils} utils
              */
-            function (utils) {
+            function (utils, dontSetCooldown) {
                 function noFacts() {
                     utils.bot.sendChat(utils.getTargetName() + ' no cat facts found :(');
                 }
 
-                httpReq({
-                    hostname: 'catfacts-api.appspot.com',
-                    path: '/api/facts',
-                    method: 'GET'
-                }, function (res) {
-                    var data = '';
-                    res.setEncoding('utf8');
-                    res.on('data', function (chunk) {
-                        data += chunk;
-                    });
-                    res.on('error', function (x) {
-                        noFacts();
-                        console.error(x);
-                    });
-                    res.on('end', function () {
-                        try {
-                            data = JSON.parse(data);
-                        }
-                        catch (x) {
+                var requestsCount = 0;
+
+                function requestFact() {
+                    console.log(requestsCount); // TODO
+                    if (requestsCount > 5) {
+                        dontSetCooldown();
+                        return;
+                    }
+                    else {
+                        requestsCount++;
+                    }
+
+                    httpReq({
+                        hostname: 'catfacts-api.appspot.com',
+                        path: '/api/facts',
+                        method: 'GET'
+                    }, function (res) {
+                        var data = '';
+                        res.setEncoding('utf8');
+                        res.on('data', function (chunk) {
+                            data += chunk;
+                        });
+                        res.on('error', function (x) {
                             noFacts();
-                        }
-                        var waysOfSayingIt = [
-                            '%u Cat fact: %f',
-                            '%u Did you know: %f?'
-                        ];
-                        utils.bot.sendChat(waysOfSayingIt[Math.dice(waysOfSayingIt.length)].replace('%u', utils.getTargetName()).replace('%f', data.facts[0]));
-                    });
-                }).end();
+                            console.error(x);
+                        });
+                        res.on('end', function () {
+                            try {
+                                data = JSON.parse(data);
+                            }
+                            catch (x) {
+                                noFacts();
+                            }
+
+                            // Fact too long. To avoid spam request a new one.
+                            if (data.facts[0].length > 125) {
+                                requestFact();
+                                return;
+                            }
+
+                            // Replace last period.
+                            data.facts[0].replace(/\.$/, '');
+
+                            var waysOfSayingIt = [
+                                '%u Cat fact: %f.',
+                                '%u Did you know: %f?',
+                                '%u Have you heard? %f.'
+                            ];
+                            utils.bot.sendChat(waysOfSayingIt[Math.dice(waysOfSayingIt.length)].replace('%u', utils.getTargetName()).replace('%f', data.facts[0]));
+                        });
+                    }).end();
+                }
+
+                requestFact();
             }
         )
         ,
