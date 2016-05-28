@@ -233,11 +233,9 @@ function regCommands(commandManager) {
                 var args;
                 var argsLength = utils.getCommandArguments().length;
                 var rule;
-                console.log('argsLength', argsLength);
                 if (argsLength > 0) {
                     for (var way = argsLength > 1 ? 1 : 0; way >= 0; way--) {
                         args = utils.getCommandArguments().slice(0, argsLength - way).join(' ').toLowerCase();
-                        console.log('way', way, 'args', args);
                         switch (args) { // TODO: Make this into a JSON (?)
                             default:
                                 if (way == 0) {
