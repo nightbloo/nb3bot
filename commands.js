@@ -788,7 +788,6 @@ function regCommands(commandManager) {
                 var requestsCount = 0;
 
                 function requestFact() {
-                    console.log(requestsCount); // TODO
                     if (requestsCount > 5) {
                         dontSetCooldown();
                         return;
