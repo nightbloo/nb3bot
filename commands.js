@@ -825,7 +825,7 @@ function regCommands(commandManager) {
                             }
 
                             // Replace last period.
-                            data.facts[0].replace(/\.$/, '');
+                            data.facts[0] = data.facts[0].replace(/\.$/, '');
 
                             var waysOfSayingIt = [
                                 '%u Cat fact: %f.',
