@@ -240,15 +240,18 @@ function regCommands(commandManager) {
                         console.log('way', way, 'args', args);
                         switch (args) { // TODO: Make this into a JSON (?)
                             default:
-                                if (way == 0)
+                                if (way == 0) {
                                     utils.bot.sendChat('@' + utils.getUserUsername() + ' no said rule found. Sending link to rules instead.');
+                                }
                                 break;
                             case 'aboutstaff':
                             case 'about staff':
                                 rule = "If you disrespect the staff, ignore warnings or request from staff, or are trying to disrupt the actions of the mods you will be banned from the community permanently.";
                                 break;
                         }
-                        if (rule) break;
+                        if (rule) {
+                            break;
+                        }
                     }
                 }
                 rule = rule || "Rules: http://git.io/vWJnY";
@@ -801,7 +804,8 @@ function regCommands(commandManager) {
                     res.on('end', function () {
                         try {
                             data = JSON.parse(data);
-                        } catch (x) {
+                        }
+                        catch (x) {
                             noFacts();
                         }
                         var waysOfSayingIt = [

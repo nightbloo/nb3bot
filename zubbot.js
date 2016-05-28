@@ -166,7 +166,7 @@ new DubAPI({
                     return;
                 }
                 lastMediaFKID = currentID;
-                if(data.media.fkid === lastMediaFKID) {
+                if (data.media.fkid === lastMediaFKID) {
                     return;
                 }
                 currentName = data.media.name;
