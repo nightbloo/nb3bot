@@ -252,6 +252,10 @@ new DubAPI({
             chatManager.processChat(messageUtils, commandManager);
         });
 
+        bot.on(bot.events.deleteChatMessage, function (data) {
+            chatManager.removeFromImageRemovalQueue(data.id);
+        });
+
         // Everything setup time to connect
         connect();
     });
