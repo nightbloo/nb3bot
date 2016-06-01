@@ -230,9 +230,9 @@ new DubAPI({
                                 }
                                 catch (err) {
                                     // workaround with RegExp
-                                    currentMediaPermaLink = data.match(/"permalink_url":"(.[^"]+)"/g);
-                                    if (currentMediaPermaLink) {
-                                        currentMediaPermaLink[0].match(/http(s|)\:\/\/.+/);
+                                    var match = data.match(/"permalink_url":"(.[^"]+)"/g);
+                                    if (match) {
+                                        currentMediaPermaLink = match[0].match(/http(s|)\:\/\/.+/);
                                     }
                                 }
                             });
