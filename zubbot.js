@@ -224,7 +224,15 @@ new DubAPI({
                                 console.error(x);
                             });
                             res.on('end', function () {
-                                currentMediaPermaLink = JSON.parse(data).permalink_url;
+                                // Not sure what is wrong
+                                try {
+                                    currentMediaPermaLink = JSON.parse(data).permalink_url;
+                                }
+                                catch (err) {
+                                    // I don't know what is wrong at this time, too tried to work it out atm, hotfix for now. Send help pls.
+                                    console.error("Failed to handle soundcloud something.");
+                                    console.error(err);
+                                }
                             });
                         }).end();
                     }
