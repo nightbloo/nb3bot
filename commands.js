@@ -517,7 +517,7 @@ function regCommands(commandManager) {
                             return;
                         }
                     }
-                    if (username.toLowerCase() == utils.getUserUsername().toLowerCase()) {
+                    if (username.toLowerCase() == utils.getUserUsername().toLowerCase() && username2.toLowerCase() == utils.getUserUsername().toLowerCase()) {
                         utils.bot.sendChat("@" + utils.getUserUsername() + " well I don't know.... how much do you love yourself?");
                         return;
                     }
@@ -810,7 +810,9 @@ function regCommands(commandManager) {
                         utils.bot.sendChat(utils.getTargetName() + ' no nb3 facts found :(');
                     },
                     function (fact) {
-                        fact = fact.replace(/cat/gi, 'Nightblue');
+                        fact = fact
+                            .replace(/cat|feline/gi, 'Nightblue')
+                            .replace(/lion/gi, 'Big Nightblue');
                         var waysOfSayingIt = [
                             '%u NB3 fact: %f.',
                             '%u Did you know: %f?',
@@ -829,6 +831,15 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 utils.bot.sendChat(utils.getTargetName() + ' Anime List: https://goo.gl/d4lvua');
+            }
+        )
+        ,
+        new Command('streamover', ['streamover', 'streamisover'], 1, ['vip'], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                utils.bot.sendChat('@djs all right, stream is over! Dequeue your troll songs unless you want them to be skipped.');
             }
         )
     ].forEach(function (command) {
