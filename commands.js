@@ -468,7 +468,7 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('gema', ['gema', 'fuckgema', 'gemasucks', 'gemaisshit'], 1, [], [],
+        new Command('gema', ['gema', 'fuckgema', 'gemasucks', 'gemaisshit', 'umg', 'fuckumg', 'umgsucks', 'umgisshit'], 1, [], [],
             /**
              * @param {MessageUtils} utils
              */
@@ -834,7 +834,7 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('streamover', ['streamover', 'streamisover', 'gameover'], 1, ['vip'], [],
+        new Command('streamover', ['streamover', 'streamisover', 'gameover', 'streamend', 'streamended'], 1, ['vip'], [],
             /**
              * @param {MessageUtils} utils
              */
