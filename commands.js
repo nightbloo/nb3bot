@@ -834,12 +834,12 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('streamover', ['streamover', 'streamisover'], 1, ['vip'], [],
+        new Command('streamover', ['streamover', 'streamisover', 'gameover'], 1, ['vip'], [],
             /**
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat('@djs all right, stream is over! Dequeue your troll songs unless you want them to be skipped.');
+                utils.bot.sendChat('@djs all right, stream is over! Dequeue your troll songs unless you want them to be skipped or removed.');
             }
         )
     ].forEach(function (command) {
