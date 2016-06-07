@@ -744,7 +744,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' (Click for better quality) https://i.imgur.com/XmnAYIJ.png');
+                utils.bot.sendChat(utils.getTargetName() + ' (Click for better quality) https://i.imgur.com/1mzL6rB.png');
                 utils.bot.sendChat('(snippet from For Producers/Promoters, https://git.io/vWJnY#for-producerspromoters)');
             }
         )
