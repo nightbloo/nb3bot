@@ -475,7 +475,7 @@ function regCommands(commandManager) {
             function (utils) {
                 utils.bot.sendChat(utils.getTargetName() + ' To bypass GEMA/UMG blocked videos you can use an extension as a temporal proxy:');
                 utils.bot.sendChat('YouTube Unblocker: https://www.unblocker.yt/');
-                utils.bot.sendChat('ProxyTube: https://proxtube.com/')
+                utils.bot.sendChat('ProxyTube: https://proxtube.com/');
             }
         )
         ,
