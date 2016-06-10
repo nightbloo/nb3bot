@@ -57,6 +57,9 @@
  * !sub|subs|subscribe|residentdj|rdj - will give info about being a sub and how to get RDJ
  * !androidapp - direct link to Dubtrack's Unofficial android app
  * !catfact - responds with a random cat fact from http://catfacts-api.appspot.com/
+ * !nb3fact - responds with a random nb3 fact from http://nb3facts-api.appspot.com/ (actually replaces the word "cat" from !catfact)
+ * !animelist - shows a link to a Google Spreadsheet containing a list of animes and information about them.
+ * !ispromoter OR !isproducer - reads from the Producers/Promoters Google Spreadsheet and responds with information.
  *
  * Keys
  * ~ = recommendation
@@ -94,6 +97,7 @@ var CommandManager = require('./lib/commandManager.js');
 var commandManager = new CommandManager();
 
 var startTime = Date.now();
+var googleSpreadsheet = require('google-spreadsheet');
 
 var sendgrid = null;
 var zip = null;
@@ -103,6 +107,29 @@ try {
 }
 catch (x) {
     console.log('No SendGrid Key detected, chatlogs wont be recorded.');
+}
+
+// Startup Google Spreadsheet API
+var googleSpreadsheetConfig = {
+    client_email: process.env.GOOGLESHEET_CLIENT_EMAIL,
+    private_key: process.env.GOOGLESHEET_PRIVATE_KEY.replace(/\\n/g, '\n').replace(/\\r/g, '\r').replace(/\\t/g, '\t'),
+    producerspromoters_id: process.env.GOOGLESHEET_PRODUCERSPROMOTERS_ID
+};
+if (googleSpreadsheetConfig.client_email && googleSpreadsheetConfig.private_key && googleSpreadsheetConfig.producerspromoters_id) {
+    googleSpreadsheet = new googleSpreadsheet(googleSpreadsheetConfig.producerspromoters_id);
+    googleSpreadsheet.useServiceAccountAuth(googleSpreadsheetConfig, function (err) {
+        if (err) {
+            console.log('> Authentication error with Google Spreadsheet API →', err);
+            googleSpreadsheet = null;
+        }
+        else {
+            console.log('> Authentication with Google Spreadsheet API done');
+        }
+    });
+}
+else {
+    googleSpreadsheet = null;
+    console.log('> Authentication with Google Spreadsheet API dismissed, missing .env variable or auth file.');
 }
 
 console.log('> Starting DubAPI...');
@@ -148,11 +175,11 @@ new DubAPI({
         }
 
         bot.on('connected', function (name) {
-            console.log('Connected to ' + name);
+            console.log('> Connected to ' + name);
         });
 
         bot.on('disconnected', function (name) {
-            console.log('Disconnected from ' + name);
+            console.log('> Disconnected from ' + name);
             setTimeout(connect, 15000);
         });
 
@@ -253,12 +280,24 @@ new DubAPI({
                 return;
             }
             // Setup Utils
-            var messageUtils = new MessageUtils(bot, redisManager, twitchManager, propsManager, settingsManager, chatUtils, userUtils, mediaUtils, botUtils, data);
-            messageUtils.currentMediaPermaLink = currentMediaPermaLink;
-            messageUtils.currentDJ = currentDJ;
-            messageUtils.getRuntimeMessage = function () {
-                return timeDifference(Date.now(), startTime);
-            };
+            var messageUtils = new MessageUtils({
+                bot: bot,
+                redisManage: redisManager,
+                twitchManager: twitchManager,
+                propsManager: propsManager,
+                settingsManager: settingsManager,
+                chatUtils: chatUtils,
+                userUtils: userUtils,
+                mediaUtils: mediaUtils,
+                botUtils: botUtils,
+                googleSpreadsheet: googleSpreadsheet,
+
+                currentMediaPermaLink: currentMediaPermaLink,
+                currentDJ: currentDJ,
+                getRuntimeMessage: function () {
+                    return timeDifference(Date.now(), startTime);
+                }
+            }, data);
             chatManager.processChat(messageUtils, commandManager);
         });
 

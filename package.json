@@ -8,6 +8,7 @@
     "dotenv": "1.2.0",
     "dubapi": ">0.2.4",
     "express": "^4.13.4",
+    "google-spreadsheet": "^2.0.3",
     "ioredis": "latest",
     "jsonfile": "2.2.x",
     "moment": "^2.11.2",

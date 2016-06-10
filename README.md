@@ -36,6 +36,10 @@ IMGREMOVALDUBS_TIME=number   # [OPTIONAL] Number of time (in minutes) to unmute 
 CHATLOGS_SENDGRID_KEY=sendgridkey # [OPTIONAL] SendGrid key for sending the chatlog email, if none then chatlogs wont be recorded.
 CHATLOGS_FROM=email               # [OPTIONAL] Email SendGrid uses to send email, this wont work if CHATLOGS_SENDGRID_KEY is not defined.
 CHATLOGS_TO=email                 # [OPTIONAL] Email SendGrid sends the email to, this wont work if CHATLOGS_SENDGRID_KEY is not defined.
+
+GOOGLESHEET_CLIENT_EMAIL=email           # [OPTIONAL] Email that you get from the Google Accounts API (NOT the account email), if not defined then Google Spreadsheet API won't be set.
+GOOGLESHEET_PRIVATE_KEY=foo              # [OPTIONAL] Google Accounts API Private Key (the long one), if not defined then Google Spreadsheet API won't be set.
+GOOGLESHEET_PRODUCERSPROMOTERS_ID=string # [OPTIONAL] ID to the ProducersPromoters Spreadsheet, if not defined then Google Spreadsheet API won't work.
 ```
 
 After doing all this you can just run ```node zubbot.js``` in your friendly neighborhood node terminal and all should be fine and dandy.
