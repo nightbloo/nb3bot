@@ -282,7 +282,7 @@ new DubAPI({
             // Setup Utils
             var messageUtils = new MessageUtils({
                 bot: bot,
-                redisManage: redisManager,
+                redisManager: redisManager,
                 twitchManager: twitchManager,
                 propsManager: propsManager,
                 settingsManager: settingsManager,
