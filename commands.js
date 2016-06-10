@@ -80,7 +80,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                reddit.r('gentlemangabers', function (err, data, res) {
+                reddit.r('gentlemangabers', function (err, data) {
                     if (err != null) {
                         console.log(err);
                     }
@@ -781,6 +781,7 @@ function regCommands(commandManager) {
         new Command('catfact', ['catfact', 'catfacts'], 1, ['resident-dj'], [],
             /**
              * @param {MessageUtils} utils
+             * @param {Function} dontSetCooldown
              */
             function (utils, dontSetCooldown) {
                 requestCatFact(
@@ -804,6 +805,7 @@ function regCommands(commandManager) {
         new Command('nb3fact', ['nb3fact', 'nb3facts'], 1, ['resident-dj'], [],
             /**
              * @param {MessageUtils} utils
+             * @param {Function} dontSetCooldown
              */
             function (utils, dontSetCooldown) {
                 requestCatFact(
@@ -845,13 +847,14 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('isproducerpromoter', ['isproducer', 'ispromoter', 'isproducerpromoter', 'ispromoterproducer', 'isproducerorpromoter', 'ispromoterorproducer'], 1, [], [],
+        new Command('isproducerpromoter', ['isproducer', 'ispromoter', 'isproducerpromoter', 'ispromoterproducer', 'isproducerorpromoter', 'ispromoterorproducer'], 1, ['resident-dj'], [],
             /**
              * @param {MessageUtils} utils
              */
             function (utils) {
-                if(!utils.googleSpreadsheet)
+                if (!utils.googleSpreadsheet) {
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' Google Spreadsheet API not set.');
+                }
 
                 var target = utils.getTargetName(1, true);
                 if (target.length === 0) {
@@ -860,7 +863,6 @@ function regCommands(commandManager) {
                 utils.googleSpreadsheet.getRows(
                     1,
                     function (err, rows) {
-                        console.log('err →', err);
                         for (var rowIndex = 0; rowIndex < rows.length; rowIndex++) {
                             var row = rows[rowIndex];
                             if (row.name === target) {
