@@ -80,7 +80,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                reddit.r('gentlemangabers', function (err, data, res) {
+                reddit.r('gentlemangabers', function (err, data) {
                     if (err != null) {
                         console.log(err);
                     }
@@ -781,6 +781,7 @@ function regCommands(commandManager) {
         new Command('catfact', ['catfact', 'catfacts'], 1, ['resident-dj'], [],
             /**
              * @param {MessageUtils} utils
+             * @param {Function} dontSetCooldown
              */
             function (utils, dontSetCooldown) {
                 requestCatFact(
@@ -804,6 +805,7 @@ function regCommands(commandManager) {
         new Command('nb3fact', ['nb3fact', 'nb3facts'], 1, ['resident-dj'], [],
             /**
              * @param {MessageUtils} utils
+             * @param {Function} dontSetCooldown
              */
             function (utils, dontSetCooldown) {
                 requestCatFact(
@@ -842,6 +844,39 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 utils.bot.sendChat('@djs all right, stream is over! Dequeue your troll songs unless you want them to be skipped or removed.');
+            }
+        )
+        ,
+        new Command('isproducerpromoter', ['isproducer', 'ispromoter', 'isproducerpromoter', 'ispromoterproducer', 'isproducerorpromoter', 'ispromoterorproducer'], 1, ['resident-dj'], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                if (!utils.googleSpreadsheet) {
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' Google Spreadsheet API not set.');
+                }
+
+                var target = utils.getTargetName(1, true);
+                if (target.length === 0) {
+                    return;
+                }
+                utils.googleSpreadsheet.getRows(
+                    1,
+                    function (err, rows) {
+                        for (var rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+                            var row = rows[rowIndex];
+                            if (row.name === target) {
+                                utils.bot.sendChat('@' + utils.getUserUsername() + ' ' + row.name + ' was found on Spreadsheet\'s row #' + (rowIndex + 2) + ' and is listed as a ' + row.producerorpromoter + ' since ' + row.date.replace(/\./g, '/') + '.');
+                                var warningsByDate = row['warnings-by-date'];
+                                if (warningsByDate.length !== 0 && warningsByDate.toLowerCase().trim() !== 'none') {
+                                    utils.bot.sendChat('Warnings to date found, you can see them at https://goo.gl/sGrMbB');
+                                }
+                                return;
+                            }
+                        }
+                        utils.bot.sendChat('@' + utils.getUserUsername() + ' ' + target + ' was not found on the Spreadsheet. Maybe you misspelled the username?');
+                    }
+                );
             }
         )
     ].forEach(function (command) {
