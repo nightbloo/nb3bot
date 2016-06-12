@@ -858,7 +858,14 @@ function regCommands(commandManager) {
 
                 var target = utils.getTargetName(1, true);
                 if (target.length === 0) {
-                    return;
+                    target = utils.bot.getDJ();
+                    if (!target) {
+                        utils.bot.sendChat('@' + utils.getUserUsername() + ' noone is playing a song.');
+                        return;
+                    }
+                    else {
+                        target = target.username;
+                    }
                 }
                 utils.googleSpreadsheet.getRows(
                     1,
