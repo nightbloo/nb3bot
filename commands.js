@@ -28,7 +28,7 @@ var seedrandom = require('seed-random');
 // Time formatting
 var moment = require('moment');
 // Request
-var httpReq = require('http').request;
+var httpsReq = require('https').request;
 
 function regCommands(commandManager) {
     var Command = commandManager.Command;
@@ -117,7 +117,7 @@ function regCommands(commandManager) {
                         utils.bot.sendChat(stream.preview.small + ' Viewers:' + stream.viewers);
                     }
                     else {
-                        utils.bot.sendChat('NightBlue3 is not currently streaming! He streams at http://www.twitch.tv/nightblue3');
+                        utils.bot.sendChat('NightBlue3 is not currently streaming! He streams at https://www.twitch.tv/nightblue3');
                     }
                 });
             }
@@ -154,7 +154,7 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 utils.bot.sendChat(utils.getTargetName() + ' In order to get the ETA Timer, please download the DubX Extension from https://dubx.net/');
-                utils.bot.sendChat('http://i.imgur.com/ldj2jqf.png');
+                utils.bot.sendChat('https://i.imgur.com/ldj2jqf.png');
             }
         )
         ,
@@ -221,7 +221,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' Rules: http://git.io/vWJnY');
+                utils.bot.sendChat(utils.getTargetName() + ' Rules: https://git.io/vWJnY');
             }
         )
         ,
@@ -232,7 +232,7 @@ function regCommands(commandManager) {
             function (utils) {
                 var args;
                 var argsLength = utils.getCommandArguments().length;
-                var rule;
+                var rule = [];
                 if (argsLength > 0) {
                     for (var way = argsLength > 1 ? 1 : 0; way >= 0; way--) {
                         args = utils.getCommandArguments().slice(0, argsLength - way).join(' ').toLowerCase();
@@ -244,7 +244,8 @@ function regCommands(commandManager) {
                                 break;
                             case 'aboutstaff':
                             case 'about staff':
-                                rule = "If you disrespect the staff, ignore warnings or request from staff, or are trying to disrupt the actions of the mods you will be banned from the community permanently.";
+                                rule.push("If you respect the staff, ignore warnings or request from staff, or are trying to disrupt the actions of the mods you will be banned from the community permanently.");
+                                rule.push("Please PM the staff member you have a disagreement and try to resolve the problem.");
                                 break;
                         }
                         if (rule) {
@@ -252,8 +253,13 @@ function regCommands(commandManager) {
                         }
                     }
                 }
-                rule = rule || "Rules: http://git.io/vWJnY";
-                utils.bot.sendChat((way == 1 ? utils.getTargetName(utils.getCommandArguments().length) + ' ' : '') + rule);
+                if (rule.length <= 0) {
+                    rule.push("Rules: https://git.io/vWJnY");
+                }
+                rule.forEach(function (ru, index) {
+                    var target = way == 1 && index === 0 ? utils.getTargetName(utils.getCommandArguments().length) : '';
+                    utils.bot.sendChat(target + ' ' + ru);
+                });
             }
         )
         ,
@@ -278,7 +284,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' you can download DubX at http://www.dubx.net');
+                utils.bot.sendChat(utils.getTargetName() + ' you can download DubX at https://www.dubx.net');
                 utils.bot.sendChat('Follow this guide to help you install DubX! https://git.io/vzCVn');
             }
         )
@@ -288,7 +294,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' Fancy css files: http://imgur.com/a/WeXhS');
+                utils.bot.sendChat(utils.getTargetName() + ' Fancy css files: https://imgur.com/a/WeXhS');
                 utils.bot.sendChat('Custom css chooser: https://goo.gl/Gs6gih');
             }
         )
@@ -309,7 +315,7 @@ function regCommands(commandManager) {
                     ,
                     'SiilerBloo': 'https://imgur.com/a/oZKQ3'
                     ,
-                    'Pikachu': 'http://imgur.com/a/75R64'
+                    'Pikachu': 'https://imgur.com/a/75R64'
                 };
 
                 function checkIfSpecify() {
@@ -440,15 +446,6 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('selfpromotion', ['selfpromotion', 'selfpromo'], 1, [], [],
-            /**
-             * @param {MessageUtils} utils
-             */
-            function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' Please refrain from any self promotion in this room. As told in the rules: http://i.imgur.com/2zE0SPf.png');
-            }
-        )
-        ,
         new Command('english', ['english', 'eng'], 1, [], [],
             /**
              * @param {MessageUtils} utils
@@ -463,8 +460,8 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' :NoSkip: (Click for better quality) https://i.imgur.com/uFE8PfA.png');
-                utils.bot.sendChat('(snippet from Community Rules, https://git.io/vWJnY#miscellaneous)');
+                utils.bot.sendChat(utils.getTargetName() + ' :NoSkip: (Click for better quality) https://i.imgur.com/JDrjtoB.png');
+                utils.bot.sendChat('(snippet from Community Rules,  https://git.io/vWJnY#do-nots and https://git.io/vWJnY#saying-negative-things-about-a-song)');
             }
         )
         ,
@@ -540,7 +537,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + 'This community plays ♪ CHILL | TRAP | D&B ♪. Songs over 6:30 will be skipped so please follow the guidelines! Rules: http://git.io/vWJnY');
+                utils.bot.sendChat(utils.getTargetName() + 'This community plays ♪ CHILL | TRAP | D&B ♪. Songs over 6:30 will be skipped so please follow the guidelines! Rules: https://git.io/vWJnY');
             }
         )
         ,
@@ -746,8 +743,8 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' (Click for better quality) https://i.imgur.com/1mzL6rB.png');
-                utils.bot.sendChat('(snippet from For Producers/Promoters, https://git.io/vWJnY#for-producerspromoters)');
+                utils.bot.sendChat(utils.getTargetName() + ' (Click for better quality) https://i.imgur.com/lBAbOMJ.png');
+                utils.bot.sendChat('(snippet from For Producers/Promoters, https://git.io/vWJnY#for-producers-and-promoters)');
             }
         )
         ,
@@ -774,7 +771,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' Unofficial Android app (sorry iOS users) for Dubtrack: http://www.mar974.co/dubtrack/. Thank mar974 :D');
+                utils.bot.sendChat(utils.getTargetName() + ' Unofficial Android app (sorry iOS users) for Dubtrack: https://www.mar974.co/dubtrack/. Thank mar974 :D');
             }
         )
         ,
@@ -911,7 +908,7 @@ function requestCatFact(dontSetCooldown, noFacts, cb) {
             requestsCount++;
         }
 
-        httpReq({
+        httpsReq({
             hostname: 'catfacts-api.appspot.com',
             path: '/api/facts',
             method: 'GET'
