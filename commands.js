@@ -531,12 +531,12 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('roominfo', ['roominfo', 'community', 'room', 'info'], 1, [], [],
+        new Command('roominfo', ['roominfo', 'community', 'room', 'info', 'roomtheme', 'communitytheme', 'theme'], 1, [], [],
             /**
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + 'This community plays ' + utils.bot.getRoomMeta().name + '. Songs over 6:30 will be skipped so please follow the guidelines! Rules: https://git.io/vWJnY');
+                utils.bot.sendChat(utils.getTargetName() + 'This community plays ' + utils.bot.getRoomMeta().name + ' (as said on the title). Songs over 6:30 will be skipped so please follow the guidelines! Rules: https://git.io/vWJnY');
             }
         )
         ,
