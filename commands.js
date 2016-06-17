@@ -455,12 +455,12 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('shush', ['shush', 'sush'], 1, [], [],
+        new Command('shush', ['shush', 'sush', 'noskip', 'noskiperino'], 1, [], [],
             /**
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' :NoSkip: (Click for better quality) https://i.imgur.com/JDrjtoB.png');
+                utils.bot.sendChat(utils.getTargetName() + ' :NoSkip: (Click for better quality) https://i.imgur.com/05NVq0h.png');
             }
         )
         ,
@@ -536,7 +536,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + 'This community plays ♪ CHILL | TRAP | D&B ♪. Songs over 6:30 will be skipped so please follow the guidelines! Rules: https://git.io/vWJnY');
+                utils.bot.sendChat(utils.getTargetName() + 'This community plays ' + utils.bot.getRoomMeta().name + '. Songs over 6:30 will be skipped so please follow the guidelines! Rules: https://git.io/vWJnY');
             }
         )
         ,
