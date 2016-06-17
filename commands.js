@@ -460,7 +460,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' :NoSkip: (Click for better quality) https://i.imgur.com/0H4toVQ.png');
+                utils.bot.sendChat(utils.getTargetName() + ' :NoSkip: (Click for better quality) https://i.imgur.com/JDrjtoB.png');
             }
         )
         ,
@@ -751,7 +751,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' (Click for better quality) https://i.imgur.com/jVpWr3q.png');
+                utils.bot.sendChat(utils.getTargetName() + ' (Click for better quality) https://i.imgur.com/0H4toVQ.png');
             }
         )
         ,
