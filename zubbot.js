@@ -109,7 +109,7 @@ catch (x) {
     console.log('No SendGrid Key detected, chatlogs wont be recorded.');
 }
 
-// Startup Google Spreadsheet API
+/* Startup Google Spreadsheet API - obsolete from now on (and maybe forever); it lasted a week ;n;
 var googleSpreadsheetConfig = {
     client_email: process.env.GOOGLESHEET_CLIENT_EMAIL,
     private_key: process.env.GOOGLESHEET_PRIVATE_KEY.replace(/\\n/g, '\n').replace(/\\r/g, '\r').replace(/\\t/g, '\t'),
@@ -131,6 +131,7 @@ else {
     googleSpreadsheet = null;
     console.log('> Authentication with Google Spreadsheet API dismissed, missing .env variable or auth file.');
 }
+*/
 
 console.log('> Starting DubAPI...');
 

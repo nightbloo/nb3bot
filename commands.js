@@ -460,8 +460,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' :NoSkip: (Click for better quality) https://i.imgur.com/JDrjtoB.png');
-                utils.bot.sendChat('(snippet from Community Rules,  https://git.io/vWJnY#do-nots and https://git.io/vWJnY#saying-negative-things-about-a-song)');
+                utils.bot.sendChat(utils.getTargetName() + ' :NoSkip: (Click for better quality) https://i.imgur.com/72e0frQ.png');
             }
         )
         ,
@@ -738,22 +737,21 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('producers', ['producers', 'promoters'], 1, [], [],
+        new Command('forproducers', ['producers', 'forproducers'], 1, [], [],
             /**
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' (Click for better quality) https://i.imgur.com/lBAbOMJ.png');
-                utils.bot.sendChat('(snippet from For Producers/Promoters, https://git.io/vWJnY#for-producers-and-promoters)');
+                utils.bot.sendChat(utils.getTargetName() + ' We no longer allow producers to play their own songs or advertise their music in any way.');
             }
         )
         ,
-        new Command('producerslist', ['producerslist', 'promoterslist'], 1, [], [],
+        new Command('forpromoters', ['promoters', 'forpromoters'], 1, [], [],
             /**
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' Promoters/Producers list: https://goo.gl/sGrMbB');
+                utils.bot.sendChat(utils.getTargetName() + ' (Click for better quality) https://i.imgur.com/jVpWr3q.png');
             }
         )
         ,
@@ -841,46 +839,6 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 utils.bot.sendChat('@djs all right, stream is over! Dequeue your troll songs unless you want them to be skipped or removed.');
-            }
-        )
-        ,
-        new Command('isproducerpromoter', ['isproducer', 'ispromoter', 'isproducerpromoter', 'ispromoterproducer', 'isproducerorpromoter', 'ispromoterorproducer'], 1, ['resident-dj'], [],
-            /**
-             * @param {MessageUtils} utils
-             */
-            function (utils) {
-                if (!utils.googleSpreadsheet) {
-                    utils.bot.sendChat('@' + utils.getUserUsername() + ' Google Spreadsheet API not set.');
-                }
-
-                var target = utils.getTargetName(1, true);
-                if (target.length === 0) {
-                    target = utils.bot.getDJ();
-                    if (!target) {
-                        utils.bot.sendChat('@' + utils.getUserUsername() + ' noone is playing a song.');
-                        return;
-                    }
-                    else {
-                        target = target.username;
-                    }
-                }
-                utils.googleSpreadsheet.getRows(
-                    1,
-                    function (err, rows) {
-                        for (var rowIndex = 0; rowIndex < rows.length; rowIndex++) {
-                            var row = rows[rowIndex];
-                            if (row.name === target) {
-                                utils.bot.sendChat('@' + utils.getUserUsername() + ' ' + row.name + ' was found on Spreadsheet\'s row #' + (rowIndex + 2) + ' and is listed as a ' + row.producerorpromoter + ' since ' + row.date.replace(/\./g, '/') + '.');
-                                var warningsByDate = row['warnings-by-date'];
-                                if (warningsByDate.length !== 0 && warningsByDate.toLowerCase().trim() !== 'none') {
-                                    utils.bot.sendChat('Warnings to date found, you can see them at https://goo.gl/sGrMbB');
-                                }
-                                return;
-                            }
-                        }
-                        utils.bot.sendChat('@' + utils.getUserUsername() + ' ' + target + ' was not found on the Spreadsheet. Maybe you misspelled the username?');
-                    }
-                );
             }
         )
     ].forEach(function (command) {
