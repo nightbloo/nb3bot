@@ -21,7 +21,6 @@
  **************************************************************************
  */
 
-var AgarioClient = require('agario-client');
 var reddit = require('redwrap');
 // Random seeds
 var seedrandom = require('seed-random');
@@ -50,17 +49,6 @@ function regCommands(commandManager) {
                 else {
                     utils.bot.sendChat('Hi There, @' + utils.getUserUsername());
                 }
-            }
-        )
-        ,
-        new Command('agar', ['agar'], 1, [], [],
-            /**
-             * @param {MessageUtils} utils
-             */
-            function (utils) {
-                AgarioClient.servers.createParty("US-Atlanta", function (data) {
-                    utils.bot.sendChat('@' + utils.getUserUsername() + ' has created an agario party. Join them at https://agar.io/#' + data.key);
-                });
             }
         )
         ,

@@ -4,7 +4,6 @@
   "description": "Bot made for NB3's dubtrack room",
   "main": "zubbot.js",
   "dependencies": {
-    "agario-client": "1.2.4",
     "dotenv": "1.2.0",
     "dubapi": ">0.2.4",
     "express": "^4.13.4",
