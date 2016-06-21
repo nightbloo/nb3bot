@@ -316,15 +316,20 @@ function regCommands(commandManager) {
                     return r;
                 }
 
-                var bgUrl;
-                if (utils.getCommandArguments().length > 0 && (bgUrl = checkIfSpecify())) {
-                    utils.bot.sendChat(utils.getTargetName(2) + ' ' + bgUrl + "'s BGs: " + bgLinks[bgUrl]);
+                if (utils.getCommandArguments().length > 0) {
+                    var bgUrl;
+                    if (utils.getCommandArguments()[0].toLowerCase() === 'room') {
+                        utils.bot.sendChat(utils.getTargetName(2) + ' Room Background: ' + 'https://api.dubtrack.fm/room/' + utils.bot.getRoomMeta().id + '/image');
+                        return;
+                    }
+                    else if (bgUrl = checkIfSpecify()) {
+                        utils.bot.sendChat(utils.getTargetName(2) + ' ' + bgUrl + "'s BGs: " + bgLinks[bgUrl]);
+                        return;
+                    }
                 }
-                else {
-                    Object.keys(bgLinks).forEach(function (name, i) {
-                        utils.bot.sendChat((i === 0 ? utils.getTargetName() : '') + ' ' + name + "'s BGs: " + bgLinks[name]);
-                    });
-                }
+                Object.keys(bgLinks).forEach(function (name, i) {
+                    utils.bot.sendChat((i === 0 ? utils.getTargetName() : '') + ' ' + name + "'s BGs: " + bgLinks[name]);
+                });
             }
         )
         ,
