@@ -192,7 +192,7 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('residentdj', ['sub', 'subs', 'subscribe', 'residentdj', 'rdj'], 1, ['resident-dj'], [],
+        new Command('residentdj', ['sub', 'subs', 'subscribe', 'residentdj', 'rdj', 'resdj'], 1, ['resident-dj'], [],
             /**
              * @param {MessageUtils} utils
              */
