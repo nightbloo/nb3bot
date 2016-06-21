@@ -1,7 +1,7 @@
 {
   "banPhrases": [
     {
-      "phrase": "strawpoii.me",
+      "phrase": [ "strawpoii.me", "akk.li/pics/anne.jpg" ],
       "reason": "Posting screamers.",
       "banTime": "p"
     }
