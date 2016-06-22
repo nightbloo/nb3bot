@@ -192,15 +192,12 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('residentdj', ['sub', 'subs', 'subscribe', 'residentdj', 'rdj', 'resdj'], 1, ['resident-dj'], [],
+        new Command('residentdj', ['sub', 'subs', 'subscribe', 'residentdj', 'rdj', 'resdj'], 1, [], [],
             /**
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + " To get Resident DJ be a sub to Nightblue3's twitch.");
-                utils.bot.sendChat('You can become a sub to NB3 here! https://twitch.tv/nightblue3/subscribe.');
-                utils.bot.sendChat('Once you\'re a sub you can go to https://nightbluebot.larry1123.net/auth/twitch/ and I will give subs RDJ!');
-                utils.bot.sendChat('Resident DJs can play in locked queues (notably during stream and subsundays) and have shorter command cooldowns.');
+                utils.bot.sendChat(utils.getTargetName() + ' To become a Resident DJ, or find out more information read https://git.io/voXqA');
             }
         )
         ,
