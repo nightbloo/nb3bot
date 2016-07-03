@@ -301,6 +301,8 @@ function regCommands(commandManager) {
                     'SiilerBloo': 'https://imgur.com/a/oZKQ3'
                     ,
                     'Pikachu': 'https://imgur.com/a/75R64'
+                    ,
+                    'Jagex': 'https://imgur.com/a/LdlPV'
                 };
 
                 function checkIfSpecify() {
