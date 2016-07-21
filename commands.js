@@ -845,7 +845,7 @@ function regCommands(commandManager) {
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' cookies on display: ' + Object.keys(cookieDisplay).join(', '));
                     return;
                 }
-                var cookie = cookieDisplay[utils.getCommandArguments()[0]];
+                var cookie = cookieDisplay[utils.getCommandArguments()[0].toLowerCase()];
                 if (!cookie) {
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' I don\'t have that cookie on display.');
                     return;
@@ -863,7 +863,7 @@ function regCommands(commandManager) {
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' for me :nb3Happy:? Thank you! I\'ll eat this ' + cookie.name + ' now if you don\'t mind :rawrrCookie:');
                     return;
                 }
-                utils.bot.sendChat('@' + target.username + ' ' + utils.getUserUsername() + ' gave you a ' + cookie.name + ' ' + cookie.emote);
+                utils.bot.sendChat('@' + target.username + ' ' + utils.getUserUsername() + ' gave you a/an ' + cookie.name + ' ' + cookie.emote);
             }
         )
     ].forEach(function (command) {

@@ -22,5 +22,9 @@
   "heart-shape": {
     "name": "Heart shaped cookie",
     "emote": ":thorlarCookie:"
+  },
+  "oreo": {
+    "name": "Oreo",
+    "emote": ":gabOreo:"
   }
 }
