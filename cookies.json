@@ -36,9 +36,9 @@
     "emote": ":pizza::cookie::pizza:"
   },
   "taco": {
-    "name": "Taco flavoured cookie"
+    "name": "Taco flavoured cookie",
     "emote": ":taco::cookie::taco:"
-  }
+  },
   "vanilla": {
     "name": "Vanilla cookie",
     "emote": ":cookie:"
