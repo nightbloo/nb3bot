@@ -1,0 +1,26 @@
+{
+  "simple": {
+    "name": "Simple cookie",
+    "emote": ":cookie:"
+  },
+  "chocolate-chips": {
+    "name": "Cookie with chocolate chips",
+    "emote": ":cookie:"
+  },
+  "sugar": {
+    "name": "Sugar cookie",
+    "emote": ":PJSugar::cookie::PJSugar:"
+  },
+  "peanut-butter": {
+    "name": "Peanut Butter cookie",
+    "emote": ":foodButter::cookie::foodButter:"
+  },
+  "ghost-shape": {
+    "name": "Ghost shaped cookie",
+    "emote": ":ghost::cookie::ghost:"
+  },
+  "heart-shape": {
+    "name": "Heart shaped cookie",
+    "emote": ":thorlarCookie:"
+  }
+}

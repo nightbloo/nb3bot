@@ -28,6 +28,8 @@ var seedrandom = require('seed-random');
 var moment = require('moment');
 // Request
 var httpsReq = require('https').request;
+// Cookie command
+var cookieDisplay = require('./cookies.json');
 
 function regCommands(commandManager) {
     var Command = commandManager.Command;
@@ -831,6 +833,37 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 utils.bot.sendChat('@djs all right, stream is over! Dequeue your troll songs unless you want them to be skipped or removed.');
+            }
+        )
+        ,
+        new Command('cookie', ['cookie', 'givecookie'], 1, [], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                if (utils.getCommandArguments().length < 2) {
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' cookies on display: ' + Object.keys(cookieDisplay).join(', '));
+                    return;
+                }
+                var cookie = cookieDisplay[utils.getCommandArguments()[0]];
+                if (!cookie) {
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' I don\'t have that cookie on display.');
+                    return;
+                }
+                var target = utils.bot.getUserByName(utils.getTargetName(2, true));
+                if(!target) {
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' I would give them the cookie but they seem to not be here.');
+                    return;
+                }
+                if(target.id === utils.getUserId()) {
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' don\'t you already have the cookie? Just eat it!');
+                    return;
+                }
+                if(target.id === utils.bot.getSelf().id) {
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' for me :nb3Happy:? Thank you! I\'ll eat this ' + cookie.name + ' now if you don\'t mind :rawrrCookie:');
+                    return;
+                }
+                utils.bot.sendChat('@' + target.username + ' ' + utils.getUserUsername() + ' gave you a ' + cookie.name + ' ' + cookie.emote);
             }
         )
     ].forEach(function (command) {
