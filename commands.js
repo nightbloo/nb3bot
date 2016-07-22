@@ -824,6 +824,7 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 utils.bot.sendChat(utils.getTargetName() + ' Anime List: https://goo.gl/d4lvua');
+                utils.bot.sendChat('Never_Pause also recommends his animelist: https://goo.gl/h6OoW3');
             }
         )
         ,
