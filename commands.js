@@ -581,7 +581,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.redisManager.getLastSongTime(utils.getMediaFkid(), function (result) {
+                utils.redisManager.getLastSongTime(utils.getCommandArguments()[0] || utils.getMediaFkid(), function (result) {
                     if (result) {
                         utils.bot.sendChat('This video was last played ' + timeDifference(Date.now(), parseInt(result)) + '.');
                     }
@@ -852,15 +852,15 @@ function regCommands(commandManager) {
                     return;
                 }
                 var target = utils.bot.getUserByName(utils.getTargetName(2, true));
-                if(!target) {
+                if (!target) {
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' I would give them the cookie but they seem to not be here.');
                     return;
                 }
-                if(target.id === utils.getUserId()) {
+                if (target.id === utils.getUserId()) {
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' don\'t you already have the cookie? Just eat it!');
                     return;
                 }
-                if(target.id === utils.bot.getSelf().id) {
+                if (target.id === utils.bot.getSelf().id) {
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' for me :nb3Happy:? Thank you! I\'ll eat this ' + cookie.name + ' now if you don\'t mind :rawrrCookie:');
                     return;
                 }
