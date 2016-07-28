@@ -307,6 +307,8 @@ function regCommands(commandManager) {
                     'Jagex': 'https://imgur.com/a/LdlPV'
                     ,
                     'Never_Pause': 'https://imgur.com/a/ksnvE'
+                    ,
+                    'Yato_': 'https://imgur.com/a/CuEvR'
                 };
 
                 function checkIfSpecify() {
