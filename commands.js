@@ -26,7 +26,8 @@ var reddit = require('redwrap');
 var seedrandom = require('seed-random');
 // Time formatting
 var moment = require('moment');
-// Request
+// Requests
+var httpReq  = require('http').request;
 var httpsReq = require('https').request;
 // Cookie command
 var cookieDisplay = require('./cookies.json');
@@ -305,6 +306,8 @@ function regCommands(commandManager) {
                     'Pikachu': 'https://imgur.com/a/75R64'
                     ,
                     'Jagex': 'https://imgur.com/a/LdlPV'
+                    ,
+                    'Never_Pause': 'https://imgur.com/a/ksnvE'
                 };
 
                 function checkIfSpecify() {
@@ -865,6 +868,43 @@ function regCommands(commandManager) {
                     return;
                 }
                 utils.bot.sendChat('@' + target.username + ' ' + utils.getUserUsername() + ' gave you a/an ' + cookie.name + ' ' + cookie.emote);
+            }
+        )
+        ,
+        new Command('randomcat', ['randomcat', 'catrandom'], 1, [], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                function uhOhError(err) {
+                    throw typeof err === 'string' ? new Error(err) : err;
+                }
+
+                httpReq({
+                    hostname: 'random.cat',
+                    path: '/meow',
+                    method: 'GET'
+                }, function (res) {
+                    var data = '';
+                    res.setEncoding('utf8');
+                    res.on('data', function (chunk) {
+                        data += chunk;
+                    });
+                    res.on('error', function (x) {
+                        uhOhError(x);
+                        console.error(x);
+                    });
+                    res.on('end', function () {
+                        try {
+                            data = JSON.parse(data);
+                        }
+                        catch (x) {
+                            uhOhError('Failed to parse data to JSON');
+                        }
+
+                        utils.bot.sendChat(utils.getTargetName() + ' ' + data.file);
+                    });
+                }).end();
             }
         )
     ].forEach(function (command) {
