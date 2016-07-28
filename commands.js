@@ -662,44 +662,50 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('setcd', ['setcd'], 0, ['mod'], [],
+        new Command('setcd', ['setcd', 'setcooldown', 'cooldown'], 0, ['mod'], [],
             /**
              * @param {MessageUtils} utils
              */
             function (utils) {
                 if (utils.getCommandArguments()[0] == undefined) {
+                    var output = utils.settingsManager.getCooldown();
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' current command cooldown is of ' + output + ' second' + (output === 1 ? '' : 's') + '.');
                     return 1;
                 }
                 var input = parseInt(utils.getCommandArguments()[0]);
                 if (!isNaN(input)) {
                     utils.settingsManager.setCooldown(input);
-                    utils.bot.sendChat('@' + utils.getUserUsername() + ' set cooldown to ' + utils.getCommandArguments()[0] + ' seconds.');
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' set cooldown to ' + input + ' second' + (input === 1 ? '' : 's') + '.');
                 }
             }
         )
         ,
-        new Command('setimgtime', ['setimgtime'], 0, ['mod'], [],
+        new Command('setimgtime', ['setimgtime', 'setimagetime', 'imagetime'], 0, ['mod'], [],
             /**
              * @param {MessageUtils} utils
              */
             function (utils) {
                 if (utils.getCommandArguments()[0] == undefined) {
+                    var output = utils.settingsManager.getImgTime();
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' current image removal time is of ' + output + ' minute' + (output === 1 ? '' : 's') + '.');
                     return 1;
                 }
                 var input = parseInt(utils.getCommandArguments()[0]);
                 if (!isNaN(input)) {
                     utils.settingsManager.setImgTime(input);
-                    utils.bot.sendChat('@' + utils.getUserUsername() + ' set image removal time to ' + input + ' seconds.');
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' set image removal time to ' + input + ' minute' + (input === 1 ? '' : 's') + '.');
                 }
             }
         )
         ,
-        new Command('imgdubsamount', ['imgdubsamount'], 0, ['mod'], [],
+        new Command('imgdubsamount', ['setimgdubsamount', 'imgdubsamount', 'imagedubsamount'], 0, ['mod'], [],
             /**
              * @param {MessageUtils} utils
              */
             function (utils) {
                 if (utils.getCommandArguments()[0] == undefined) {
+                    var output = utils.settingsManager.getImgDubsAmount();
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' current amount of dubs for images is of ' + output + ' dub' + (output === 1 ? '' : 's') + '.');
                     return 1;
                 }
                 var input = parseInt(utils.getCommandArguments()[0]);
@@ -710,12 +716,14 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('imgremovemutetime', ['imgremovemutetime'], 0, ['mod'], [],
+        new Command('imgremovemutetime', ['setimageremovemutetime', 'imgremovemutetime', 'imageremovemutetime'], 0, ['mod'], [],
             /**
              * @param {MessageUtils} utils
              */
             function (utils) {
                 if (utils.getCommandArguments()[0] == undefined) {
+                    var output = utils.settingsManager.getImgRemoveMuteTime();
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' users are getting muted if they don\`t meet the required amount of dubs for ' + output + ' minute' + (output === 1 ? '' : 's') + '.');
                     return 1;
                 }
                 var input = parseInt(utils.getCommandArguments()[0]);
