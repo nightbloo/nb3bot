@@ -308,8 +308,14 @@ function regCommands(commandManager) {
                     ,
                     'Never_Pause': 'https://imgur.com/a/ksnvE'
                     ,
-                    'Yato_': 'https://imgur.com/a/CuEvR'
+                    'Yato__': 'https://imgur.com/a/CuEvR'
                 };
+
+                if (!utils.getCommandArguments()[0]) {
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' I have background lists from ' + Object.keys(bgLinks).join(', '));
+                    utils.bot.sendChat('Do !background <from>' + ' to get the link.');
+                    return;
+                }
 
                 function checkIfSpecify() {
                     var r = null;
@@ -321,20 +327,15 @@ function regCommands(commandManager) {
                     return r;
                 }
 
-                if (utils.getCommandArguments().length > 0) {
-                    var bgUrl;
-                    if (utils.getCommandArguments()[0].toLowerCase() === 'room') {
-                        utils.bot.sendChat(utils.getTargetName(2) + ' Room Background: ' + 'https://api.dubtrack.fm/room/' + utils.bot.getRoomMeta().id + '/image');
-                        return;
-                    }
-                    else if (bgUrl = checkIfSpecify()) {
-                        utils.bot.sendChat(utils.getTargetName(2) + ' ' + bgUrl + "'s BGs: " + bgLinks[bgUrl]);
-                        return;
-                    }
+                var bgUrl;
+                if (utils.getCommandArguments()[0].toLowerCase() === 'room') {
+                    utils.bot.sendChat(utils.getTargetName(2) + ' Room Background: ' + 'https://api.dubtrack.fm/room/' + utils.bot.getRoomMeta().id + '/image');
+                    return;
                 }
-                Object.keys(bgLinks).forEach(function (name, i) {
-                    utils.bot.sendChat((i === 0 ? utils.getTargetName() : '') + ' ' + name + "'s BGs: " + bgLinks[name]);
-                });
+                else if (bgUrl = checkIfSpecify()) {
+                    utils.bot.sendChat(utils.getTargetName(2) + ' ' + bgUrl + "'s BGs: " + bgLinks[bgUrl]);
+                    return;
+                }
             }
         )
         ,
