@@ -586,12 +586,19 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.redisManager.getLastSongTime(utils.getCommandArguments()[0] || utils.getMediaFkid(), function (result) {
+                var arg0 = utils.getCommandArguments()[0];
+
+                if(!arg0 && !utils.bot.getMedia()) {
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' no song is playing right now.');
+                    return;
+                }
+
+                utils.redisManager.getLastSongTime(arg0 || utils.getMediaFkid(), function (result) {
                     if (result) {
-                        utils.bot.sendChat('This video was last played ' + timeDifference(Date.now(), parseInt(result)) + '.');
+                        utils.bot.sendChat((arg0 ? 'That' : 'This') + ' video/song was last played ' + timeDifference(Date.now(), parseInt(result)) + '.');
                     }
                     else {
-                        utils.bot.sendChat('This video has not played in the last 5 weeks. Maybe the song is a remix, or a reupload.');
+                        utils.bot.sendChat((arg0 ? 'That' : 'This') + ' video/song has not played in the last 5 weeks. Maybe the song is a remix, or a reupload.');
                     }
                 });
             }
