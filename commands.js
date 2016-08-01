@@ -309,6 +309,8 @@ function regCommands(commandManager) {
                     'Never_Pause': 'https://imgur.com/a/ksnvE'
                     ,
                     'Yato__': 'https://imgur.com/a/CuEvR'
+                    ,
+                    'DingoTheMagic': 'http://imgur.com/a/DAaYw'
                 };
 
                 if (!utils.getCommandArguments()[0]) {
