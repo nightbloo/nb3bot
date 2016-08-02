@@ -590,7 +590,7 @@ function regCommands(commandManager) {
             function (utils) {
                 var arg0 = utils.getCommandArguments()[0];
 
-                if(!arg0 && !utils.bot.getMedia()) {
+                if (!arg0 && !utils.bot.getMedia()) {
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' no song is playing right now.');
                     return;
                 }
