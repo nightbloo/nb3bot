@@ -292,7 +292,7 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 var bgLinks = {
-                    'Snaky': 'https://imgur.com/a/ZO2Nz'
+                    'Snaky': 'https://imgur.com/a/iQ8rh'
                     ,
                     'Maskinen': 'https://imgur.com/a/P2Y8e'
                     ,
