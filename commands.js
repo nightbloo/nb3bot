@@ -554,7 +554,7 @@ function regCommands(commandManager) {
                     if (isNaN(muteTime)) {
                         muteTime = 5;
                     }
-                    utils.botUtils.timeMute(muteuser, muteTime, "@" + username + " muted for " + muteTime + " minutes!");
+                    utils.botUtils.timeMute(muteuser, muteTime, "@" + username + " muted for " + muteTime + " minute" + (muteTime !== 1 ? 's' : '') + '!');
                 }
                 else {
                     utils.bot.sendChat("No user found by the name " + username + ".")
@@ -575,7 +575,7 @@ function regCommands(commandManager) {
                     if (isNaN(muteTime)) {
                         muteTime = 5;
                     }
-                    utils.botUtils.timeoutUser(muteuser, muteTime, "@" + muteuser.username + " timed out for " + muteTime + " minutes!");
+                    utils.botUtils.timeoutUser(muteuser, muteTime, "@" + muteuser.username + " timed out for " + muteTime + " minute" + (muteTime !== 1 ? 's' : '') + '!');
                 }
                 else {
                     utils.bot.sendChat("No user found by the name " + username + ".")
@@ -738,7 +738,7 @@ function regCommands(commandManager) {
                 var input = parseInt(utils.getCommandArguments()[0]);
                 if (!isNaN(input)) {
                     utils.settingsManager.setImgRemoveMuteTime(input);
-                    utils.bot.sendChat('@' + utils.getUserUsername() + ' users will now get muted for ' + input + ' minutes for not meeting the required amount of dubs.');
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' users will now get muted for ' + input + ' minute' + (input === 1 ? '' : 's') + ' for not meeting the required amount of dubs.');
                 }
             }
         )
