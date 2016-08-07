@@ -127,14 +127,19 @@ function regCommands(commandManager) {
             /**
              * @param {MessageUtils} utils
              */
+            doProps
+        )
+        ,
+        new Command('probs', ['probs'], 0, [], [],
+            /**
+             * @param {MessageUtils} utils
+             */
             function (utils) {
-                if (utils.getUserId() === utils.currentDJ.id) {
-                    utils.bot.sendChat('@' + utils.getUserUsername() + ' we know you love your song, but let others also prop you!');
-                    // Make sure that they can't spam it
-                    commandManager.setUserOnCooldown(utils, this, utils.settingsManager.getCooldown());
+                if (Math.dice(2) !== 1) {
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' probably, but *no*. :shrug:');
                     return;
                 }
-                utils.propsManager.addProp(utils.getUserId());
+                doProps(utils);
             }
         )
         ,
@@ -954,6 +959,20 @@ function requestCatFact(dontSetCooldown, noFacts, cb) {
             cb(result);
         }
     });
+}
+
+function doProps(utils) {
+    if (!utils.currentDJ) {
+        utils.bot.sendChat('@' + utils.getUserUsername() + ' there is no song to prop!');
+        commandManager.setUserOnCooldown(utils, this, utils.settingsManager.getCooldown());
+        return;
+    }
+    if (utils.getUserId() === utils.currentDJ.id) {
+        utils.bot.sendChat('@' + utils.getUserUsername() + ' we know you love your song, but let others also prop you!');
+        commandManager.setUserOnCooldown(utils, this, utils.settingsManager.getCooldown());
+        return;
+    }
+    utils.propsManager.addProp(utils.getUserId());
 }
 
 module.exports = regCommands;
