@@ -315,7 +315,9 @@ function regCommands(commandManager) {
                     ,
                     'Yato__': 'https://imgur.com/a/CuEvR'
                     ,
-                    'DingoTheMagic': 'http://imgur.com/a/DAaYw'
+                    'DingoTheMagic': 'https://imgur.com/a/DAaYw'
+                    ,
+                    'TickingTime': 'https://imgur.com/a/mZWAV'
                 };
 
                 if (!utils.getCommandArguments()[0]) {
