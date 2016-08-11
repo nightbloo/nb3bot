@@ -467,8 +467,8 @@ function regCommands(commandManager) {
             /**
              * @param {MessageUtils} utils
              */
-            function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' :NoSkip: (Click for better quality) https://i.imgur.com/05NVq0h.png');
+            function(utils) {
+                utils.bot.sendChat(utils.getTargetName() + ' ' + getShushMessage());
             }
         )
         ,
@@ -554,18 +554,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                var username = utils.getTargetName().replace("@", "");
-                var muteuser = utils.bot.getUserByName(username, true);
-                if (muteuser) {
-                    var muteTime = parseFloat(utils.getCommandArguments()[1]);
-                    if (isNaN(muteTime)) {
-                        muteTime = 5;
-                    }
-                    utils.botUtils.timeMute(muteuser, muteTime, "@" + username + " muted for " + muteTime + " minute" + (muteTime !== 1 ? 's' : '') + '!');
-                }
-                else {
-                    utils.bot.sendChat("No user found by the name " + username + ".")
-                }
+                processAndDoPunish(utils, 'mute');
             }
         )
         ,
@@ -575,18 +564,17 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                var username = utils.getTargetName().replace("@", "");
-                var muteuser = utils.bot.getUserByName(username, true);
-                if (muteuser) {
-                    var muteTime = parseFloat(utils.getCommandArguments()[1]);
-                    if (isNaN(muteTime)) {
-                        muteTime = 5;
-                    }
-                    utils.botUtils.timeoutUser(muteuser, muteTime, "@" + muteuser.username + " timed out for " + muteTime + " minute" + (muteTime !== 1 ? 's' : '') + '!');
-                }
-                else {
-                    utils.bot.sendChat("No user found by the name " + username + ".")
-                }
+                processAndDoPunish(utils, 'timeout');
+            }
+        )
+        ,
+        // Mod command only no cooldown needed : require mute
+        new Command('ban', ['ban'], 0, [], ['ban'],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                processAndDoPunish(utils, 'ban');
             }
         )
         ,
@@ -756,7 +744,7 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 utils.bot.moderateDeleteChat(utils.getId());
-                utils.timeMuteUser(5, '!shush ' + utils.getUserUsername());
+                utils.timeMuteUser(5, '@' + utils.getUserUsername() + ' ' + getShushMessage());
             }
         )
         ,
@@ -975,6 +963,38 @@ function doProps(utils) {
         return;
     }
     utils.propsManager.addProp(utils.getUserId());
+}
+
+function processAndDoPunish(utils, type) {
+    var username = utils.getTargetName().replace("@", "");
+    var punished = utils.bot.getUserByName(username, true);
+    if (punished) {
+        var time = parseFloat(utils.getCommandArguments()[1]);
+        if (isNaN(time)) {
+            time = 5;
+        }
+        switch (type) {
+            default:
+                utils.bot.sendChat("Something happened! D:");
+                return;
+            case 'ban':
+                utils.botUtils.timeBan(punished, time, null);
+                break;
+            case 'mute':
+                utils.botUtils.timeMute(punished, time, "@" + username + " muted for " + time + " minute" + (time !== 1 ? 's' : '') + '!');
+                break;
+            case 'timeout':
+                utils.botUtils.timeoutUser(punished, time, "@" + username + " timed out for " + time + " minute" + (time !== 1 ? 's' : '') + '!');
+                break;
+        }
+    }
+    else {
+        utils.bot.sendChat("No user found by the name " + username + ".")
+    }
+}
+
+function getShushMessage() {
+    return ':NoSkip: (Click for better quality) https://i.imgur.com/05NVq0h.png';
 }
 
 module.exports = regCommands;
