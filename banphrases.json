@@ -19,7 +19,7 @@
     }
   ,  
     {
-      "phrase": [ "nigga", "aggin", "nigger", "reggin", "niggar", "raggin", "niqqa", "ggah" ],
+      "phrase": [ "nigga", "nigger", "niggar", "niqqa" ],
       "reason": "Saying the N word",
       "banTime": 120
     }
