@@ -318,6 +318,8 @@ function regCommands(commandManager) {
                     'DingoTheMagic': 'https://imgur.com/a/DAaYw'
                     ,
                     'TickingTime': 'https://imgur.com/a/mZWAV'
+                    ,
+                    'ItsClutch': 'https://imgur.com/a/dDhSn'
                 };
 
                 if (!utils.getCommandArguments()[0]) {
