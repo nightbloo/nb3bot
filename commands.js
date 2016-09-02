@@ -311,9 +311,9 @@ function regCommands(commandManager) {
                     ,
                     'Jagex': 'https://imgur.com/a/LdlPV'
                     ,
-                    'Never_Pause': 'https://imgur.com/a/a6AuE'
+                    'NeverPause': 'https://imgur.com/a/a6AuE'
                     ,
-                    'Yato__': 'https://imgur.com/a/CuEvR'
+                    'Yato': 'https://imgur.com/a/CuEvR'
                     ,
                     'DingoTheMagic': 'https://imgur.com/a/DAaYw'
                     ,
