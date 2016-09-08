@@ -490,7 +490,11 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' Check if current video is available on any country at https://nb3x.nl/videocheck.php');
+                var message = 'Check if a video is available on any country at https://polsy.org.uk/stuff/ytrestrict.cgi';
+                if(utils.bot.getMedia() && utils.getMediaType() === 'youtube' && utils.getMediaFkid()) {
+                    message = 'Check if current video is available on any country at https://polsy.org.uk/stuff/ytrestrict.cgi?ytid=' + utils.getMediaFkid();
+                }
+                utils.bot.sendChat(utils.getTargetName() + ' ' + message);
             }
         )
         ,
