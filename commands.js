@@ -319,7 +319,7 @@ function regCommands(commandManager) {
                     ,
                     'TickingTime': 'https://imgur.com/a/mZWAV'
                     ,
-                    'ItsClutch': 'https://imgur.com/a/dDhSn'
+                    'ItsClutch': 'https://imgur.com/a/EixZ2'
                 };
 
                 if (!utils.getCommandArguments()[0]) {
