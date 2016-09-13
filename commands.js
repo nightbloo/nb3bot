@@ -309,7 +309,7 @@ function regCommands(commandManager) {
                     ,
                     'Pikachu': 'https://imgur.com/a/75R64'
                     ,
-                    'Jagex': 'https://imgur.com/a/LdlPV'
+                    'Jagex': 'https://imgur.com/a/swXWN'
                     ,
                     'NeverPause': 'https://imgur.com/a/a6AuE'
                     ,
