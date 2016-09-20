@@ -58,5 +58,13 @@
   "honey": {
     "name": "Honey flavoured cookie",
     "emote": ":honey_pot::cookie::honey_pot:"
+  },
+  "pony-shape": {
+    "name": "Pony shaped cookie",
+    "emote": ":tosanP::cookie::tosanP:"
+  },
+  "netux-shape": {
+    "name": "Netux/Flapjack shaped cookie",
+    "emote": ":FlapJack::cookie::FlapJack:"
   }
 }
