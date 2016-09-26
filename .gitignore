@@ -141,11 +141,8 @@ Session.vim
 # Files #
 ###################
 *.env
-*.log
-*.txt
+banphrases.json
 run.bat
-phyton/imagelogs.json
-chatlogs.txt
 ###############
 # Directories #
 ###############
