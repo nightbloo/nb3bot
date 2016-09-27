@@ -136,7 +136,7 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 if (Math.dice(2) !== 1) {
-                    utils.bot.sendChat('@' + utils.getUserUsername() + ' probably, but *no*. :shrug:');
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' This probably doesn\'t deserve a prop, so why bothering ¯\\_(ツ)_/¯');
                     return;
                 }
                 doProps(utils);
