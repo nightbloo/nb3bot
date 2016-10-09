@@ -552,7 +552,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + 'This community plays ' + utils.bot.getRoomMeta().name + ' (as said on the title). Songs over 6:30 will be skipped so please follow the guidelines! Rules: https://git.io/vWJnY');
+                utils.bot.sendChat(utils.getTargetName() + ' This community plays ' + utils.bot.getRoomMeta().name + ' (as said on the title). Songs over 6:30 will be skipped so please follow the guidelines! Rules: https://git.io/vWJnY');
             }
         )
         ,
@@ -660,12 +660,12 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('commands', ['commands'], 1, [], [],
+        new Command('commands', ['commands', 'help'], 1, [], [],
             /**
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' a command list can be found here: https://git.io/vPBvd');
+                utils.bot.sendChat(utils.getTargetName() + ' A command list can be found here: https://git.io/vPBvd');
             }
         )
         ,
