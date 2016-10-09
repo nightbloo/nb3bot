@@ -5,7 +5,7 @@
   "main": "zubbot.js",
   "dependencies": {
     "dotenv": "1.2.0",
-    "dubapi": "1.6.x",
+    "dubapi": "latest",
     "express": "^4.13.4",
     "ioredis": "latest",
     "jsonfile": "2.2.x",
