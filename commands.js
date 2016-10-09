@@ -127,7 +127,9 @@ function regCommands(commandManager) {
             /**
              * @param {MessageUtils} utils
              */
-            doProps
+            function(utils) {
+                doProps(utils, commandManager);
+            }
         )
         ,
         new Command('probs', ['probs'], 0, [], [],
@@ -139,7 +141,7 @@ function regCommands(commandManager) {
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' this probably doesn\'t deserve a prop for you? then why bother doing the command ¯\\_(ツ)_/¯');
                     return;
                 }
-                doProps(utils);
+                doProps(utils, commandManager);
             }
         )
         ,
@@ -658,17 +660,12 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('commands', ['commands'], 1, ['resident-dj'], [],
+        new Command('commands', ['commands'], 1, [], [],
             /**
              * @param {MessageUtils} utils
              */
             function (utils) {
-                var message = '';
-                commandManager.getCommandList().forEach(function (commandListElement) {
-                    message += (message == '' ? '' : ', ') + commandListElement.commandId;
-                });
-                message = utils.getTargetName() + ' Hi, the commands I have are: ' + message;
-                utils.bot.sendChat(message);
+                utils.bot.sendChat(utils.getTargetName() + ' a command list can be found here: https://git.io/vPBvd');
             }
         )
         ,
@@ -957,7 +954,7 @@ function requestCatFact(dontSetCooldown, noFacts, cb) {
     });
 }
 
-function doProps(utils) {
+function doProps(utils, commandManager) {
     if (!utils.currentDJ) {
         utils.bot.sendChat('@' + utils.getUserUsername() + ' there is no song to prop!');
         commandManager.setUserOnCooldown(utils, this, utils.settingsManager.getCooldown());
