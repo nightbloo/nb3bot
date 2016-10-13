@@ -660,7 +660,7 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('commands', ['commands', 'help'], 1, [], [],
+        new Command('commands', ['commands'], 1, [], [],
             /**
              * @param {MessageUtils} utils
              */
