@@ -127,7 +127,7 @@ function regCommands(commandManager) {
             /**
              * @param {MessageUtils} utils
              */
-            function(utils) {
+            function (utils) {
                 doProps(utils, commandManager);
             }
         )
@@ -305,13 +305,13 @@ function regCommands(commandManager) {
                     ,
                     'Netux': 'https://imgur.com/a/j6QbM'
                     ,
-                    'Frosolf': 'https://imgur.com/a/NZvz1 | https://goo.gl/sqfesS (anime)'
+                    'Frosolf': 'https://imgur.com/a/NZvz1 & https://goo.gl/sqfesS (only anime)'
                     ,
                     'SiilerBloo': 'https://imgur.com/a/oZKQ3'
                     ,
                     'Pikachu': 'https://imgur.com/a/75R64'
                     ,
-                    'Jagex': 'https://imgur.com/a/swXWN'
+                    'Jagex': 'https://imgur.com/a/swXWN & https://imgur.com/a/rR38y'
                     ,
                     'NeverPause': 'https://imgur.com/a/a6AuE'
                     ,
@@ -471,7 +471,7 @@ function regCommands(commandManager) {
             /**
              * @param {MessageUtils} utils
              */
-            function(utils) {
+            function (utils) {
                 utils.bot.sendChat(utils.getTargetName() + ' ' + getShushMessage());
             }
         )
@@ -493,7 +493,7 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 var message = 'Check if a video is available on any country at https://polsy.org.uk/stuff/ytrestrict.cgi';
-                if(utils.bot.getMedia() && utils.getMediaType() === 'youtube' && utils.getMediaFkid()) {
+                if (utils.bot.getMedia() && utils.getMediaType() === 'youtube' && utils.getMediaFkid()) {
                     message = 'Check if current video is available on any country at https://polsy.org.uk/stuff/ytrestrict.cgi?ytid=' + utils.getMediaFkid();
                 }
                 utils.bot.sendChat(utils.getTargetName() + ' ' + message);
@@ -824,8 +824,8 @@ function regCommands(commandManager) {
                     },
                     function (fact) {
                         fact = fact
-                            .replace(/cat|feline/gi, 'Nightblue')
-                            .replace(/lion/gi, 'Big Nightblue');
+                        .replace(/cat|feline/gi, 'Nightblue')
+                        .replace(/lion/gi, 'Big Nightblue');
                         var waysOfSayingIt = [
                             '%u NB3 fact: %f.',
                             '%u Did you know: %f?',
@@ -885,6 +885,42 @@ function regCommands(commandManager) {
                     return;
                 }
                 utils.bot.sendChat('@' + target.username + ' ' + utils.getUserUsername() + ' gave you a/an ' + cookie.name + ' ' + cookie.emote);
+            }
+        )
+        ,
+        new Command('banphraseignorespaces', ['setbanphraseignorespaces', 'banphraseignorespaces', 'setbanphrasesignorespaces', 'banphrasesignorespaces'], 0, ['mod'], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                if (utils.getCommandArguments()[0] == undefined) {
+                    var output = utils.settingsManager.getImgRemoveMuteTime();
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' checking for ban phrases is ' + (utils.settingsManager.getBanPhrasesIgnoreSpaces() ? '*not*' : '') + ' ignoring spaces.');
+                    return 1;
+                }
+                var input = /^(?:true|enable|yes|y|on|tick|check|:white_check_mark:|:heavy_check_mark:|:ballot_box_with_check:)$/i.test(utils.getCommandArguments()[0]);
+                utils.settingsManager.setBanPhrasesIgnoreSpaces(input);
+                utils.bot.sendChat('@' + utils.getUserUsername() + ' ' + getBanPhrasesIgnoreSpacesMessage(input));
+            }
+        )
+        ,
+        new Command('set_banphraseignorespaces', ['setspaces', 'setspace'], 0, ['mod'], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                utils.settingsManager.setBanPhrasesIgnoreSpaces(true);
+                utils.bot.sendChat('@' + utils.getUserUsername() + ' ' + getBanPhrasesIgnoreSpacesMessage(true));
+            }
+        )
+        ,
+        new Command('unset_banphraseignorespaces', ['unsetspaces', 'unsetspace'], 0, ['mod'], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                utils.settingsManager.setBanPhrasesIgnoreSpaces(false);
+                utils.bot.sendChat('@' + utils.getUserUsername() + ' ' + getBanPhrasesIgnoreSpacesMessage(false));
             }
         )
     ].forEach(function (command) {
@@ -998,6 +1034,10 @@ function processAndDoPunish(utils, type) {
 
 function getShushMessage() {
     return ':NoSkip: (Click for better quality) https://i.imgur.com/05NVq0h.png';
+}
+
+function getBanPhrasesIgnoreSpacesMessage(input) {
+    return 'while checking for ban phrases I will ' + (input ? 'ignore spaces from now on' : 'not ignore spaces') + '.'
 }
 
 module.exports = regCommands;

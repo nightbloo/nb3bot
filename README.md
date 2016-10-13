@@ -33,13 +33,7 @@ IMGTIME=number               # [OPTIONAL] Number for image removal (in seconds),
 IMGREMOVALDUBS_AMOUNT=number # [OPTIONAL] Number of dubs necessary by the user to bypass instant image removal, if less than 0 then it's disabled. Default is 10.
 IMGREMOVALDUBS_TIME=number   # [OPTIONAL] Number of time (in minutes) to unmute user after instant image removal, if less than 0 then it's disabled. Default is 5.
 
-CHATLOGS_SENDGRID_KEY=sendgridkey # [OPTIONAL] SendGrid key for sending the chatlog email, if none then chatlogs wont be recorded.
-CHATLOGS_FROM=email               # [OPTIONAL] Email SendGrid uses to send email, this wont work if CHATLOGS_SENDGRID_KEY is not defined.
-CHATLOGS_TO=email                 # [OPTIONAL] Email SendGrid sends the email to, this wont work if CHATLOGS_SENDGRID_KEY is not defined.
-
-GOOGLESHEET_CLIENT_EMAIL=email           # [OPTIONAL] Email that you get from the Google Accounts API (NOT the account email), if not defined then Google Spreadsheet API won't be set.
-GOOGLESHEET_PRIVATE_KEY=foo              # [OPTIONAL] Google Accounts API Private Key (the long one), if not defined then Google Spreadsheet API won't be set.
-GOOGLESHEET_PRODUCERSPROMOTERS_ID=string # [OPTIONAL] ID to the ProducersPromoters Spreadsheet, if not defined then Google Spreadsheet API won't work.
+BANPHRASES_IGNORE_SPACES=boolean # [OPTIONAL] If to make ban phrases checker ignore spaces. Default is false
 ```
 
 After doing all this you can just run ```node zubbot.js``` in your friendly neighborhood node terminal and all should be fine and dandy.
