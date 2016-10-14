@@ -145,6 +145,16 @@ function regCommands(commandManager) {
             }
         )
         ,
+        new Command('pops', ['pops'], 1, [], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                utils.bot.sendChat('@' + utils.getUserUsername() + ', pops! bubbles pop: https://i.imgur.com/zEqeTZH.png !');
+                utils.bot.sendChat('_pst, you might of have wanted to do !props instead_');
+            }
+        )
+        ,
         new Command('eta', ['eta'], 1, [], [],
             /**
              * @param {MessageUtils} utils
