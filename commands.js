@@ -793,7 +793,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' Unofficial Android app (sorry iOS users) for Dubtrack: https://www.mar974.co/dubtrack/. Thank mar974 :D');
+                utils.bot.sendChat(utils.getTargetName() + ' Unofficial Android app (sorry iOS users) for Dubtrack: https://play.google.com/store/apps/details?id=co.mar974.dubtrackfm. Thank mar974 :D');
             }
         )
         ,
