@@ -477,7 +477,7 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('shush', ['shush', 'sush', 'noskip', 'noskiperino'], 1, [], [],
+        new Command('shush', ['shush', 'sush', 'noskip', 'noskiperino'], 1, ['vip'], [],
             /**
              * @param {MessageUtils} utils
              */
