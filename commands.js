@@ -208,6 +208,7 @@ function regCommands(commandManager) {
             function (utils) {
                 utils.bot.sendChat(utils.getTargetName() + ' On Sunday we lock the queue and let only NightBlue3 twitch subs play for the duration of the stream that day.');
                 utils.bot.sendChat('You can sub to Nightblue3 https://www.twitch.tv/nightblue3/subscribe');
+                utils.bot.sendChat('If you have already subbed to Nightblue3 use this link to get RDJ https://git.io/voXqA');
             }
         )
         ,
