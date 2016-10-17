@@ -330,7 +330,7 @@ function regCommands(commandManager) {
                     ,
                     'DingoTheMagic': 'https://imgur.com/a/DAaYw'
                     ,
-                    'TickingTime': 'https://imgur.com/a/mZWAV'
+                    'TickingTime': 'https://imgur.com/a/jWhjX'
                     ,
                     'ItsClutch': 'https://imgur.com/a/EixZ2'
                 };
