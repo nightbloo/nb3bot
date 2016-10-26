@@ -245,6 +245,12 @@ new DubAPI({
                     currentMediaPermaLink = 'https://youtu.be/' + currentID;
                 }
             }
+
+            // Waddie :rooHappy:
+            var startTime = (data.startTime || data.raw.startTime);
+            if(currentType === 'youtube' && currentID === 'QZhBR7buK_k' && startTime <= 51) {
+                setTimeout(bot.sendChat.bind(bot, 'Waddie :rooHappy:'), 1000 * (51 - startTime));
+            }
         });
 
         bot.on(bot.events.chatMessage, function (data) {
