@@ -934,6 +934,92 @@ function regCommands(commandManager) {
                 utils.bot.sendChat('@' + utils.getUserUsername() + ' ' + getBanPhrasesIgnoreSpacesMessage(false));
             }
         )
+        ,
+        new Command('roulette_start', ['roulette', 'roullete'], 0, ['mod'], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                if (utils.rouletteManager.started !== false) {
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' did you forget the "join" part? There is a roulette running right now!');
+                    return;
+                }
+                utils.redisManager.getLastRouletteTimestamp(function (last) {
+                    {
+                        var now = Date.now();
+                        if(last >= 0 && (now - last) < 60 * 60 * 1000) {
+                            utils.bot.sendChat('@' + utils.getUserUsername() + ' hold on! Last roulette was ' + utils.timeDifference(now, last) + '. You must wait 1 hour to run the roulette again.');
+                            return;
+                        }
+                    }
+                    {
+                        var queue = utils.bot.getQueue();
+                        if (queue.length <= 1) {
+                            utils.bot.sendChat('@' + utils.getUserUsername() + ' wow what?! I don\'t see users in queue' + (queue.length === 1 ? ', only that ' + queue[0].user.username + ' guy' : '') + '.');
+                            return;
+                        }
+                    }
+                    var duration = utils.settingsManager.getRouletteDuration();
+                    if(utils.getCommandArguments()[0]) {
+                        duration = utils.getCommandArguments()[0];
+                        if (isNaN(duration)) {
+                            utils.bot.sendChat('@' + utils.getUserUsername() + ' that duration you gave me doesn\'t seem to be a number.');
+                            return;
+                        }
+                    }
+
+                    utils.bot.sendChat('*Roulette is starting!* Use `!join` or `!roulettejoin` to join in!');
+                    utils.bot.sendChat('Price is of _' + utils.settingsManager.getRoulettePrice() + ' prop' + (utils.settingsManager.getRoulettePrice() !== 1 ? 's' : '') + '_. | Ends in _' + duration + ' seconds_.');
+                    utils.rouletteManager.start(duration, function (failed, winnerId, spot) {
+                        if (failed) {
+                            utils.bot.sendChat('Aww, not enough people joined the roulette before it ended :(');
+                            return;
+                        }
+                        utils.bot.sendChat('aaaaand *the roulette is over*!');
+                        utils.bot.sendChat('Our lucky winner is @' + utils.bot.getUser(winnerId).username + '! You\'ll be moved to spot #' + (spot + 1) + ' in queue.');
+                        utils.bot.moderateMoveDJ(winnerId, spot);
+                    });
+                });
+            }
+        )
+        ,
+        new Command('roulette_join', ['join', 'roulettejoin', 'roulletejoin', 'roulette_join', 'roullete_join', 'joinroulette', 'joinroullete', 'join_roulette', 'join_roullete'], 1, [], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                if (utils.rouletteManager.started === false) {
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' I\'m not running a roulette right now.');
+                    return;
+                }
+                if (utils.bot.getQueuePosition(utils.getUserId()) === -1) {
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' you are not in queue!');
+                    return;
+                }
+                utils.redisManager.getProps(utils.getUserId(), function (propsCount) {
+                    if (propsCount < utils.settingsManager.getRoulettePrice()) {
+                        utils.bot.sendChat('@' + utils.getUserUsername() + ' you\'re low in props! Sorry :S');
+                        return;
+                    }
+                    utils.rouletteManager.addUser(utils.getUser().id);
+                }.bind(this));
+            }
+        )
+        ,
+        new Command('roulette_stop', ['stoproulette', 'roulettestop', 'roulette_stop', 'stop_roulette'], 1, [], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                if(!utils.rouletteManager.started) {
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' I\'m not running a roulette right now.');
+                    return;
+                }
+                if(utils.rouletteManager.forceStop()) {
+                    utils.bot.sendChat('Hold your typing! ' + utils.getUserUsername() + ' *stopped the roulette*.');
+                }
+            }
+        )
     ].forEach(function (command) {
             var ret = commandManager.addCommand(command);
             if (!ret) {

@@ -1,4 +1,4 @@
-/*
++/*
  **************************************************************************
  * ABOUT
  **************************************************************************
@@ -66,7 +66,7 @@
  **************************************************************************
  */
 
-'use strict';
+    'use strict';
 
 require('./lib/utilsLoader');
 var DubAPI = require('dubapi');
@@ -80,6 +80,8 @@ var twitchManager = require('./lib/twitchManager.js');
 var moment = require('moment');
 // Redis Manager - handles all of the redis interaction
 var redisManager = require('./lib/redisManager.js');
+// Settings Manager
+var settingsManager = require('./lib/settingsManager.js');
 // props Manager
 var PropsManager = new require('./lib/propsManager.js');
 var propsManager = new PropsManager(redisManager);
@@ -89,7 +91,6 @@ var userUtils = require('./lib/userUtils.js');
 var mediaUtils = require('./lib/mediaUtils.js');
 var MessageUtils = require('./lib/messageUtils.js');
 // Chat and Command Mangers
-var settingsManager = require('./lib/settingsManager.js');
 var ChatManager = require('./lib/chatManager.js');
 var chatManager = new ChatManager();
 var CommandManager = require('./lib/commandManager.js');
@@ -123,6 +124,10 @@ new DubAPI({
         var BotUtils = require('./lib/botUtils.js');
         var botUtils = new BotUtils(bot);
         require('./commands.js')(commandManager);
+
+        // roulette Manager
+        var RouletteManager = new require('./lib/rouletteManager.js');
+        var rouletteManager = new RouletteManager(redisManager, settingsManager, bot);
 
         var currentName = "";
         var currentID = "";
@@ -248,7 +253,7 @@ new DubAPI({
 
             // Waddie :rooHappy:
             var startTime = (data.startTime || data.raw.startTime);
-            if(currentType === 'youtube' && currentID === 'QZhBR7buK_k' && startTime <= 51) {
+            if (currentType === 'youtube' && currentID === 'QZhBR7buK_k' && startTime <= 51) {
                 setTimeout(bot.sendChat.bind(bot, 'Waddie :rooHappy:'), 1000 * (51 - startTime));
             }
         });
@@ -266,6 +271,7 @@ new DubAPI({
                 redisManager: redisManager,
                 twitchManager: twitchManager,
                 propsManager: propsManager,
+                rouletteManager: rouletteManager,
                 settingsManager: settingsManager,
                 chatUtils: chatUtils,
                 userUtils: userUtils,
@@ -276,7 +282,8 @@ new DubAPI({
                 currentDJ: currentDJ,
                 getRuntimeMessage: function () {
                     return timeDifference(Date.now(), startTime);
-                }
+                },
+                timeDifference: timeDifference
             }, data);
             chatManager.processChat(messageUtils, commandManager);
         });
@@ -449,14 +456,14 @@ function setupChatlogs(API) {
         });
 
         ['SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT', 'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM']
-            .forEach(function (sig) {
-                process.on(sig, function () {
-                    if (typeof sig === "string") {
-                        forceSaveLogs();
-                        process.exit(1);
-                    }
-                });
+        .forEach(function (sig) {
+            process.on(sig, function () {
+                if (typeof sig === "string") {
+                    forceSaveLogs();
+                    process.exit(1);
+                }
             });
+        });
     });
 }
 
