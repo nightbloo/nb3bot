@@ -126,13 +126,23 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('pops', ['pops'], 1, [], [],
+        new Command('pops', ['pops', 'pop'], 1, [], [],
             /**
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat('@' + utils.getUserUsername() + ', pops! bubbles pop: https://i.imgur.com/zEqeTZH.png !');
+                utils.bot.sendChat('@' + utils.getUserUsername() + ' pops! bubbles pop: https://i.imgur.com/zEqeTZH.png !');
                 utils.bot.sendChat('_pst, you might of have wanted to do !props instead_');
+            }
+        )
+        ,
+        new Command('porpoise', ['porps', 'porp', 'porpoise'], 1, [], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                utils.bot.sendChat('@' + utils.getUserUsername() + ' here you go, a porpoise: https://i.imgur.com/F2MMhXr.png');
+                utils.bot.sendChat('_Oh, you meant !props? My bad._');
             }
         )
         ,
