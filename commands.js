@@ -21,7 +21,6 @@
  **************************************************************************
  */
 
-var reddit = require('redwrap');
 // Random seeds
 var seedrandom = require('seed-random');
 // Time formatting
@@ -62,24 +61,6 @@ function regCommands(commandManager) {
                 if (utils.getTargetName()) {
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' ' + utils.getTargetName() + ' has been deleted. *Beep Boop*');
                 }
-            }
-        )
-        ,
-        new Command('gaben', ['gaben'], 1, [], [],
-            /**
-             * @param {MessageUtils} utils
-             */
-            function (utils) {
-                reddit.r('gentlemangabers', function (err, data) {
-                    if (err != null) {
-                        console.log(err);
-                    }
-                    var children = data.data.children;
-                    var random = Math.dice(1, children.length);
-                    if (children[random].data.url.indexOf("imgur") > -1) {
-                        utils.bot.sendChat(children[random].data.url);
-                    }
-                });
             }
         )
         ,
@@ -180,22 +161,6 @@ function regCommands(commandManager) {
                     }
                     else {
                         utils.bot.sendChat('@' + utils.getUserUsername() + ' you don\'t have any props! Play a song to get props! :)');
-                    }
-                });
-            }
-        )
-        ,
-        new Command('mylove', ['mylove'], 1, [], [],
-            /**
-             * @param {MessageUtils} utils
-             */
-            function (utils) {
-                utils.redisManager.getLove(utils.getUserId(), function (result) {
-                    if (result) {
-                        utils.bot.sendChat('@' + utils.getUserUsername() + ' you have ' + result + ' hearts! :' + (result <= 0 ? '(' : ')'));
-                    }
-                    else {
-                        utils.bot.sendChat('@' + utils.getUserUsername() + ' you don\'t have any hearts! :(');
                     }
                 });
             }
@@ -369,76 +334,6 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 utils.bot.sendChat(utils.getTargetName() + ' How to Queue a Song: https://imgur.com/a/FghLg');
-            }
-        )
-        ,
-        new Command('hate', ['hate'], 1, [], [],
-            /**
-             * @param {MessageUtils} utils
-             */
-            function (utils) {
-                var username = utils.getTargetName().replace("@", "");
-                // Stop here if they are trying to do what they don't
-                // Get that user object
-                var thatUser = utils.bot.getUserByName(username);
-                if (thatUser) {
-                    // I love them all I watch over them and protect them
-                    if (thatUser.id == utils.bot.getSelf().id) {
-                        utils.bot.sendChat("You can't hate me, you can only love me, @" + utils.getUserUsername() + '!');
-                        return 1;
-                    }
-                    else if (thatUser.id == utils.getUserId()) {
-                        utils.bot.sendChat("No! Don't hate yourself please! Know that we all love you :nb3h:");
-                        return 1;
-                    }
-                    // Ok everything should be good from here
-                    utils.redisManager.decLove(thatUser.id);
-                    utils.redisManager.getLove(thatUser.id, function (love) {
-                        utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " has broken one of your hearts </3. You now have " + love + " hearts.");
-                    });
-                }
-                else if (username != '') {
-                    utils.bot.sendChat('@' + utils.getUserUsername() + ' I would tell them that you hate them but they seem to not be here.');
-                }
-            }
-        )
-        ,
-        new Command('love', ['love'], 1, [], [],
-            /**
-             * @param {MessageUtils} utils
-             */
-            function (utils) {
-                var username = utils.getTargetName().replace("@", "");
-                // Get that user object
-                var thatUser = utils.bot.getUserByName(username);
-                if (thatUser) {
-                    // I love them all I watch over them and protect them
-                    if (thatUser.id == utils.bot.getSelf().id) {
-                        utils.bot.sendChat('I love you too, @' + utils.getUserUsername() + '!');
-                    }
-                    // Lets see if they should be told that they have a hand...
-                    if (thatUser.id == utils.getUserId()) {
-                        utils.bot.sendChat("@" + utils.getUserUsername() + " just use your hand....");
-                        return;
-                    }
-                    // Ok everything should be good from here
-                    var heartList = [':heart:', ':blue_heart:', ':purple_heart:', ':green_heart:', ':yellow_heart:', ':nb3h:', ':PBNHeart:', ':tastysheart:'];
-                    utils.redisManager.incLove(thatUser.id);
-                    utils.redisManager.getLove(thatUser.id, function (love) {
-                        if (thatUser.id == utils.bot.getSelf().id) {
-                            utils.bot.sendChat('Nice people like you have given me ' + love + ' hearts. ' + heartList[Math.dice(heartList.length)] + ' Thank you!');
-                        }
-                        else if (utils.getUserId() == '56083b920cd1cc03003fe8e2') {
-                            utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " has broken one of your hearts </3. You now have " + love + " hearts.");
-                        }
-                        else {
-                            utils.bot.sendChat("@" + thatUser.username + " " + utils.getUserUsername() + " gave you a heart " + heartList[Math.dice(heartList.length)] + ". You now have " + love + " hearts.");
-                        }
-                    });
-                }
-                else if (username != '') {
-                    utils.bot.sendChat('@' + utils.getUserUsername() + ' I would tell them that you love them but they seem to not be here.');
-                }
             }
         )
         ,
