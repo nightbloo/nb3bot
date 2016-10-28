@@ -131,8 +131,8 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat('@' + utils.getUserUsername() + ' pops! bubbles pop: https://i.imgur.com/zEqeTZH.png !');
-                utils.bot.sendChat('_pst, you might of have wanted to do !props instead_');
+                utils.bot.sendChat('@' + utils.getUserUsername() + ' pops! bubbles pop: https://i.imgur.com/zEqeTZH.png ! ' +
+                                   '_pst, you might of have wanted to do !props instead_');
             }
         )
         ,
@@ -141,8 +141,8 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat('@' + utils.getUserUsername() + ' here you go, a porpoise: https://i.imgur.com/F2MMhXr.png');
-                utils.bot.sendChat('_Oh, you meant !props? My bad._');
+                utils.bot.sendChat('@' + utils.getUserUsername() + ' here you go, a porpoise: https://i.imgur.com/1oBtXoN.png ' +
+                                   '_Oh, you meant !props? My bad._');
             }
         )
         ,
