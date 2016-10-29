@@ -874,7 +874,7 @@ function regCommands(commandManager) {
                     }
 
                     utils.bot.sendChat('*Roulette is starting!* Use `!join` or `!roulettejoin` to join in!');
-                    utils.bot.sendChat('Price is of _' + utils.settingsManager.getRoulettePrice() + ' prop' + (utils.settingsManager.getRoulettePrice() !== 1 ? 's' : '') + '_. | Ends in _' + duration + ' seconds_.');
+                    utils.bot.sendChat('Price to join is of _' + utils.settingsManager.getRoulettePrice() + ' prop' + (utils.settingsManager.getRoulettePrice() !== 1 ? 's' : '') + '_. | Ends in _' + duration + ' seconds_.');
                     utils.rouletteManager.start(duration, function (failed, winnerId, oldSpot, newSpot) {
                         if (failed) {
                             utils.bot.sendChat('Aww, not enough people joined the roulette before it ended :(');
