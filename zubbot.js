@@ -207,6 +207,11 @@ new DubAPI({
             if (currentType === 'youtube' && currentID === 'QZhBR7buK_k' && startTime <= 51) {
                 setTimeout(bot.sendChat.bind(bot, 'Waddie :rooHappy:'), 1000 * (51 - startTime));
             }
+
+            // Able to use markdown
+            if(currentID && userUtils.getUserDubs(bot.getSelf()) < 10) {
+                bot.updub();
+            }
         });
 
         bot.on(bot.events.chatMessage, function (data) {
