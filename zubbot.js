@@ -10,59 +10,19 @@
  * DEVELOPERS
  **************************************************************************
  *
- * @ZubOhm
- * @Netux
- * @Matt
  * @DemoZ
  * @Larry1123
+ * @Matt
+ * @Netux
+ * @ZubOhm
  *
  **************************************************************************
  * COMMAND LIST
  **************************************************************************
- * !hello - Bot Responds saying hello back.
- * !request [request] - request a feature to the BOT
- * !del [file] - Bot responds saying *file* deleted
- * !gaben - pulls a random gaben picture from /r/gentlemangabers
- * !quote [user] - pulls a quote from the quotes folder for *user*
- * !meme [text] - generates a meme from memecaptain
- * !song - pulls song data from dubtrack
- * !stream - pulls nb3 stream data from twitch
- * !lastplayed - Shows when the song was last played -- Slightly bugged atm
- * !props - gives props to the current DJ
- * !love [user] - gives someone love <3
- * !lovepercent [user] - calculates love percentage between you and user
- * !eta - Tells user to download dubx
- * !dubx - Direct link to DubX homepage
- * !myprops - let's the user view their props
- * !mylove - let's the user view their hearts
- * !rules - OBEY OR BE DESTROYED
- * !kappa [user] - sends a kappa to somebody
- * !hate [user] - Breaks someone's heart </3
- * !plops - Echoe's a poop.
- * ![user] - says the user is an awesome person.
- * !agar - host an Agar.io party.
- * !pong - ping!
- * !ping - pong!
- * !english - show community language rules
- * !sush - show community skip rules
- * !selfpromotion - show self promotion rules
- * !videocheck - direct link to video availability
- * !gema - direct link to Anti-Gema extension
- * !css - shows imgur css album
- * !bg - shows bg albums
- * !queue - says how to queue a song
- * !mute - mute the user for x amount of time
- * !timeout - remove all messages from user and mute them for x amount of time
- * !seppuku - remove all messages from self
- * !sub|subs|subscribe|residentdj|rdj - will give info about being a sub and how to get RDJ
- * !androidapp - direct link to Dubtrack's Unofficial android app
- * !catfact - responds with a random cat fact from http://catfacts-api.appspot.com/
- * !nb3fact - responds with a random nb3 fact from http://nb3facts-api.appspot.com/ (actually replaces the word "cat" from !catfact)
- * !animelist - shows a link to a Google Spreadsheet containing a list of animes and information about them.
  *
- * Keys
- * ~ = recommendation
- * [] = arg
+ * List can be found at https://git.io/vPBvd
+ * or by reading through the file `commands.js`
+ *
  **************************************************************************
  */
 
@@ -97,16 +57,6 @@ var CommandManager = require('./lib/commandManager.js');
 var commandManager = new CommandManager();
 
 var startTime = Date.now();
-
-var sendgrid = null;
-var zip = null;
-try {
-    sendgrid = require('sendgrid')(process.env.CHATLOGS_SENDGRID_KEY);
-    zip = require('node-zip')();
-}
-catch (x) {
-    console.log('No SendGrid Key detected, chatlogs wont be recorded.');
-}
 
 console.log('> Starting DubAPI...');
 
@@ -143,17 +93,12 @@ new DubAPI({
         }
 
         console.log("> NightBlueBot");
-        console.log("> CREATED   BY ZUBOHM");
-        console.log("> DEVELOPED BY ZUBOHM, NETUX, MATT, DEMOZ, LARRY1123");
+        console.log("> DEVELOPED BY DEMOZ, LARRY1123, MATT, NETUX, ZUBOHM");
 
         // reset roulette, for debugging only
         if(process.env.ROULETTE_RESET) {
             redisManager.setLastRouletteTimestamp(true);
             console.log('> ROULETTE RESETED.');
-        }
-
-        if (sendgrid !== null) {
-            // setupChatlogs(bot); This is restarting the BOT because of max-memory exceed, temporary commented
         }
 
         function connect() {
@@ -301,177 +246,6 @@ new DubAPI({
         // Everything setup time to connect
         connect();
     });
-
-function setupChatlogs(API) {
-    var lastChatlogContents = null,
-        lastSongID = null,
-        lastDJUsername = null;
-
-    function getToday() {
-        return new Date(new Date().toDateString() + ' 00:00:00')
-    }
-
-    function forceSaveLogs() {
-        if (lastChatlogContents) {
-            console.log('Hold on a second, saving chatlogs');
-            fs.writeFileSync('chatlogs.txt', lastChatlogContents, 'utf8');
-        }
-    }
-
-    /* Setup file (Reading & checking if it exists) */
-    fs.readFile('chatlogs.txt', 'utf8', function (err, contents) {
-        if (err) {
-            if (err.code !== 'ENOENT') {
-                console.error(err);
-                return;
-            }
-            console.log("chatlogs.txt doesn't exists, making it");
-            fs.writeFile('chatlogs.txt', lastChatlogContents = 'Chat Logs - ' + getToday().toString() + '\r\n', 'utf8', function (err1) {
-                if (err1) {
-                    console.log('Error creating chatlogs.txt');
-                    return console.error(err1);
-                }
-                console.log('Done creating chatlogs.txt')
-            });
-        }
-        if (!lastChatlogContents) {
-            lastChatlogContents = contents;
-        }
-
-        function addChatLog(str) {
-            var prefix = new Date().toTimeString().split(' ')[0] + ' | ';
-            lastChatlogContents += '\r\n' + prefix + str;
-            fs.writeFile('chatlogs.txt', lastChatlogContents, 'utf8');
-        }
-
-        /* Setup events */
-        API.on(API.events.chatMessage, function (data) {
-            if (!data || !data.user) {
-                return;
-            }
-            var role;
-            try {
-                role = API.roles[data.user.role].label;
-            }
-            catch (x) {
-                role = 'Pleb';
-            }
-            addChatLog('(' + role + ') ' + data.user.username + ': ' + data.message);
-        });
-        API.on(API.events.roomPlaylistUpdate, function (data) {
-            if (!data.media || !data.user) {
-                return;
-            } // wut?
-            if (data.media.id === lastSongID) {
-                return;
-            }
-            lastSongID = data.media.id;
-            lastDJUsername = data.user.username;
-            addChatLog('[System] Current Song is ' + data.media.name + '. DJ is ' + data.user.username);
-        });
-        API.on(API.events.chatSkip, function (data) {
-            if (!data || !data.user) {
-                return;
-            }
-            addChatLog('[System] Song queued by ' + lastDJUsername + ' was skipped by ' + data.user.username);
-        });
-        API.on('room_playlist-queue-reorder', function (data) {
-            if (!data || !data.user) {
-                return;
-            }
-            addChatLog('[System] ' + data.user.username + ' reordered the Queue.');
-        });
-        API.on('room_playlist-queue-remove-user-song', function (data) {
-            if (!data || !data.user) {
-                return;
-            }
-            addChatLog('[System] ' + data.user.username + ' removed a song queued by ' + data.removedUser.username + ' from the Queue.');
-        });
-        API.on('room_playlist-queue-remove-user', function (data) {
-            if (!data || !data.user) {
-                return;
-            }
-            addChatLog('[System] ' + data.user.username + ' cleared ' + data.removedUser.username + "'s queue.");
-        });
-        API.on('user-pause-queue-mod', function (data) {
-            if (!data || !data.user) {
-                return;
-            }
-            addChatLog('[System] ' + data.mod.username + ' removed ' + data.user.username + ' from the Queue.');
-        });
-        API.on('room-lock-queue', function (data) {
-            if (!data || !data.user) {
-                return;
-            }
-            addChatLog('[System] ' + data.user.username + ' ' + (data.room.lockQueue ? 'locked' : 'unlocked') + " the room's Queue");
-        });
-
-        function chatLogSystemEvent(data) {
-            if (!data || !data.user) {
-                return;
-            }
-            var user = data.user.username,
-                mod = data.mod.username,
-                type = '', suffix = '';
-            switch (data.type) {
-                case 'user-ban':
-                    type = 'banned';
-                    break;
-                case 'user-unban':
-                    type = 'unbanned';
-                    break;
-                case 'user-kick':
-                    type = 'kicked out of the room';
-                    break;
-                case 'user-mute':
-                    type = 'muted';
-                    break;
-                case 'user-unmute':
-                    type = 'unmuted';
-                    break;
-                case 'user-setrole':
-                case 'user-unsetrole':
-                    var roleLabel;
-                    try {
-                        roleLabel = API.roles[data.user.role].label;
-                    }
-                    catch (x) {
-                        roleLabel = 'Pleb';
-                    }
-                    type = 'made';
-                    suffix = 'a ' + roleLabel;
-                    break;
-            }
-            addChatLog('[System] ' + mod + ' ' + type + ' ' + user + ' ' + suffix);
-        }
-
-        API.on(API.events.userBan, chatLogSystemEvent);
-        API.on(API.events.userUnban, chatLogSystemEvent);
-        API.on(API.events.userKick, chatLogSystemEvent);
-        API.on(API.events.userMute, chatLogSystemEvent);
-        API.on(API.events.userUnmute, chatLogSystemEvent);
-        API.on(API.events.userSetRole, chatLogSystemEvent);
-        API.on(API.events.userUnsetRole, chatLogSystemEvent);
-
-        API.on('error', forceSaveLogs);
-        API.on('connected', function (roomName) {
-            addChatLog('[BOT] Connected to ' + roomName);
-        });
-        API.on('disconneted', function (roomName) {
-            addChatLog('[BOT] Disconnected from ' + roomName);
-        });
-
-        ['SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT', 'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM']
-        .forEach(function (sig) {
-            process.on(sig, function () {
-                if (typeof sig === "string") {
-                    forceSaveLogs();
-                    process.exit(1);
-                }
-            });
-        });
-    });
-}
 
 function roughSizeOfObject(object) {
     var objectList = [];

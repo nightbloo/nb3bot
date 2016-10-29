@@ -10,11 +10,8 @@
     "ioredis": "latest",
     "jsonfile": "2.2.x",
     "moment": "^2.11.2",
-    "node-zip": "^1.1.1",
     "pmx": "^0.6.0",
-    "redwrap": "0.0.x",
     "seed-random": "^2.2.0",
-    "sendgrid": "^2.0.0",
     "twitch-api": "^0.4.3"
   },
   "devDependencies": {},
