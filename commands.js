@@ -132,7 +132,7 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 utils.bot.sendChat('@' + utils.getUserUsername() + ' pops! bubbles pop: https://i.imgur.com/zEqeTZH.png ! ' +
-                                   '_pst, you might of have wanted to do !props instead_');
+                    '_pst, you might of have wanted to do !props instead_');
             }
         )
         ,
@@ -142,7 +142,7 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 utils.bot.sendChat('@' + utils.getUserUsername() + ' here you go, a porpoise: https://i.imgur.com/1oBtXoN.png ' +
-                                   '_Oh, you meant !props? My bad._');
+                    '_Oh, you meant !props? My bad._');
             }
         )
         ,
@@ -852,7 +852,7 @@ function regCommands(commandManager) {
                 utils.redisManager.getLastRouletteTimestamp(function (last) {
                     {
                         var now = Date.now();
-                        if(last >= 0 && (now - last) < 60 * 60 * 1000) {
+                        if (last >= 0 && (now - last) < 60 * 60 * 1000) {
                             utils.bot.sendChat('@' + utils.getUserUsername() + ' hold on! Last roulette was ' + utils.timeDifference(now, last) + '. You must wait 1 hour to run the roulette again.');
                             return;
                         }
@@ -865,7 +865,7 @@ function regCommands(commandManager) {
                         }
                     }
                     var duration = utils.settingsManager.getRouletteDuration();
-                    if(utils.getCommandArguments()[0]) {
+                    if (utils.getCommandArguments()[0]) {
                         duration = utils.getCommandArguments()[0];
                         if (isNaN(duration)) {
                             utils.bot.sendChat('@' + utils.getUserUsername() + ' that duration you gave me doesn\'t seem to be a number.');
@@ -875,14 +875,22 @@ function regCommands(commandManager) {
 
                     utils.bot.sendChat('*Roulette is starting!* Use `!join` or `!roulettejoin` to join in!');
                     utils.bot.sendChat('Price is of _' + utils.settingsManager.getRoulettePrice() + ' prop' + (utils.settingsManager.getRoulettePrice() !== 1 ? 's' : '') + '_. | Ends in _' + duration + ' seconds_.');
-                    utils.rouletteManager.start(duration, function (failed, winnerId, spot) {
+                    utils.rouletteManager.start(duration, function (failed, winnerId, oldSpot, newSpot) {
                         if (failed) {
                             utils.bot.sendChat('Aww, not enough people joined the roulette before it ended :(');
                             return;
                         }
+
+                        var movedMsg = Math.abs(oldSpot - newSpot);
+                        if(oldSpot === newSpot) {
+                            movedMsg = 'same as before :/';
+                        } else {
+                            movedMsg += ' spot' + (movedMsg !== 1 ? 's' : '') + ' ' + (oldSpot > newSpot ? 'above!' : 'below :c');
+                        }
+
                         utils.bot.sendChat('aaaaand *the roulette is over*!');
-                        utils.bot.sendChat('Our lucky winner is @' + utils.bot.getUser(winnerId).username + '! You\'ll be moved to spot #' + (spot + 1) + ' in queue.');
-                        utils.bot.moderateMoveDJ(winnerId, spot);
+                        utils.bot.sendChat('Our lucky winner is @' + utils.bot.getUser(winnerId).username + '! You\'ll be moved to spot #' + (newSpot + 1) + ' in queue (' + movedMsg + ').');
+                        utils.bot.moderateMoveDJ(winnerId, newSpot);
                     });
                 });
             }
@@ -916,11 +924,11 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                if(!utils.rouletteManager.started) {
+                if (!utils.rouletteManager.started) {
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' I\'m not running a roulette right now.');
                     return;
                 }
-                if(utils.rouletteManager.forceStop()) {
+                if (utils.rouletteManager.forceStop()) {
                     utils.bot.sendChat('Hold your typing! ' + utils.getUserUsername() + ' *stopped the roulette*.');
                 }
             }

@@ -120,12 +120,12 @@ new DubAPI({
      * */
     function (err, bot) {
         // keymetrics
-        require('./lib/keymetrics.js').keymetrics(bot);
+        require('./lib/keymetrics.js').keymetrics(bot, redisManager);
         var BotUtils = require('./lib/botUtils.js');
         var botUtils = new BotUtils(bot);
         require('./commands.js')(commandManager);
 
-        // roulette Manager
+        // roulette manager
         var RouletteManager = new require('./lib/rouletteManager.js');
         var rouletteManager = new RouletteManager(redisManager, settingsManager, bot);
 
@@ -145,6 +145,12 @@ new DubAPI({
         console.log("> NightBlueBot");
         console.log("> CREATED   BY ZUBOHM");
         console.log("> DEVELOPED BY ZUBOHM, NETUX, MATT, DEMOZ, LARRY1123");
+
+        // reset roulette, for debugging only
+        if(process.env.ROULETTE_RESET) {
+            redisManager.setLastRouletteTimestamp(true);
+            console.log('> ROULETTE RESETED.');
+        }
 
         if (sendgrid !== null) {
             // setupChatlogs(bot); This is restarting the BOT because of max-memory exceed, temporary commented
