@@ -232,9 +232,8 @@ new DubAPI({
                 currentMediaPermaLink: currentMediaPermaLink,
                 currentDJ: currentDJ,
                 getRuntimeMessage: function () {
-                    return timeDifference(Date.now(), startTime);
-                },
-                timeDifference: timeDifference
+                    return moment(startTime).fromNow();
+                }
             }, data);
             chatManager.processChat(messageUtils, commandManager);
         });
@@ -272,10 +271,6 @@ function roughSizeOfObject(object) {
         return bytes;
     };
     return recurse(object);
-}
-
-function timeDifference(newTime, oldTime) {
-    return moment(oldTime).from(newTime);
 }
 
 function time_format(d) {

@@ -2,7 +2,7 @@
 Couple of steps to get started and getting it working:
 
 First of get the repo in a folder that you know how to get back to later on. Then open a nodejs terminal there.
-When you've opened the nodejs terminal run ```npm install```.
+When you've opened the node.js terminal run ```npm install```.
 
 After doing this you have to make a .env file in the main folder (no filename, just .env).
 Once you've made the file fill it with the login info/connection info of your bot's account on dubtrack. Which should look like this:
@@ -24,8 +24,9 @@ SC_CLIENT_ID=foo # Soundcloud client ID to get song url
 COOLDOWN=number # [OPTIONAL] Number for per user cooldown (in seconds). Default is 30
 
 # Roulette
-ROULETTE_PRICE=number    # Number of props an user needs to join a roulette.
-ROULETTE_DURATION=number # Number in seconds the roulette lasts.
+ROULETTE_PRICE=number    # [OPTIONAL] Number of props an user needs to join a roulette. Default is 3.
+ROULETTE_DURATION=number # [OPTIONAL] Number in seconds the roulette lasts. Default is 60.
+ROULETTE_DURATION=number # [OPTIONAL] Number in minutes the cooldown for the roulette lasts. Default is 60.
 ROULETTE_RESET=anything  # [OPTIONAL] If it's set (to anything) roulette cooldown will reset on BOT boot.
 
 # Redis Database

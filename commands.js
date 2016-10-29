@@ -516,7 +516,7 @@ function regCommands(commandManager) {
 
                 utils.redisManager.getLastSongTime(arg0 || utils.getMediaFkid(), function (result) {
                     if (result) {
-                        utils.bot.sendChat((arg0 ? 'That' : 'This') + ' video/song was last played ' + timeDifference(Date.now(), parseInt(result)) + '.');
+                        utils.bot.sendChat((arg0 ? 'That' : 'This') + ' video/song was last played ' + moment(Date.now()).from(parseInt(result)) + '.');
                     }
                     else {
                         utils.bot.sendChat((arg0 ? 'That' : 'This') + ' video/song has not played in the last 5 weeks. Maybe the song is a remix, or a reupload.');
@@ -851,9 +851,9 @@ function regCommands(commandManager) {
                 }
                 utils.redisManager.getLastRouletteTimestamp(function (last) {
                     {
-                        var now = Date.now();
-                        if (last >= 0 && (now - last) < 60 * 60 * 1000) {
-                            utils.bot.sendChat('@' + utils.getUserUsername() + ' hold on! Last roulette was ' + utils.timeDifference(now, last) + '. You must wait 1 hour to run the roulette again.');
+                        var now = Date.now(), cooldown = utils.settingsManager.getRouletteCooldown();
+                        if (last >= 0 && (now - last) < cooldown) {
+                            utils.bot.sendChat('@' + utils.getUserUsername() + ' hold on! Last roulette was ' + moment(last).fromNow() + '. You must wait ' + (cooldown / 60 / 1000) + ' minute(s) to run the roulette again.');
                             return;
                         }
                     }
@@ -866,16 +866,25 @@ function regCommands(commandManager) {
                     }
                     var duration = utils.settingsManager.getRouletteDuration();
                     if (utils.getCommandArguments()[0]) {
-                        duration = utils.getCommandArguments()[0];
+                        duration = parseInt(utils.getCommandArguments()[0]);
                         if (isNaN(duration)) {
                             utils.bot.sendChat('@' + utils.getUserUsername() + ' that duration you gave me doesn\'t seem to be a number.');
                             return;
                         }
                     }
 
+                    var price = utils.settingsManager.getRoulettePrice();
+                    if(utils.getCommandArguments()[1]) {
+                        price = parseInt(utils.getCommandArguments()[1]);
+                        if (isNaN(price)) {
+                            utils.bot.sendChat('@' + utils.getUserUsername() + ' that price you gave me doesn\'t seem to be a number.');
+                            return;
+                        }
+                    }
+
                     utils.bot.sendChat('*Roulette is starting!* Use `!join` or `!roulettejoin` to join in!');
-                    utils.bot.sendChat('Price to join is of _' + utils.settingsManager.getRoulettePrice() + ' prop' + (utils.settingsManager.getRoulettePrice() !== 1 ? 's' : '') + '_. | Ends in _' + duration + ' seconds_.');
-                    utils.rouletteManager.start(duration, function (failed, winnerId, oldSpot, newSpot) {
+                    utils.bot.sendChat('Ends in _' + duration + ' seconds_. | Price to join is of _' + price + ' prop' + (price !== 1 ? 's' : '') + '_.');
+                    utils.rouletteManager.start(duration, price, function (failed, winnerId, oldSpot, newSpot) {
                         if (failed) {
                             utils.bot.sendChat('Aww, not enough people joined the roulette before it ended :(');
                             return;
@@ -933,6 +942,26 @@ function regCommands(commandManager) {
                 }
             }
         )
+        ,
+        new Command('roulette_check', ['checkroulette', 'roulettecheck', 'roulette_check', 'check_roulette'], 0, ['mod'], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                if (utils.rouletteManager.started !== false) {
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' a roulette is running right now, silly!');
+                    return;
+                }
+                utils.redisManager.getLastRouletteTimestamp(function (last) {
+                    var now = Date.now(), cooldown = utils.settingsManager.getRouletteCooldown();
+                    if (last >= 0 && (now - last) < cooldown) {
+                        utils.bot.sendChat('@' + utils.getUserUsername() + ' last roulette was ' + moment(last).fromNow() + '. You will be able to run a roulette in ' + moment(last + cooldown).diff(now, 'minutes') + ' minute(s).');
+                    } else {
+                        utils.bot.sendChat('@' + utils.getUserUsername() + ' more than an hour has passed, go ahead to run that command!')
+                    }
+                });
+            }
+        )
     ].forEach(function (command) {
             var ret = commandManager.addCommand(command);
             if (!ret) {
@@ -940,10 +969,6 @@ function regCommands(commandManager) {
             }
         }
     )
-}
-
-function timeDifference(newTime, oldTime) {
-    return moment(oldTime).from(newTime);
 }
 
 function requestCatFact(dontSetCooldown, noFacts, cb) {
