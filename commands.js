@@ -874,7 +874,7 @@ function regCommands(commandManager) {
                     }
 
                     var price = utils.settingsManager.getRoulettePrice();
-                    if(utils.getCommandArguments()[1]) {
+                    if (utils.getCommandArguments()[1]) {
                         price = parseInt(utils.getCommandArguments()[1]);
                         if (isNaN(price)) {
                             utils.bot.sendChat('@' + utils.getUserUsername() + ' that price you gave me doesn\'t seem to be a number.');
@@ -891,7 +891,7 @@ function regCommands(commandManager) {
                         }
 
                         var movedMsg = Math.abs(oldSpot - newSpot);
-                        if(oldSpot === newSpot) {
+                        if (oldSpot === newSpot) {
                             movedMsg = 'same as before :/';
                         } else {
                             movedMsg += ' spot' + (movedMsg !== 1 ? 's' : '') + ' ' + (oldSpot > newSpot ? 'above!' : 'below :c');
@@ -959,6 +959,48 @@ function regCommands(commandManager) {
                     } else {
                         utils.bot.sendChat('@' + utils.getUserUsername() + ' more than an hour has passed, go ahead to run that command!')
                     }
+                });
+            }
+        )
+        ,
+        new Command('move_to', ['move', 'moveto', 'move_to'], 0, ['mod'], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                var user = utils.getTargetName(1, true),
+                    spot = utils.getCommandArguments()[1];
+                if (!user) {
+                    return;
+                }
+                if (!spot) {
+                    spot = user;
+                    user = utils.getUserUsername();
+                }
+                if (isNaN(spot = parseInt(spot))) {
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' spot doesn\'t seem like a number.');
+                    return;
+                }
+                {
+                    var queue = utils.bot.getQueue();
+                    if (spot >= queue.length) {
+                        spot = queue.length;
+                    } else if (spot <= 0) {
+                        spot = 1;
+                    }
+                }
+                {
+                    var username = user;
+                    if (!(user = utils.bot.getUserByName(username, true))) {
+                        utils.bot.sendChat('@' + utils.getUserUsername() + ' ' + username + ' is not online.');
+                        return;
+                    }
+                }
+                if (utils.bot.getQueuePosition(user.id) === spot - 1) {
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' ' + (utils.getUserId() === user.id ? 'you are' : 'user') + ' already on that spot!');
+                }
+                utils.bot.moderateMoveDJ(user.id, spot - 1, function () {
+                    utils.bot.sendChat('@' + user.username + ' you got moved to spot #' + spot + ' in queue.');
                 });
             }
         )
