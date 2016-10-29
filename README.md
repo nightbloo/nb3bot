@@ -23,7 +23,7 @@ SC_CLIENT_ID=foo # Soundcloud client ID to get song url
 # Command Cooldown
 COOLDOWN=number # [OPTIONAL] Number for per user cooldown (in seconds). Default is 30
 
-#Roulette
+# Roulette
 ROULETTE_PRICE=number    # Number of props an user needs to join a roulette.
 ROULETTE_DURATION=number # Number in seconds the roulette lasts.
 ROULETTE_RESET=anything  # [OPTIONAL] If it's set (to anything) roulette cooldown will reset on BOT boot.
