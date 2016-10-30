@@ -920,7 +920,7 @@ function regCommands(commandManager) {
                     return;
                 }
                 utils.redisManager.getProps(utils.getUserId(), function (propsCount) {
-                    if (propsCount < utils.settingsManager.getRoulettePrice()) {
+                    if (!propsCount || isNaN(propsCount) || propsCount < utils.settingsManager.getRoulettePrice()) {
                         utils.bot.sendChat('@' + utils.getUserUsername() + ' you\'re low in props! Sorry :S');
                         return;
                     }
@@ -1043,7 +1043,7 @@ function regCommands(commandManager) {
                     }
                 }
                 utils.redisManager.getProps(utils.getUserId(), function (propsCount) {
-                    var onePropChangeType = rnd <= 500;
+                    var onePropChangeType = rnd % 2 === 0;
 
                     function changeProps(dec) {
                         var result = propsCount + (dec ? -1 : 1);
@@ -1054,6 +1054,10 @@ function regCommands(commandManager) {
                             msg += 'You win 1 prop (now you have ' + result + ' prop' + (result !== 1 ? 's' : '') + ') :).';
                             utils.redisManager.incProps(utils.getUserId());
                         }
+                    }
+
+                    if(isNaN(propsCount) || !propsCount) {
+                        propsCount = 0;
                     }
 
                     if (propsCount > 0) {
