@@ -894,7 +894,7 @@ function regCommands(commandManager) {
                         if (oldSpot === newSpot) {
                             movedMsg = 'same as before :/';
                         } else {
-                            movedMsg += ' spot' + (movedMsg !== 1 ? 's' : '') + ' ' + (oldSpot > newSpot ? 'above!' : 'below :c');
+                            movedMsg += ' spot' + (movedMsg !== 1 ? 's' : '') + ' ' + (oldSpot > newSpot ? 'above! :nb3Boosted:' : 'below :(');
                         }
 
                         utils.bot.sendChat('aaaaand *the roulette is over*!');
