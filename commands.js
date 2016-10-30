@@ -1009,7 +1009,7 @@ function regCommands(commandManager) {
         new Command('russian_roulette', ['rr', 'russianroulette', 'russian_roulette'], {
                 value: 600,
                 perCmd: true
-            }, [], [],
+            }, ['resident-dj'], [],
             /**
              * @param {MessageUtils} utils
              */
