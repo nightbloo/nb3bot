@@ -132,7 +132,7 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 utils.bot.sendChat('@' + utils.getUserUsername() + ' pops! bubbles pop: https://i.imgur.com/zEqeTZH.png ! ' +
-                    '_pst, you might of have wanted to do !props instead_');
+                    '_pst, you might have wanted to do !props instead_');
             }
         )
         ,
