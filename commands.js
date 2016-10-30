@@ -142,7 +142,7 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 utils.bot.sendChat('@' + utils.getUserUsername() + ' here you go, a porpoise: https://i.imgur.com/1oBtXoN.png ' +
-                    '_Oh, you meant !props? My bad._');
+                    '_...or if you !props, then you might wanna retry with the correct spelling._');
             }
         )
         ,
