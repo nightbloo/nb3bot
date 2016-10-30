@@ -1015,7 +1015,7 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 var rnd = Math.dice(1001),
-                    msg = '~Your lucky number is ' + rnd + '~: ';
+                    msg = '@' + utils.getUserUsername() + ' ~Your lucky number is ' + rnd + '~: ';
                 {
                     var queueSpot = utils.bot.getQueuePosition(utils.getUserId());
                     if (queueSpot >= 0) {
