@@ -997,7 +997,7 @@ function regCommands(commandManager) {
                         return;
                     }
                 }
-                if (utils.bot.getQueuePosition(user.id) === spot - 1) {
+                if (utils.bot.getQueuePosition(user.id) === spot) {
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' ' + (utils.getUserId() === user.id ? 'you are' : 'user') + ' already on that spot!');
                 }
                 utils.bot.moderateMoveDJ(user.id, spot - 1, function () {
