@@ -901,7 +901,7 @@ function regCommands(commandManager) {
                         utils.bot.sendChat('Our lucky winner is @' + utils.bot.getUser(winnerId).username + '! You\'ll be moved to spot #' + (newSpot + 1) + ' in queue (' + movedMsg + ').');
                         utils.bot.moderateMoveDJ(winnerId, newSpot);
                     });
-                    console.log('Roulette started by @' + utils.getUserUsername() + '. Duration: ' + duration + ' minutes. Price: ' + price + ' props.');
+                    console.log('Roulette started by @' + utils.getUserUsername() + '. Duration: ' + duration + ' seconds. Price: ' + price + ' props.');
                 });
             }
         )
@@ -919,8 +919,11 @@ function regCommands(commandManager) {
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' you are not in queue!');
                     return;
                 }
+                if(utils.rouletteManager.listedUsers.indexOf(utils.getUserId())) {
+                    return;
+                }
                 utils.redisManager.getProps(utils.getUserId(), function (propsCount) {
-                    if (!propsCount || isNaN(propsCount) || propsCount < utils.settingsManager.getRoulettePrice()) {
+                    if (!propsCount || isNaN(propsCount) || propsCount < utils.rouletteManager.currentPrice) {
                         utils.bot.sendChat('@' + utils.getUserUsername() + ' you\'re low in props! Sorry :S');
                         return;
                     }
