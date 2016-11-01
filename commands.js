@@ -392,17 +392,6 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('gema', ['gema', 'fuckgema', 'gemasucks', 'gemaisshit', 'umg', 'fuckumg', 'umgsucks', 'umgisshit'], 1, [], [],
-            /**
-             * @param {MessageUtils} utils
-             */
-            function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' To bypass GEMA/UMG blocked videos you can use an extension as a temporal proxy:');
-                utils.bot.sendChat('YouTube Unblocker: https://www.unblocker.yt/');
-                utils.bot.sendChat('ProxyTube: https://proxtube.com/');
-            }
-        )
-        ,
         new Command('videocheck', ['videocheck'], 1, [], [],
             /**
              * @param {MessageUtils} utils
@@ -919,11 +908,12 @@ function regCommands(commandManager) {
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' you are not in queue!');
                     return;
                 }
-                if(utils.rouletteManager.listedUsers.indexOf(utils.getUserId())) {
+                if(utils.rouletteManager.listedUsers.indexOf(utils.getUserId()) >= 0) {
                     return;
                 }
                 utils.redisManager.getProps(utils.getUserId(), function (propsCount) {
-                    if (!propsCount || isNaN(propsCount) || propsCount < utils.rouletteManager.currentPrice) {
+                    if(!propsCount || isNaN(propsCount)) propsCount = 0;
+                    if (propsCount < utils.rouletteManager.currentPrice) {
                         utils.bot.sendChat('@' + utils.getUserUsername() + ' you\'re low in props! Sorry :S');
                         return;
                     }
