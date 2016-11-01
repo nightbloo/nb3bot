@@ -505,7 +505,7 @@ function regCommands(commandManager) {
 
                 utils.redisManager.getLastSongTime(arg0 || utils.getMediaFkid(), function (result) {
                     if (result) {
-                        utils.bot.sendChat((arg0 ? 'That' : 'This') + ' video/song was last played ' + moment(Date.now()).from(parseInt(result)) + '.');
+                        utils.bot.sendChat((arg0 ? 'That' : 'This') + ' video/song was last played ' + moment(parseInt(result)).from(Date.now()) + '.');
                     }
                     else {
                         utils.bot.sendChat((arg0 ? 'That' : 'This') + ' video/song has not played in the last 5 weeks. Maybe the song is a remix, or a reupload.');
