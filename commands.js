@@ -301,8 +301,6 @@ function regCommands(commandManager) {
                     ,
                     'NeverPause': 'https://imgur.com/a/a6AuE'
                     ,
-                    'Yato': 'https://imgur.com/a/CuEvR'
-                    ,
                     'DingoTheMagic': 'https://imgur.com/a/DAaYw'
                     ,
                     'TickingTime': 'https://imgur.com/a/jWhjX'
