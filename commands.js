@@ -875,7 +875,7 @@ function regCommands(commandManager) {
                     utils.bot.sendChat('Ends in _' + duration + ' seconds_. | Price to join is of _' + price + ' prop' + (price !== 1 ? 's' : '') + '_.');
                     utils.rouletteManager.start(duration, price, function (failed, winnerId, oldSpot, newSpot) {
                         if (failed) {
-                            utils.bot.sendChat('Aww, not enough people joined the roulette before it ended :(');
+                            utils.bot.sendChat('Aww, nobody joined the roulette. Now I\'m sad :(');
                             return;
                         }
 
@@ -883,7 +883,7 @@ function regCommands(commandManager) {
                         if (oldSpot === newSpot) {
                             movedMsg = 'same as before :/';
                         } else {
-                            movedMsg += ' spot' + (movedMsg !== 1 ? 's' : '') + ' ' + (oldSpot > newSpot ? 'above! :nb3Boosted:' : 'below :(');
+                            movedMsg += ' spot' + (movedMsg !== 1 ? 's' : '') + ' ' + (oldSpot > newSpot ? 'above! :nb3Boosted:' : 'below :( ');
                         }
 
                         utils.bot.sendChat('aaaaand *the roulette is over*!');
