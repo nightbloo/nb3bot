@@ -84,7 +84,7 @@ function regCommands(commandManager) {
                     }
                     var stream = body.stream;
                     if (stream) {
-                        utils.bot.sendChat(stream.channel.display_name + ' is streaming ' + stream.channel.game + '! You can watch him at ' + stream.channel.url + '!');
+                        utils.bot.sendChat(stream.channel.display_name + ' is streaming ' + stream.channel.game + '! You can watch him at ' + stream.channel.url);
                         utils.bot.sendChat(stream.preview.small + ' Viewers:' + stream.viewers);
                     }
                     else {
