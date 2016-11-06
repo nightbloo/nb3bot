@@ -299,13 +299,13 @@ function regCommands(commandManager) {
                     ,
                     'Jagex': 'https://imgur.com/a/swXWN & https://imgur.com/a/rR38y'
                     ,
-                    'NeverPause': 'https://imgur.com/a/a6AuE'
-                    ,
                     'DingoTheMagic': 'https://imgur.com/a/DAaYw'
                     ,
                     'TickingTime': 'https://imgur.com/a/jWhjX'
                     ,
                     'ItsClutch': 'https://imgur.com/a/EixZ2'
+                    ,
+                    'Alexrerder': 'http://goo.gl/o06VPP'
                 };
 
                 if (!utils.getCommandArguments()[0]) {
