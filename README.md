@@ -26,7 +26,7 @@ COOLDOWN=number # [OPTIONAL] Number for per user cooldown (in seconds). Default 
 # Roulette
 ROULETTE_PRICE=number    # [OPTIONAL] Number of props an user needs to join a roulette. Default is 3.
 ROULETTE_DURATION=number # [OPTIONAL] Number in seconds the roulette lasts. Default is 60.
-ROULETTE_DURATION=number # [OPTIONAL] Number in minutes the cooldown for the roulette lasts. Default is 60.
+ROULETTE_COOLDOWN=number # [OPTIONAL] Number in minutes the cooldown for the roulette lasts. Default is 60.
 ROULETTE_RESET=anything  # [OPTIONAL] If it's set (to anything) roulette cooldown will reset on BOT boot.
 
 # Redis Database
