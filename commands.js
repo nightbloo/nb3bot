@@ -878,9 +878,9 @@ function regCommands(commandManager) {
 
                         var movedMsg = Math.abs(oldSpot - newSpot);
                         if (oldSpot === newSpot) {
-                            movedMsg = 'same as before :/';
+                            movedMsg = 'same as before :confused:';
                         } else {
-                            movedMsg += ' spot' + (movedMsg !== 1 ? 's' : '') + ' ' + (oldSpot > newSpot ? 'above! :nb3Boosted:' : 'below :( ');
+                            movedMsg += ' spot' + (movedMsg !== 1 ? 's' : '') + ' ' + (oldSpot > newSpot ? 'above! :nb3Boosted:' : 'below :frowning:');
                         }
 
                         utils.bot.sendChat('aaaaand *the roulette is over*!');
@@ -905,11 +905,11 @@ function regCommands(commandManager) {
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' you are not in queue!');
                     return;
                 }
-                if(utils.rouletteManager.listedUsers.indexOf(utils.getUserId()) >= 0) {
+                if (utils.rouletteManager.listedUsers.indexOf(utils.getUserId()) >= 0) {
                     return;
                 }
                 utils.redisManager.getProps(utils.getUserId(), function (propsCount) {
-                    if(!propsCount || isNaN(propsCount)) propsCount = 0;
+                    if (!propsCount || isNaN(propsCount)) propsCount = 0;
                     if (propsCount < utils.rouletteManager.currentPrice) {
                         utils.bot.sendChat('@' + utils.getUserUsername() + ' you\'re low in props! Sorry :S');
                         return;
