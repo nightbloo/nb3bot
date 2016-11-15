@@ -275,7 +275,6 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 utils.bot.sendChat(utils.getTargetName() + ' Fancy css files: https://imgur.com/a/WeXhS');
-                utils.bot.sendChat('Custom css chooser: https://goo.gl/Gs6gih');
             }
         )
         ,
