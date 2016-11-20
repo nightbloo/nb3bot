@@ -870,9 +870,23 @@ function regCommands(commandManager) {
 
                     utils.bot.sendChat('*Roulette is starting!* Use `!join` or `!roulettejoin` to join in!');
                     utils.bot.sendChat('Ends in _' + duration + ' seconds_. | Price to join is of _' + price + ' prop' + (price !== 1 ? 's' : '') + '_.');
-                    utils.rouletteManager.start(duration, price, function (failed, winnerId, oldSpot, newSpot) {
-                        if (failed) {
-                            utils.bot.sendChat('Aww, nobody joined the roulette. Now I\'m sad :(');
+                    utils.rouletteManager.start(duration, price, function (error, winnerId, oldSpot, newSpot) {
+                        if (error) {
+                            utils.bot.sendChat('aaaaand *the rou*-- wait.');
+                            switch(error) {
+                                default:
+                                    utils.bot.sendChat('Uh oh, something happened! They didn\'t tell me what, but it did something to this roulette.');
+                                    break;
+                                case 'not-enough-users':
+                                    utils.bot.sendChat('Nobody joined the roulette, now I\'m sad :frowning:.');
+                                    break;
+                                case 'spot-lower-than-zero':
+                                    utils.bot.sendChat('Uh oh. Apparently my algorithm is wrong, because I was about to move someone to spot #' + newSpot + '!');
+                                    break;
+                                case 'spot-higher-than-queue-length':
+                                    utils.bot.sendChat('Uh oh. Apparently my algorithm is wrong, because I was about to move someone above the size of the queue!');
+                                    break;
+                            }
                             return;
                         }
 
