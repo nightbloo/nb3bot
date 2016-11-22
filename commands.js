@@ -873,7 +873,7 @@ function regCommands(commandManager) {
                     utils.rouletteManager.start(duration, price, function (error, winnerId, oldSpot, newSpot) {
                         if (error) {
                             utils.bot.sendChat('aaaaand *the rou*-- wait.');
-                            switch(error) {
+                            switch (error) {
                                 default:
                                     utils.bot.sendChat('Uh oh, something happened! They didn\'t tell me what, but it did something to this roulette.');
                                     break;
