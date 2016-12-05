@@ -269,38 +269,13 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('css', ['css'], 1, [], [],
-            /**
-             * @param {MessageUtils} utils
-             */
-            function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' Fancy CSS! https://imgur.com/a/MuolQ');
-            }
-        )
-        ,
         new Command('background', ['bg', 'background', 'backgrounds'], 1, [], [],
             /**
              * @param {MessageUtils} utils
              */
             function (utils) {
                 var bgLinks = {
-                    'Snaky': 'https://imgur.com/a/iQ8rh'
-                    ,
-                    'Maskinen': 'https://imgur.com/a/P2Y8e'
-                    ,
-                    'Netux': 'https://imgur.com/a/j6QbM'
-                    ,
-                    'Frosolf': 'https://imgur.com/a/NZvz1 & https://goo.gl/sqfesS (only anime)'
-                    ,
-                    'SiilerBloo': 'https://imgur.com/a/oZKQ3'
-                    ,
-                    'Pikachu': 'https://imgur.com/a/75R64'
-                    ,
-                    'Jagex': 'https://imgur.com/a/swXWN & https://imgur.com/a/rR38y'
-                    ,
                     'DingoTheMagic': 'https://imgur.com/a/DAaYw'
-                    ,
-                    'TickingTime': 'https://imgur.com/a/jWhjX'
                     ,
                     'ItsClutch': 'https://imgur.com/a/EixZ2'
                     ,
@@ -740,16 +715,6 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('animelist', ['anime', 'animes', 'animelist'], 1, [], [],
-            /**
-             * @param {MessageUtils} utils
-             */
-            function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' Anime List: https://goo.gl/d4lvua');
-                utils.bot.sendChat('Never_Pause also recommends his animelist: https://goo.gl/h6OoW3');
-            }
-        )
-        ,
         new Command('streamover', ['streamover', 'streamisover', 'gameover', 'streamend', 'streamended'], 1, ['vip'], [],
             /**
              * @param {MessageUtils} utils
@@ -1008,15 +973,6 @@ function regCommands(commandManager) {
                 utils.bot.moderateMoveDJ(user.id, spot - 1, function () {
                     utils.bot.sendChat('@' + user.username + ' you got moved to spot #' + spot + ' in queue.');
                 });
-            }
-        )
-        ,
-        new Command('export_youtube', ['export', 'exportyoutube', 'exportyt', 'exporttoyoutube', 'exporttoyt'], 1, [], [],
-            /**
-             * @param {MessageUtils} utils
-             */
-            function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' How to export a playlist to YouTube: https://imgur.com/a/VVoFV');
             }
         )
     ].forEach(function (command) {

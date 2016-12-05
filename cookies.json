@@ -63,8 +63,8 @@
     "name": "Pony shaped cookie",
     "emote": ":tosanP::cookie::tosanP:"
   },
-  "netux-shape": {
-    "name": "Netux/Flapjack shaped cookie",
+  "flapjack-shape": {
+    "name": "Flapjack shaped cookie",
     "emote": ":FlapJack::cookie::FlapJack:"
   }
 }
