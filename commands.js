@@ -53,17 +53,6 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('del', ['del'], 1, [], [],
-            /**
-             * @param {MessageUtils} utils
-             */
-            function (utils) {
-                if (utils.getTargetName()) {
-                    utils.bot.sendChat('@' + utils.getUserUsername() + ' ' + utils.getTargetName() + ' has been deleted. *Beep Boop*');
-                }
-            }
-        )
-        ,
         new Command('song', ['song'], 1, [], [],
             /**
              * @param {MessageUtils} utils
@@ -118,7 +107,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' In order to get the ETA Timer, please download the DubX Extension from https://dubx.net/');
+                utils.bot.sendChat(utils.getTargetName() + ' In order to get the ETA Timer, please download the Dub+ Extension from https://dub.plus');
                 utils.bot.sendChat('https://i.imgur.com/ldj2jqf.png');
             }
         )
@@ -152,12 +141,21 @@ function regCommands(commandManager) {
             }
         )
         ,
+        new Command('rules', ['rules'], 0.5, [], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                utils.bot.sendChat(utils.getTargetName() + ' Rules: https://git.io/vWJnY');
+            }
+        )
+        ,
         new Command('kappa', ['kappa'], 1, [], [],
             /**
              * @param {MessageUtils} utils
              */
             function (utils) {
-                var kappaList = [':Kappa:', ':KappaPride:', ':KappaRoss:', ':Keepo:', ':froKappaK:', ':hoyNyanKappa:', ':kingKappa:', ':lordKappa:', ':ragKappa:', ':kappaI:', ':kappaRoll:', ':blacKappa:', ':kappaEnvy:', ':kappaBlues:', ':kappaPrince:', ':kappaWarmth:', ':kappaYella:', ':sunKappa:', ':yummiKappa:', ':zirkelKappa:', ':buttsKappa:', ':azumiPikappa:', ':Skappa:', 'OfficerKappa'];
+                var kappaList = [':Kappa:', ':KappaPride:', ':KappaRoss:', ':Keepo:', ':froKappaK:', ':hoyNyanKappa:', ':kingKappa:', ':lordKappa:', ':ragKappa:', ':kappaI:', ':kappaRoll:', ':blacKappa:', ':kappaEnvy:', ':kappaBlues:', ':kappaPrince:', ':kappaWarmth:', ':kappaYella:', ':yummiKappa:', ':zirkelKappa:', ':buttsKappa:', ':azumiPikappa:', ':Skappa:', ':OfficerKappa:', ':KappaCool:'];
                 var random = kappaList[Math.dice(kappaList.length)];
                 if (utils.getTargetName()) {
                     utils.bot.sendChat(utils.getTargetName() + ' ' + utils.getUserUsername() + ' has sent a Kappa your way! ' + random);
@@ -168,13 +166,23 @@ function regCommands(commandManager) {
             }
         )
         ,
-        new Command('dubx', ['dubx'], 1, [], [],
+        new Command('dub+', ['dub+', 'dubplus'], 1, [], [],
             /**
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' you can download DubX at https://www.dubx.net');
-                utils.bot.sendChat('Follow this guide to help you install DubX! https://git.io/vzCVn');
+                utils.bot.sendChat(utils.getTargetName() + ' you can download Dub+ at https://www.dub.plus');
+                utils.bot.sendChat('Follow this guide to help you install Dub+! https://git.io/vyd7r');
+            }
+        )
+        ,
+        new Command('gde', ['gde'], 1, [], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                utils.bot.sendChat(utils.getTargetName() + ' you can download gde at https://gde.netux.ml');
+                utils.bot.sendChat('Follow this guide to help you install gde! https://git.io/vyd4p');
             }
         )
         ,
@@ -241,6 +249,15 @@ function regCommands(commandManager) {
              */
             function (utils) {
                 utils.bot.sendChat('@' + utils.getUserUsername() + ' ping!');
+            }
+        )
+        ,
+        new Command('shush', ['shush', 'sush', 'noskip', 'noskiperino'], 1, ['vip'], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                utils.bot.sendChat(utils.getTargetName() + ' ' + getShushMessage());
             }
         )
         ,
@@ -498,6 +515,16 @@ function regCommands(commandManager) {
             }
         )
         ,
+        new Command('skip', ['skip'], 0, [], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                utils.bot.moderateDeleteChat(utils.getId());
+                utils.timeMuteUser(15, '@' + utils.getUserUsername() + ' ' + getShushMessage());
+            }
+        )
+        ,
         new Command('clear', ['clear', 'laggy'], 1, [], [],
             /**
              * @param {MessageUtils} utils
@@ -512,7 +539,7 @@ function regCommands(commandManager) {
              * @param {MessageUtils} utils
              */
             function (utils) {
-                utils.bot.sendChat(utils.getTargetName() + ' Unofficial Android app (sorry iOS users) for Dubtrack: https://play.google.com/store/apps/details?id=co.mar974.dubtrackfm. Thank mar974 :D');
+                utils.bot.sendChat(utils.getTargetName() + ' Unofficial Android app (sorry iOS users) for Dubtrack: https://play.google.com/store/apps/details?id=co.mar974.dubtrackfm Thank mar974 :D');
             }
         )
         ,
@@ -894,6 +921,10 @@ function processAndDoPunish(utils, type) {
     else {
         utils.bot.sendChat("No user found by the name " + username + ".")
     }
+}
+
+function getShushMessage() {
+    return ':NoSkip: (Click for better quality) https://i.imgur.com/05NVq0h.png';
 }
 
 function getBanPhrasesIgnoreSpacesMessage(input) {
