@@ -847,14 +847,14 @@ function regCommands(commandManager) {
                 	utils.bot.sendChat('@' + utils.getUserUsername() + ' ' + username + ' has currently ' + currentuserdubs + ' dubs. This is not enough. ' + rdjrequireddubs + ' dubs are required.');
                     return;
                 }
-				var currentuserrole = utils.userUtils.getUserRole(user);
-				var currentuserid = utils.userUtils.getUserId(user);
-				if (utils.bot.hasPermission(utils.bot.getSelf(), 'set-roles')) {
-					if (!utils.userUtils.getUserRole(user)) {
-						utils.bot.sendChat('Granting RDJ to ' + username + '!');
-						utils.bot.moderateSetRole(currentuserid, 'resident-dj');
-					} else {
-						utils.bot.sendChat('@' + utils.getUserUsername() + ': ' + username + ' has a role in this room as it is I will not change it.');
+		var currentuserrole = utils.userUtils.getUserRole(user);
+		var currentuserid = utils.userUtils.getUserId(user);
+		if (utils.bot.hasPermission(utils.bot.getSelf(), 'set-roles')) {
+			if (!utils.userUtils.getUserRole(user)) {
+				utils.bot.sendChat('Granting RDJ to ' + username + '! :nb3Boosted:');
+				utils.bot.moderateSetRole(currentuserid, 'resident-dj');
+			} else {
+				utils.bot.sendChat('@' + utils.getUserUsername() + ': ' + username + ' has a role in this room as it is I will not change it.');
                 	} 
                 } else {
                 	utils.bot.sendChat('@' + utils.getUserUsername() + ': I do not have the permission to set userroles.');
