@@ -186,6 +186,15 @@ function regCommands(commandManager) {
             }
         )
         ,
+	new Command('css', ['css'], 1, [], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                utils.bot.sendChat(utils.getTargetName() + ' you can choose different looking css files from https://git.io/vSdUE');
+            }
+        )
+        ,
         new Command('background', ['bg', 'background', 'backgrounds'], 1, [], [],
             /**
              * @param {MessageUtils} utils
@@ -611,17 +620,6 @@ function regCommands(commandManager) {
                 var input = /^(?:true|enable|yes|y|on|tick|check|:white_check_mark:|:heavy_check_mark:|:ballot_box_with_check:)$/i.test(utils.getCommandArguments()[0]);
                 utils.settingsManager.setBanPhrasesIgnoreSpaces(input);
                 utils.bot.sendChat('@' + utils.getUserUsername() + ' ' + getBanPhrasesIgnoreSpacesMessage(input));
-            }
-        )
-        ,
-        new Command('unlimit', ['unlimit', 'unlock'], 0, ['mod'], [],
-            /**
-             * @param {MessageUtils} utils
-             */
-            function (utils) {
-                /**
-                * Do the stuff here that needs to be done.
-                */
             }
         )
         ,
