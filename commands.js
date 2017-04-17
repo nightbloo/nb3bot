@@ -208,7 +208,7 @@ function regCommands(commandManager) {
 
                 if (!utils.getCommandArguments()[0]) {
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' I have background lists from ' + Object.keys(bgLinks).join(', '));
-                    utils.bot.sendChat('Do !background <from>' + ' to get the link.');
+                    utils.bot.sendChat('Do !background <from>' + ' to get the link or look them up on https://git.io/vSdWH');
                     return;
                 }
 
