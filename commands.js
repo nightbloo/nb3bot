@@ -186,6 +186,15 @@ function regCommands(commandManager) {
             }
         )
         ,
+	new Command('css', ['css'], 1, [], [],
+            /**
+             * @param {MessageUtils} utils
+             */
+            function (utils) {
+                utils.bot.sendChat(utils.getTargetName() + ' you can choose different looking css files from https://git.io/vSdUE');
+            }
+        )
+        ,
         new Command('background', ['bg', 'background', 'backgrounds'], 1, [], [],
             /**
              * @param {MessageUtils} utils
@@ -199,7 +208,7 @@ function regCommands(commandManager) {
 
                 if (!utils.getCommandArguments()[0]) {
                     utils.bot.sendChat('@' + utils.getUserUsername() + ' I have background lists from ' + Object.keys(bgLinks).join(', '));
-                    utils.bot.sendChat('Do !background <from>' + ' to get the link.');
+                    utils.bot.sendChat('Do !background <from>' + ' to get the link or look them up on https://git.io/vSdWH');
                     return;
                 }
 
@@ -816,6 +825,40 @@ function regCommands(commandManager) {
                 utils.bot.moderateMoveDJ(user.id, spot - 1, function () {
                     utils.bot.sendChat('@' + user.username + ' you got moved to spot #' + spot + ' in queue.');
                 });
+            }
+        ),
+        new Command('setrdj', ['setrdj', 'set_rdj'], 0, ['mod'], [],
+            /**
+             * @param {MessageUtils} 
+            */
+            function (utils) {
+                var user = utils.getTargetName(1, true);
+                if (!user) {
+                    return;
+                }
+                var username = user;
+                if (!(user = utils.bot.getUserByName(username, true))) {
+                    utils.bot.sendChat('@' + utils.getUserUsername() + ' ' + username + ' is not online.');
+                    return;
+                } 
+                var rdjrequireddubs = 10000;
+                var currentuserdubs = utils.userUtils.getUserDubs(user);
+                if ( currentuserdubs < rdjrequireddubs ) {
+                	utils.bot.sendChat('@' + utils.getUserUsername() + ' ' + username + ' has currently ' + currentuserdubs + ' dubs. This is not enough. ' + rdjrequireddubs + ' dubs are required.');
+                    return;
+                }
+		var currentuserrole = utils.userUtils.getUserRole(user);
+		var currentuserid = utils.userUtils.getUserId(user);
+		if (utils.bot.hasPermission(utils.bot.getSelf(), 'set-roles')) {
+			if (!utils.userUtils.getUserRole(user)) {
+				utils.bot.sendChat('Granting RDJ to ' + username + '! :nb3Boosted:');
+				utils.bot.moderateSetRole(currentuserid, 'resident-dj');
+			} else {
+				utils.bot.sendChat('@' + utils.getUserUsername() + ': ' + username + ' has a role in this room as it is I will not change it.');
+                	} 
+                } else {
+                	utils.bot.sendChat('@' + utils.getUserUsername() + ': I do not have the permission to set userroles.');
+                }
             }
         )
     ].forEach(function (command) {
